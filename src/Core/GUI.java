@@ -217,13 +217,13 @@ public class GUI extends JFrame {
     }
 
     private void SetWhiteToMove (ActionEvent e){
-        Board.colorToMove = Piece.WHITE;
-        Board.opponentColor = Piece.BLACK;
+        Board.colorToMove = Piece.WHITE; //NOSONAR
+        Board.opponentColor = Piece.BLACK; //NOSONAR
     }
 
     private void SetBlackToMove (ActionEvent e){
-        Board.colorToMove = Piece.BLACK;
-        Board.opponentColor = Piece.WHITE;
+        Board.colorToMove = Piece.BLACK; //NOSONAR
+        Board.opponentColor = Piece.WHITE; //NOSONAR
     }
 
     private void PrintLegal(ActionEvent e){
