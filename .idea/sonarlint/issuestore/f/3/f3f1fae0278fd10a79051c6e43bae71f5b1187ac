@@ -1,0 +1,102 @@
+
+‘
+java:S1104
+"VMake WHITE_PAWN a static final constant or non-public and provide accessors if needed.(ï˜Ú7J$8e918e3f-7287-49da-a670-b0fc562d230a
+”
+java:S1104"XMake WHITE_KNIGHT a static final constant or non-public and provide accessors if needed.(£¼ò‰J$473a0821-dc87-4acf-84ac-dcff1d1763c7
+™
+java:S1104"XMake WHITE_BISHOP a static final constant or non-public and provide accessors if needed.(Ùë¼¢ùÿÿÿÿJ$2b78f5e7-4916-4773-870a-455ef473dfd8
+’
+java:S1104"VMake WHITE_ROOK a static final constant or non-public and provide accessors if needed.(¶ŠÙâJ$dcf10208-7128-4301-91d7-0c0b6c0e1790
+—
+java:S1104"VMake WHITE_KING a static final constant or non-public and provide accessors if needed.(ù¦õ¶ıÿÿÿÿJ$b6093668-76de-40a1-bad2-8b76a8c29778
+’
+java:S1104"WMake WHITE_QUEEN a static final constant or non-public and provide accessors if needed.(­ÃşJ$fd1bd11b-f4be-4eb7-bc89-b8486b44e98d
+’
+java:S1104"VMake BLACK_PAWN a static final constant or non-public and provide accessors if needed.(ÈšÑ”J$06ab6c65-25be-4834-b9b4-ab49ac1782f7
+”
+java:S1104"XMake BLACK_KNIGHT a static final constant or non-public and provide accessors if needed.(ÈÍ¾J$f5a402db-d72e-44ec-b36c-c7d7a8cd67e4
+™
+java:S1104"XMake BLACK_BISHOP a static final constant or non-public and provide accessors if needed.(º°í°ûÿÿÿÿJ$a5b026ef-862c-4378-a9f9-e99d4f1b9354
+—
+java:S1104"VMake BLACK_ROOK a static final constant or non-public and provide accessors if needed.(ºŞÎûÿÿÿÿJ$4d04fb9e-521d-44c7-aa2b-28dd13a47721
+—
+java:S1104"VMake BLACK_KING a static final constant or non-public and provide accessors if needed.(åÑöşıÿÿÿÿJ$d2132b7c-11cb-4411-ad1d-c8ab2f595f9e
+“
+java:S1104"WMake BLACK_QUEEN a static final constant or non-public and provide accessors if needed.(Ü¹¼²J$7ec9f5cb-d3ca-45d1-8596-25589be21366
+k
+java:S1444
+"0Make this "public static WHITE_PAWN" field final(ï˜Ú7J$2253a625-ff49-4182-9cf8-a8428523c361
+n
+java:S1444"2Make this "public static WHITE_KNIGHT" field final(£¼ò‰J$d590d942-6d7b-47d7-8cb2-511a40ef1576
+s
+java:S1444"2Make this "public static WHITE_BISHOP" field final(Ùë¼¢ùÿÿÿÿJ$ee276963-9615-4920-9398-b77af03d6ba7
+l
+java:S1444"0Make this "public static WHITE_ROOK" field final(¶ŠÙâJ$118dda62-e19b-4f9f-9eb9-54c5aed0adf1
+q
+java:S1444"0Make this "public static WHITE_KING" field final(ù¦õ¶ıÿÿÿÿJ$1ef7eecb-5c48-4bf9-a0eb-2818afe0e280
+l
+java:S1444"1Make this "public static WHITE_QUEEN" field final(­ÃşJ$498b11f3-c38a-4563-9ad6-80327e7d376d
+l
+java:S1444"0Make this "public static BLACK_PAWN" field final(ÈšÑ”J$4bb3d025-9d10-43f5-9aee-ac8b524ee3f4
+n
+java:S1444"2Make this "public static BLACK_KNIGHT" field final(ÈÍ¾J$4f959469-1049-4b74-ae79-c0af99542791
+s
+java:S1444"2Make this "public static BLACK_BISHOP" field final(º°í°ûÿÿÿÿJ$d0680491-0efe-41c0-b9d3-3b9703c9df3c
+q
+java:S1444"0Make this "public static BLACK_ROOK" field final(ºŞÎûÿÿÿÿJ$64e6d4bb-a0d6-4601-9ddc-f6c72a7214ce
+q
+java:S1444"0Make this "public static BLACK_KING" field final(åÑöşıÿÿÿÿJ$cbf07d41-28b6-42c6-a2df-4b76b80e2369
+m
+java:S1444"1Make this "public static BLACK_QUEEN" field final(Ü¹¼²J$57da3f3d-7f79-4cb5-b531-b6eccf1fc2a3
+
+java:S3008
+"URename this field "WHITE_PAWN" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ï˜Ú7J$9d242801-9b20-4c29-bd07-17f8eaf88b24
+“
+java:S3008"WRename this field "WHITE_KNIGHT" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(£¼ò‰J$94c60472-3968-4ca5-92b5-f805205b69c9
+˜
+java:S3008"WRename this field "WHITE_BISHOP" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ùë¼¢ùÿÿÿÿJ$31efeca1-4ee6-40ee-8513-3dbddce85842
+‘
+java:S3008"URename this field "WHITE_ROOK" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¶ŠÙâJ$b87b8fa0-1b0a-4e7c-90d4-fa9d43f8dff0
+–
+java:S3008"URename this field "WHITE_KING" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ù¦õ¶ıÿÿÿÿJ$b1aced4f-3d31-4cf4-bb42-8edfcbe4eba8
+‘
+java:S3008"VRename this field "WHITE_QUEEN" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(­ÃşJ$ebb64bd7-99f9-45c7-8a04-afe0acc8c0e3
+‘
+java:S3008"URename this field "BLACK_PAWN" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÈšÑ”J$cc99a86d-1294-4001-b5e3-fc08f3e520e5
+“
+java:S3008"WRename this field "BLACK_KNIGHT" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÈÍ¾J$db235be1-f7a7-4b30-b271-8e294549a016
+˜
+java:S3008"WRename this field "BLACK_BISHOP" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(º°í°ûÿÿÿÿJ$d0995551-497d-42cb-a9ff-467cbac10c9f
+–
+java:S3008"URename this field "BLACK_ROOK" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ºŞÎûÿÿÿÿJ$59e647cd-e222-4c9b-8b10-4aada2b3be01
+–
+java:S3008"URename this field "BLACK_KING" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(åÑöşıÿÿÿÿJ$61d3407f-c931-4943-9a27-7a9552928c96
+’
+java:S3008"VRename this field "BLACK_QUEEN" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ü¹¼²J$557acbdc-2376-4940-8c51-d6e311fe8cf2
+{
+java:S1118":Add a private constructor to hide the implicit public one.(î¸¹¾şÿÿÿÿJ$eb857f7d-196c-4939-bd71-efbde5afc941
+‚
+java:S1075"ARefactor your code to get this URI from a customizable parameter.(İÆÛùÿÿÿÿJ$8896d286-0c9b-437e-b1e5-29bef45bdd75
+|
+java:S1075"ARefactor your code to get this URI from a customizable parameter.(íÔ¶UJ$af3cd16b-d967-440c-8a03-df5d7fee7f71
+‚
+java:S1075"ARefactor your code to get this URI from a customizable parameter.(öˆ†èûÿÿÿÿJ$0dcaea84-cf00-4afd-be41-6f81edd2a35c
+‚
+java:S1075"ARefactor your code to get this URI from a customizable parameter.(æ´ÙÇÿÿÿÿÿJ$722ec11f-4b0b-435c-833a-538ed5ec264c
+}
+java:S1075"ARefactor your code to get this URI from a customizable parameter.(ºöªæJ$b91eac2f-fa15-4d02-b826-a3836e22b50d
+}
+java:S1075"ARefactor your code to get this URI from a customizable parameter.(¯Ãş¬J$cc541776-19b2-45f9-9976-04b5467d55fe
+‚
+java:S1075!"ARefactor your code to get this URI from a customizable parameter.(¿®â§ÿÿÿÿÿJ$da91ba94-aaea-45c5-9923-9a49b33ee274
+‚
+java:S1075""ARefactor your code to get this URI from a customizable parameter.(ëÁƒÿÿÿÿÿJ$6e21b706-a091-4391-9bb0-2169e7c0f41a
+‚
+java:S1075#"ARefactor your code to get this URI from a customizable parameter.(åäÍÿÿÿÿÿJ$422685d5-2916-46c6-9733-815a1a55b5aa
+|
+java:S1075$"ARefactor your code to get this URI from a customizable parameter.(£ÿàGJ$4f8c01ac-ec8d-4f00-aeaa-0ab04c5535e7
+|
+java:S1075%"ARefactor your code to get this URI from a customizable parameter.(ôÄØJ$726f6d79-67f3-46e5-8313-58230c233a67
+‚
+java:S1075&"ARefactor your code to get this URI from a customizable parameter.(İ†¡ÅúÿÿÿÿJ$009d0240-b111-46eb-b284-c4da241a52bc

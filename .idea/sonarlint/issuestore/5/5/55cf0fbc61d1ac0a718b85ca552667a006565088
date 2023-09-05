@@ -1,0 +1,33 @@
+
+†	java:S112h"FDefine and throw a dedicated exception instead of using a generic one.(¼ÿ¾¹ÿÿÿÿÿJ$61faa5e6-a430-4e9b-a70f-4cc3d337ca6a
+²
+java:S1319™"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(Ó¢‡²úÿÿÿÿJ$8cb606bb-68c7-474b-991b-94c550443efe
+’	java:S117É"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Œ•Û¢ÿÿÿÿÿJ$af10a42f-6560-479a-8f1d-4e77e695fbfe
+	java:S117Ì"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(›÷†åJ$0de7aa48-b656-4814-a4ea-af7775717990
+	java:S116*"PRename this field "A_POS" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ú×›…úÿÿÿÿJ$0dc54a2f-4202-40ff-a0d9-84330044f86b
+‹	java:S116+"PRename this field "B_POS" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(øÀ³©J$6d32c21e-b558-4b96-b636-0658a597eef4
+	java:S116,"PRename this field "C_POS" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(úŒÑİûÿÿÿÿJ$9b0bef4c-0c76-4812-b611-57a6d081c5f9
+	java:S116-"PRename this field "D_POS" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(“©ùÜûÿÿÿÿJ$0f7e286f-433b-4335-bf27-694f9699e1a8
+	java:S116."PRename this field "E_POS" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(³Ô¨õşÿÿÿÿJ$0504b4ff-684b-4cec-b224-fc44000daa68
+‹	java:S116/"PRename this field "F_POS" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ö‚˜¢J$7de77a5f-fb71-436b-bd91-c3341c4c29a1
+	java:S1160"PRename this field "G_POS" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(öÂ¡åÿÿÿÿÿJ$0a068f29-3094-428f-b05e-54cd2874d0ea
+‹	java:S1161"PRename this field "H_POS" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(å‡ûÌJ$e1577076-586b-46eb-90de-eca9bcc31884
+‘	java:S1163"QRename this field "N1_POS" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(êÚÍòşÿÿÿÿJ$bcb7de52-31da-4a85-9d72-d816f31e2f32
+‘	java:S1164"QRename this field "N2_POS" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‰©–øÿÿÿÿJ$b4bc1244-77b4-479d-9a63-6062b3085239
+‘	java:S1165"QRename this field "N3_POS" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÔÊšÜıÿÿÿÿJ$a11d2e89-a957-43b7-8851-e4eb9e2db9a7
+Œ	java:S1166"QRename this field "N4_POS" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¤œ›ƒJ$399ad74c-9a5f-4688-ad30-1c312421981f
+Œ	java:S1167"QRename this field "N5_POS" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•¹äŒJ$0e4a8001-fdb4-4a61-8c6c-d3bcda17193b
+‘	java:S1168"QRename this field "N6_POS" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(™öÍğùÿÿÿÿJ$9c0b7b17-e477-46ce-a14b-ab6d5a1e4e1b
+‘	java:S1169"QRename this field "N7_POS" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ü¼ÑùÿÿÿÿJ$0c4d120b-403f-4cc7-a0d6-2d284a611db6
+Œ	java:S116:"QRename this field "N8_POS" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¡Ü·÷J$531452cc-aef4-41e4-bb73-e6e6f9b62263
+Ÿ
+java:S2142g"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(è®ã¶øÿÿÿÿJ$f0eed166-6abe-439e-b9cb-bea9208bd49c
+¹
+java:S1130Ö"wRemove the declaration of thrown exception 'java.lang.InterruptedException', as it cannot be thrown from method's body.(›¾ÕÄÿÿÿÿÿJ$dae50a1f-0f23-4b6f-b992-4f1c6b45b3ba
+Š	java:S100ä"NRename this method name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(í«ò—J$a79716ba-37ae-40e6-9dc9-4ff6a5a42523
+Š	java:S100é"NRename this method name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(ğêúÚJ$da68b944-57b4-4503-b62e-db8f0d97a06d
+x
+java:S2696ş"6Make the enclosing method "static" or remove this set.(¼Ï†şÿÿÿÿJ$e4d061d7-07c6-4384-8af0-c3e3776ad40e
+x
+java:S2696“"6Make the enclosing method "static" or remove this set.(¼Ï†şÿÿÿÿJ$ac96454b-6f33-41de-b46c-555d77d1bc00
+	java:S100™"NRename this method name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(Ó¢‡²úÿÿÿÿJ$8d3f7be5-b465-4b35-9d79-f336f5883557
