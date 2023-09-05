@@ -6,21 +6,25 @@ import java.util.Objects;
 
 public class FenManager {
 
-    public final static String startFEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+    private FenManager() {
+        throw new IllegalStateException("Utility class");
+    }
+
+    public static final String START_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
     static Map<Character, Integer> pieceTypeFromSymbol = new HashMap<>();
 
     public static void Init(){
-        pieceTypeFromSymbol.put('k', Piece.King);
-        pieceTypeFromSymbol.put('p', Piece.Pawn);
-        pieceTypeFromSymbol.put('n', Piece.Knight);
-        pieceTypeFromSymbol.put('b', Piece.Bishop);
-        pieceTypeFromSymbol.put('r', Piece.Rook);
-        pieceTypeFromSymbol.put('q', Piece.Queen);
+        pieceTypeFromSymbol.put('k', Piece.KING);
+        pieceTypeFromSymbol.put('p', Piece.PAWN);
+        pieceTypeFromSymbol.put('n', Piece.KNIGHT);
+        pieceTypeFromSymbol.put('b', Piece.BISHOP);
+        pieceTypeFromSymbol.put('r', Piece.ROOK);
+        pieceTypeFromSymbol.put('q', Piece.QUEEN);
     }
 
     public static void LoadFromFen(String fen){
-        for (int i = 0; i < 64; i++) Board.Square[i] = 0;
+        for (int i = 0; i < 64; i++) Board.SetSquare(i, 0);
 
         String[] sections = fen.split (" ");
 
@@ -35,21 +39,21 @@ public class FenManager {
                 if (Character.isDigit(symbol)) {
                     file += Character.getNumericValue(symbol);
                 } else {
-                    int pieceColour = (Character.isUpperCase(symbol)) ? Piece.White : Piece.Black;
+                    int pieceColour = (Character.isUpperCase(symbol)) ? Piece.WHITE : Piece.BLACK;
                     int pieceType = pieceTypeFromSymbol.get(Character.toLowerCase(symbol));
-                    Board.Square[rank * 8 + file] = pieceType | pieceColour;
+                    Board.SetSquare(rank * 8 + file, pieceType | pieceColour);
                     file++;
                 }
             }
         }
 
-        Board.ColorToMove = (Objects.equals(sections[1], "w")) ? Piece.White : Piece.Black;
-        Board.OpponentColor = (Objects.equals(sections[1], "w")) ? Piece.Black : Piece.White;
+        Board.colorToMove = (Objects.equals(sections[1], "w")) ? Piece.WHITE : Piece.BLACK;
+        Board.opponentColor = (Objects.equals(sections[1], "w")) ? Piece.BLACK : Piece.WHITE;
 
         String castlingRights = (sections.length > 2) ? sections[2] : "KQkq";
-        Board.WKingsideCastle = castlingRights.contains("K");
-        Board.WQueensideCastle = castlingRights.contains("Q");
-        Board.BKingsideCastle = castlingRights.contains("k");
-        Board.BQueensideCastle = castlingRights.contains("q");
+        Board.wKingsideCastle = castlingRights.contains("K");
+        Board.wQueensideCastle = castlingRights.contains("Q");
+        Board.bKingsideCastle = castlingRights.contains("k");
+        Board.bQueensideCastle = castlingRights.contains("q");
     }
 }

@@ -1,8 +1,15 @@
 package Classes;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MoveGenerator {
+
+    private MoveGenerator() {
+        throw new IllegalStateException("Utility class");
+    }
 
     //region Variables
     private static ArrayList<Move> moves;
@@ -10,23 +17,26 @@ public class MoveGenerator {
     private static boolean firstIteration;
     private static int totalNodes = 0;
 
-    public static StringBuilder divide = new StringBuilder();
+    public static final StringBuilder divide = new StringBuilder();
+
+    private static final Logger LOGGER = Logger.getLogger(MoveGenerator.class.getName());
     //endregion
 
     private static ArrayList<Move> GenerateMoves(){
         moves = new ArrayList<>();
 
         for (int startSquare = 0; startSquare < 64; startSquare++){
-            int piece = Board.Square[startSquare];
+            int piece = Board.GetSquare()[startSquare];
 
-            if (piece == Piece.None) continue;
+            if (piece == Piece.NONE) continue;
 
-            if (Piece.IsColour(piece, Board.ColorToMove)){
+            if (Piece.IsColour(piece, Board.colorToMove)){
                 switch (Piece.PieceType(piece)){
-                    case Piece.Bishop, Piece.Rook, Piece.Queen -> GenerateSlidingMoves(startSquare, piece);
-                    case Piece.Knight -> GenerateKnightMoves(startSquare);
-                    case Piece.Pawn -> GeneratePawnMoves(startSquare);
-                    case Piece.King -> GenerateKingMoves(startSquare);
+                    case Piece.BISHOP, Piece.ROOK, Piece.QUEEN -> GenerateSlidingMoves(startSquare, piece);
+                    case Piece.KNIGHT -> GenerateKnightMoves(startSquare);
+                    case Piece.PAWN -> GeneratePawnMoves(startSquare);
+                    case Piece.KING -> GenerateKingMoves(startSquare);
+                    default -> throw new IllegalStateException("Unexpected value: " + Piece.PieceType(piece));
                 }
             }
         }
@@ -34,7 +44,7 @@ public class MoveGenerator {
         return moves;
     }
 
-    public static ArrayList<Move> GenerateLegalMoves(){
+    public static List<Move> GenerateLegalMoves(){
         ArrayList<Move> pseudoLegalMoves = GenerateMoves();
         ArrayList<Move> legalMoves = new ArrayList<>();
 
@@ -45,13 +55,13 @@ public class MoveGenerator {
             ArrayList<Move> opponentResponses = GenerateMoves();
 
             for (int startSquare = 0; startSquare < 64; startSquare++){
-                int piece = Board.Square[startSquare];
-                if (Piece.PieceChecker(piece, Piece.King, Board.OpponentColor)) kingSquare = startSquare;
+                int piece = Board.GetSquare()[startSquare];
+                if (Piece.PieceChecker(piece, Piece.KING, Board.opponentColor)) kingSquare = startSquare;
             }
 
             boolean anyResponseMatches = false;
             for (Move response : opponentResponses) {
-                if (response.TargetSquare == kingSquare) {
+                if (response.targetSquare == kingSquare) {
                     anyResponseMatches = true;
                     break;
                 }
@@ -66,38 +76,38 @@ public class MoveGenerator {
     }
 
     private static void GenerateSlidingMoves (int start, int piece){
-        int startDirIndex = Piece.PieceType(piece) == Piece.Bishop ? 4: 0;
-        int endDirIndex = Piece.PieceType(piece) == Piece.Rook ? 4: 8;
+        int startDirIndex = Piece.PieceType(piece) == Piece.BISHOP ? 4: 0;
+        int endDirIndex = Piece.PieceType(piece) == Piece.ROOK ? 4: 8;
 
         for (int dirIndex = startDirIndex; dirIndex < endDirIndex; dirIndex++){
             for (int n = 0; n < PrecomputedMoveData.NumSquaresToEdge[start][dirIndex]; n++){
                 int target = start + PrecomputedMoveData.DirectionOffsets[dirIndex] * (n + 1);
-                int pieceOnTarget = Board.Square[target];
+                int pieceOnTarget = Board.GetSquare()[target];
 
-                if (Piece.IsColour(pieceOnTarget, Board.ColorToMove)) break;
+                if (Piece.IsColour(pieceOnTarget, Board.colorToMove)) break;
 
                 moves.add(new Move(start, target));
 
-                if (!Piece.IsColour(pieceOnTarget, Board.ColorToMove) && pieceOnTarget != Piece.None) break;
+                if (!Piece.IsColour(pieceOnTarget, Board.colorToMove) && pieceOnTarget != Piece.NONE) break;
             }
         }
     }
 
-    private static void GenerateKnightMoves (int startSquare){
+    private static void GenerateKnightMoves (int startSquare){ //NOSONAR
         if ((startSquare - 1) % 8 != 0 && startSquare % 8 != 0)
         {
             if (startSquare < 56)
             {
                 var targetSquare = startSquare + 6;
-                int pieceOnTarget = Board.Square[targetSquare];
-                if (!Piece.IsColour(pieceOnTarget, Board.ColorToMove)) moves.add(new Move(startSquare, targetSquare));
+                int pieceOnTarget = Board.GetSquare()[targetSquare];
+                if (!Piece.IsColour(pieceOnTarget, Board.colorToMove)) moves.add(new Move(startSquare, targetSquare));
             }
 
             if (startSquare > 7)
             {
                 var targetSquare = startSquare - 10;
-                int pieceOnTarget = Board.Square[targetSquare];
-                if (!Piece.IsColour(pieceOnTarget, Board.ColorToMove)) moves.add(new Move(startSquare, targetSquare));
+                int pieceOnTarget = Board.GetSquare()[targetSquare];
+                if (!Piece.IsColour(pieceOnTarget, Board.colorToMove)) moves.add(new Move(startSquare, targetSquare));
             }
         }
 
@@ -106,15 +116,15 @@ public class MoveGenerator {
             if (startSquare % 8 != 0)
             {
                 var targetSquare = startSquare + 15;
-                int pieceOnTarget = Board.Square[targetSquare];
-                if (!Piece.IsColour(pieceOnTarget, Board.ColorToMove)) moves.add(new Move(startSquare, targetSquare));
+                int pieceOnTarget = Board.GetSquare()[targetSquare];
+                if (!Piece.IsColour(pieceOnTarget, Board.colorToMove)) moves.add(new Move(startSquare, targetSquare));
             }
 
             if ((startSquare - 7) % 8 != 0)
             {
                 var targetSquare = startSquare + 17;
-                int pieceOnTarget = Board.Square[targetSquare];
-                if (!Piece.IsColour(pieceOnTarget, Board.ColorToMove)) moves.add(new Move(startSquare, targetSquare));
+                int pieceOnTarget = Board.GetSquare()[targetSquare];
+                if (!Piece.IsColour(pieceOnTarget, Board.colorToMove)) moves.add(new Move(startSquare, targetSquare));
             }
         }
 
@@ -123,15 +133,15 @@ public class MoveGenerator {
             if (startSquare < 56)
             {
                 var targetSquare = startSquare + 10;
-                int pieceOnTarget = Board.Square[targetSquare];
-                if (!Piece.IsColour(pieceOnTarget, Board.ColorToMove)) moves.add(new Move(startSquare, targetSquare));
+                int pieceOnTarget = Board.GetSquare()[targetSquare];
+                if (!Piece.IsColour(pieceOnTarget, Board.colorToMove)) moves.add(new Move(startSquare, targetSquare));
             }
 
             if (startSquare > 7)
             {
                 var targetSquare = startSquare - 6;
-                int pieceOnTarget = Board.Square[targetSquare];
-                if (!Piece.IsColour(pieceOnTarget, Board.ColorToMove)) moves.add(new Move(startSquare, targetSquare));
+                int pieceOnTarget = Board.GetSquare()[targetSquare];
+                if (!Piece.IsColour(pieceOnTarget, Board.colorToMove)) moves.add(new Move(startSquare, targetSquare));
             }
         }
 
@@ -140,41 +150,41 @@ public class MoveGenerator {
             if (startSquare % 8 != 0)
             {
                 var targetSquare = startSquare - 17;
-                int pieceOnTarget = Board.Square[targetSquare];
-                if (!Piece.IsColour(pieceOnTarget, Board.ColorToMove)) moves.add(new Move(startSquare, targetSquare));
+                int pieceOnTarget = Board.GetSquare()[targetSquare];
+                if (!Piece.IsColour(pieceOnTarget, Board.colorToMove)) moves.add(new Move(startSquare, targetSquare));
             }
 
             if ((startSquare - 7) % 8 != 0)
             {
                 var targetSquare = startSquare - 15;
-                int pieceOnTarget = Board.Square[targetSquare];
-                if (!Piece.IsColour(pieceOnTarget, Board.ColorToMove)) moves.add(new Move(startSquare, targetSquare));
+                int pieceOnTarget = Board.GetSquare()[targetSquare];
+                if (!Piece.IsColour(pieceOnTarget, Board.colorToMove)) moves.add(new Move(startSquare, targetSquare));
             }
         }
     }
 
     private static void GeneratePawnMoves (int startSquare) {
-        if (Board.ColorToMove == Piece.White){
+        if (Board.colorToMove == Piece.WHITE){
             int target = startSquare + 8;
-            int piece = Board.Square[target];
+            int piece = Board.GetSquare()[target];
 
-            if (piece == Piece.None) {
-                if (target >= 56) GeneratePromotionMoves(startSquare, target, Piece.White);
+            if (piece == Piece.NONE) {
+                if (target >= 56) GeneratePromotionMoves(startSquare, target, Piece.WHITE);
                 else moves.add(new Move(startSquare, target));
-                if (startSquare >= 8 && startSquare <= 15 && Board.Square[target + 8] == Piece.None) moves.add(new Move(startSquare, target + 8));
+                if (startSquare >= 8 && startSquare <= 15 && Board.GetSquare()[target + 8] == Piece.NONE) moves.add(new Move(startSquare, target + 8));
             }
 
             GeneratePawnCaptures(startSquare, target);
         }
 
-        if (Board.ColorToMove == Piece.Black){
+        if (Board.colorToMove == Piece.BLACK){
             int target = startSquare - 8;
-            int piece = Board.Square[target];
+            int piece = Board.GetSquare()[target];
 
-            if (piece == Piece.None) {
-                if (target <= 7) GeneratePromotionMoves(startSquare, target, Piece.Black);
+            if (piece == Piece.NONE) {
+                if (target <= 7) GeneratePromotionMoves(startSquare, target, Piece.BLACK);
                 else moves.add(new Move(startSquare, target));
-                if (startSquare >= 48 && startSquare <= 55 && Board.Square[target - 8] == Piece.None) moves.add(new Move(startSquare, target - 8));
+                if (startSquare >= 48 && startSquare <= 55 && Board.GetSquare()[target - 8] == Piece.NONE) moves.add(new Move(startSquare, target - 8));
             }
 
             GeneratePawnCaptures(startSquare, target);
@@ -182,10 +192,10 @@ public class MoveGenerator {
     }
 
     private static void GeneratePromotionMoves(int startSquare, int target, int color){
-        moves.add(new Move(startSquare, target, Piece.Rook | color));
-        moves.add(new Move(startSquare, target, Piece.Knight | color));
-        moves.add(new Move(startSquare, target, Piece.Bishop | color));
-        moves.add(new Move(startSquare, target, Piece.Queen | color));
+        moves.add(new Move(startSquare, target, Piece.ROOK | color));
+        moves.add(new Move(startSquare, target, Piece.KNIGHT | color));
+        moves.add(new Move(startSquare, target, Piece.BISHOP | color));
+        moves.add(new Move(startSquare, target, Piece.QUEEN | color));
     }
 
     private static void GenerateKingMoves (int startSquare) {
@@ -193,88 +203,78 @@ public class MoveGenerator {
             int target = startSquare + PrecomputedMoveData.DirectionOffsets[dir];
             if (target < 0 || target > 63) continue;
 
-            if ((startSquare - 7) % 8 == 0) {
-                if (PrecomputedMoveData.DirectionOffsets[dir] == 9 || PrecomputedMoveData.DirectionOffsets[dir] == 1 || PrecomputedMoveData.DirectionOffsets[dir] == -7)
-                    continue;
-            }
+            if (((startSquare - 7) % 8 == 0 && (PrecomputedMoveData.DirectionOffsets[dir] == 9 || PrecomputedMoveData.DirectionOffsets[dir] == 1
+                    || PrecomputedMoveData.DirectionOffsets[dir] == -7)) ||
+             (startSquare % 8 == 0 && (PrecomputedMoveData.DirectionOffsets[dir] == -9 || PrecomputedMoveData.DirectionOffsets[dir] == -1
+                    || PrecomputedMoveData.DirectionOffsets[dir] == 7)) ||
+                (startSquare >= 56 && (PrecomputedMoveData.DirectionOffsets[dir] == 9 || PrecomputedMoveData.DirectionOffsets[dir] == 8
+                    || PrecomputedMoveData.DirectionOffsets[dir] == 7)) ||
+            (startSquare <= 7 && (PrecomputedMoveData.DirectionOffsets[dir] == -9 || PrecomputedMoveData.DirectionOffsets[dir] == -8
+                    || PrecomputedMoveData.DirectionOffsets[dir] == -7))) continue;
 
-            if (startSquare % 8 == 0) {
-                if (PrecomputedMoveData.DirectionOffsets[dir] == -9 || PrecomputedMoveData.DirectionOffsets[dir] == -1 || PrecomputedMoveData.DirectionOffsets[dir] == 7)
-                    continue;
-            }
 
-            if (startSquare >= 56) {
-                if (PrecomputedMoveData.DirectionOffsets[dir] == 9 || PrecomputedMoveData.DirectionOffsets[dir] == 8 || PrecomputedMoveData.DirectionOffsets[dir] == 7)
-                    continue;
-            }
+            int piece = Board.GetSquare()[target];
 
-            if (startSquare <= 7) {
-                if (PrecomputedMoveData.DirectionOffsets[dir] == -9 || PrecomputedMoveData.DirectionOffsets[dir] == -8 || PrecomputedMoveData.DirectionOffsets[dir] == -7)
-                    continue;
-            }
-
-            int piece = Board.Square[target];
-
-            if (Piece.IsColour(piece, Board.ColorToMove)) continue;
+            if (Piece.IsColour(piece, Board.colorToMove)) continue;
 
             moves.add(new Move(startSquare, target));
         }
 
-        if (Piece.IsColour(Board.Square[startSquare], Piece.White)
-                && Board.WKingsideCastle
-                && Board.Square[startSquare + 1] == Piece.None
-                && Board.Square[startSquare + 2] == Piece.None
-                && Piece.PieceChecker(Board.Square[startSquare + 3], Piece.Rook, Piece.White)
-                && !Board.isSquareAttacked(startSquare + 1, Board.OpponentColor)
-                && !Board.isSquareAttacked(startSquare + 2, Board.OpponentColor))
+        if (Piece.IsColour(Board.GetSquare()[startSquare], Piece.WHITE)
+                && Board.wKingsideCastle
+                && Board.GetSquare()[startSquare + 1] == Piece.NONE
+                && Board.GetSquare()[startSquare + 2] == Piece.NONE
+                && Piece.PieceChecker(Board.GetSquare()[startSquare + 3], Piece.ROOK, Piece.WHITE)
+                && !Board.IsSquareAttacked(startSquare + 1, Board.opponentColor)
+                && !Board.IsSquareAttacked(startSquare + 2, Board.opponentColor))
             moves.add(new Move(startSquare, startSquare + 2));
 
-        if (Piece.IsColour(Board.Square[startSquare], Piece.Black)
-                && Board.BKingsideCastle
-                && Board.Square[startSquare + 1] == Piece.None
-                && Board.Square[startSquare + 2] == Piece.None
-                && Piece.PieceChecker(Board.Square[startSquare + 3], Piece.Rook, Piece.Black)
-                && !Board.isSquareAttacked(startSquare + 1, Board.OpponentColor)
-                && !Board.isSquareAttacked(startSquare + 2, Board.OpponentColor))
+        if (Piece.IsColour(Board.GetSquare()[startSquare], Piece.BLACK)
+                && Board.bKingsideCastle
+                && Board.GetSquare()[startSquare + 1] == Piece.NONE
+                && Board.GetSquare()[startSquare + 2] == Piece.NONE
+                && Piece.PieceChecker(Board.GetSquare()[startSquare + 3], Piece.ROOK, Piece.BLACK)
+                && !Board.IsSquareAttacked(startSquare + 1, Board.opponentColor)
+                && !Board.IsSquareAttacked(startSquare + 2, Board.opponentColor))
             moves.add(new Move(startSquare, startSquare + 2));
 
-        if (Piece.IsColour(Board.Square[startSquare], Piece.White)
-                && Board.WQueensideCastle
-                && Board.Square[startSquare - 1] == Piece.None
-                && Board.Square[startSquare - 2] == Piece.None
-                && Board.Square[startSquare - 3] == Piece.None
-                && Piece.PieceChecker(Board.Square[startSquare - 4], Piece.Rook, Piece.White)
-                && !Board.isSquareAttacked(startSquare - 1, Board.OpponentColor)
-                && !Board.isSquareAttacked(startSquare - 2, Board.OpponentColor))
+        if (Piece.IsColour(Board.GetSquare()[startSquare], Piece.WHITE)
+                && Board.wQueensideCastle
+                && Board.GetSquare()[startSquare - 1] == Piece.NONE
+                && Board.GetSquare()[startSquare - 2] == Piece.NONE
+                && Board.GetSquare()[startSquare - 3] == Piece.NONE
+                && Piece.PieceChecker(Board.GetSquare()[startSquare - 4], Piece.ROOK, Piece.WHITE)
+                && !Board.IsSquareAttacked(startSquare - 1, Board.opponentColor)
+                && !Board.IsSquareAttacked(startSquare - 2, Board.opponentColor))
             moves.add(new Move(startSquare, startSquare - 2));
 
-        if (Piece.IsColour(Board.Square[startSquare], Piece.Black)
-                && Board.BQueensideCastle
-                && !Board.isSquareAttacked(startSquare - 1, Board.OpponentColor)
-                && !Board.isSquareAttacked(startSquare - 2, Board.OpponentColor)
-                && Board.Square[startSquare - 1] == Piece.None
-                && Board.Square[startSquare - 2] == Piece.None
-                && Board.Square[startSquare - 3] == Piece.None
-                && Piece.PieceChecker(Board.Square[startSquare - 4], Piece.Rook, Piece.Black))
+        if (Piece.IsColour(Board.GetSquare()[startSquare], Piece.BLACK)
+                && Board.bQueensideCastle
+                && !Board.IsSquareAttacked(startSquare - 1, Board.opponentColor)
+                && !Board.IsSquareAttacked(startSquare - 2, Board.opponentColor)
+                && Board.GetSquare()[startSquare - 1] == Piece.NONE
+                && Board.GetSquare()[startSquare - 2] == Piece.NONE
+                && Board.GetSquare()[startSquare - 3] == Piece.NONE
+                && Piece.PieceChecker(Board.GetSquare()[startSquare - 4], Piece.ROOK, Piece.BLACK))
             moves.add(new Move(startSquare, startSquare - 2));
     }
 
     private static void GeneratePawnCaptures (int startSquare, int target) {
-        if (target + 1 < 64 && (target - 7) % 8 != 0 && Board.Square[target + 1] != Piece.None && Piece.IsColour(Board.Square[target + 1], Board.OpponentColor))
+        if (target + 1 < 64 && (target - 7) % 8 != 0 && Board.GetSquare()[target + 1] != Piece.NONE && Piece.IsColour(Board.GetSquare()[target + 1], Board.opponentColor))
         {
-            if (target + 1 >= 56) GeneratePromotionMoves(startSquare, target + 1, Piece.White);
-            else if (target - 1 <= 7) GeneratePromotionMoves(startSquare, target + 1, Piece.Black);
+            if (target + 1 >= 56) GeneratePromotionMoves(startSquare, target + 1, Piece.WHITE);
+            else if (target - 1 <= 7) GeneratePromotionMoves(startSquare, target + 1, Piece.BLACK);
             else moves.add(new Move(startSquare, target + 1));
         }
-        if (target - 1 >= 0 && target % 8 != 0 && Board.Square[target - 1] != Piece.None && Piece.IsColour(Board.Square[target - 1], Board.OpponentColor))
+        if (target - 1 >= 0 && target % 8 != 0 && Board.GetSquare()[target - 1] != Piece.NONE && Piece.IsColour(Board.GetSquare()[target - 1], Board.opponentColor))
         {
-            if (target + 1 >= 56) GeneratePromotionMoves(startSquare, target - 1, Piece.White);
-            else if (target - 1 <= 7) GeneratePromotionMoves(startSquare, target - 1, Piece.Black);
+            if (target + 1 >= 56) GeneratePromotionMoves(startSquare, target - 1, Piece.WHITE);
+            else if (target - 1 <= 7) GeneratePromotionMoves(startSquare, target - 1, Piece.BLACK);
             else moves.add(new Move(startSquare, target - 1));
         }
 
-        if (target + 1 < 64 && (target - 7) % 8 != 0  && Board.EnPassantSquare[startSquare + 1]) moves.add(new Move(startSquare, target + 1));
-        if (target - 1 >= 0 && target % 8 != 0  && Board.EnPassantSquare[startSquare - 1]) moves.add(new Move(startSquare, target - 1));
+        if (target + 1 < 64 && (target - 7) % 8 != 0  && Board.enPassantSquare[startSquare + 1]) moves.add(new Move(startSquare, target + 1));
+        if (target - 1 >= 0 && target % 8 != 0  && Board.enPassantSquare[startSquare - 1]) moves.add(new Move(startSquare, target - 1));
     }
 
     public static int MoveGenerationTest(int depth, float delay) {
@@ -282,7 +282,7 @@ public class MoveGenerator {
 
         boolean first = false;
 
-        ArrayList<Move> moves = MoveGenerator.GenerateLegalMoves();
+        List<Move> moves = MoveGenerator.GenerateLegalMoves();
         int numPositions = 0;
 
         for (Move move : moves){
@@ -297,7 +297,8 @@ public class MoveGenerator {
                 try {
                     Thread.sleep((long) (delay * 1000));
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    LOGGER.log(Level.WARNING, "Interrupted!", e);
+                    Thread.currentThread().interrupt();
                 }
             }
 
@@ -307,9 +308,9 @@ public class MoveGenerator {
             if (first){
                 int nodes = (numPositions - totalNodes);
                 totalNodes += nodes;
-                divide.append(Piece.PosFromIndex(move.StartSquare))
+                divide.append(Piece.PosFromIndex(move.startSquare))
                         .append(" to ")
-                        .append(Piece.PosFromIndex(move.TargetSquare))
+                        .append(Piece.PosFromIndex(move.targetSquare))
                         .append(": ")
                         .append(nodes)
                         .append("\n");
@@ -322,7 +323,7 @@ public class MoveGenerator {
     }
 
     public static void Reset(){
-        divide = new StringBuilder();
+        divide.delete(0, divide.length() - 1);
         totalNodes = 0;
     }
 }

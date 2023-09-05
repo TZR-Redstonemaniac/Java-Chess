@@ -4,58 +4,58 @@ import Classes.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GUI extends JFrame {
 
     //region Variables
     public static final Draw DRAW_BOARD = new Draw();
 
-    private final JLabel depthLabel = new JLabel("Depth");
-    private final JTextField moveTestDepth = new JTextField();
+    private static final JLabel depthLabel = new JLabel("Depth");
+    private static final JTextField moveTestDepth = new JTextField();
 
-    private final JLabel delayLabel = new JLabel("Delay");
-    private final JTextField moveTestDelay = new JTextField();
+    private static final JLabel delayLabel = new JLabel("Delay");
+    private static final JTextField moveTestDelay = new JTextField();
 
-    private final JLabel moveCount = new JLabel("0");
+    private static final JLabel moveCount = new JLabel("0");
 
-    private final JButton undo = new JButton("Undo");
+    private static final JButton undo = new JButton("Undo");
 
-    private final JButton moveTest = new JButton("Test");
-    private final JButton printLegalMoves = new JButton("Print Legal");
+    private static final JButton moveTest = new JButton("Test");
+    private static final JButton printLegalMoves = new JButton("Print Legal");
 
-    private final JButton setWhite = new JButton("White");
-    private final JButton setBlack = new JButton("Black");
+    private static final JButton setWhite = new JButton("White");
+    private static final JButton setBlack = new JButton("Black");
 
-    private final JButton showAttackedSquares = new JButton("Show attacked Squares");
-    private final JButton hideAttackedSquares = new JButton("Hide attacked Squares");
+    private static final JButton showAttackedSquares = new JButton("Show attacked Squares");
+    private static final JButton hideAttackedSquares = new JButton("Hide attacked Squares");
 
-    private final JTextField fenString = new JTextField();
-    private final JButton setFen = new JButton("Set FEN");
+    private static final JTextField fenString = new JTextField();
+    private static final JButton setFen = new JButton("Set FEN");
 
-    private final JTextArea moveDisplay = new JTextArea(16, 58);
-    private final JScrollPane moveScroll = new JScrollPane(moveDisplay);
+    private static final JTextArea moveDisplay = new JTextArea(16, 58);
+    private static final JScrollPane moveScroll = new JScrollPane(moveDisplay);
 
     //region Position Labels
-    private final JLabel A_POS = new JLabel("A");
-    private final JLabel B_POS = new JLabel("B");
-    private final JLabel C_POS = new JLabel("C");
-    private final JLabel D_POS = new JLabel("D");
-    private final JLabel E_POS = new JLabel("E");
-    private final JLabel F_POS = new JLabel("F");
-    private final JLabel G_POS = new JLabel("G");
-    private final JLabel H_POS = new JLabel("H");
+    private static final JLabel A_POS = new JLabel("A");
+    private static final JLabel B_POS = new JLabel("B");
+    private static final JLabel C_POS = new JLabel("C");
+    private static final JLabel D_POS = new JLabel("D");
+    private static final JLabel E_POS = new JLabel("E");
+    private static final JLabel F_POS = new JLabel("F");
+    private static final JLabel G_POS = new JLabel("G");
+    private static final JLabel H_POS = new JLabel("H");
 
-    private final JLabel N1_POS = new JLabel("1");
-    private final JLabel N2_POS = new JLabel("2");
-    private final JLabel N3_POS = new JLabel("3");
-    private final JLabel N4_POS = new JLabel("4");
-    private final JLabel N5_POS = new JLabel("5");
-    private final JLabel N6_POS = new JLabel("6");
-    private final JLabel N7_POS = new JLabel("7");
-    private final JLabel N8_POS = new JLabel("8");
+    private static final JLabel N1_POS = new JLabel("1");
+    private static final JLabel N2_POS = new JLabel("2");
+    private static final JLabel N3_POS = new JLabel("3");
+    private static final JLabel N4_POS = new JLabel("4");
+    private static final JLabel N5_POS = new JLabel("5");
+    private static final JLabel N6_POS = new JLabel("6");
+    private static final JLabel N7_POS = new JLabel("7");
+    private static final JLabel N8_POS = new JLabel("8");
     //endregion
 
     private static ArrayList<Integer> attackedSquares = new ArrayList<>();
@@ -79,10 +79,10 @@ public class GUI extends JFrame {
         pack();
     }
 
-    private void ConfigureComponents(){
+    private void ConfigureComponents (){
         Texture.Init();
         FenManager.Init();
-        FenManager.LoadFromFen(FenManager.startFEN);
+        FenManager.LoadFromFen(FenManager.START_FEN);
         Board.Init();
 
         depthLabel.setBounds(850, 75, 100, 25);
@@ -97,19 +97,13 @@ public class GUI extends JFrame {
         undo.addActionListener(this::Undo);
 
         moveTest.setBounds(850, 200, 100, 25);
-        moveTest.addActionListener(e -> {
-            try {
-                TestMoves();
-            } catch (InterruptedException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
+        moveTest.addActionListener(e -> TestMoves());
 
         setWhite.setBounds(850, 500, 100, 25);
-        setWhite.addActionListener(this::setWhiteToMove);
+        setWhite.addActionListener(this::SetWhiteToMove);
 
         setBlack.setBounds(850, 525, 100, 25);
-        setBlack.addActionListener(this::setBlackToMove);
+        setBlack.addActionListener(this::SetBlackToMove);
 
         showAttackedSquares.setBounds(800, 600, 200, 25);
         showAttackedSquares.addActionListener(this::ShowAttackedSquares);
@@ -198,11 +192,8 @@ public class GUI extends JFrame {
 
         add(DRAW_BOARD);
 
-        MouseListener Mouse = new Mouse();
-        addMouseListener(Mouse);
-
-        KeyListener Key = new Key();
-        addKeyListener(Key);
+        MouseListener mouse = new Mouse();
+        addMouseListener(mouse);
     }
     //endregion
 
@@ -211,7 +202,7 @@ public class GUI extends JFrame {
         return Integer.parseInt(moveTestDepth.getText());
     }
 
-    private void TestMoves() throws InterruptedException {
+    private void TestMoves() {
         MoveGenerator.Reset();
 
         if (Float.parseFloat(moveTestDelay.getText()) > 0)
@@ -225,23 +216,23 @@ public class GUI extends JFrame {
         FenManager.LoadFromFen(fenString.getText());
     }
 
-    private void setWhiteToMove(ActionEvent e){
-        Board.ColorToMove = Piece.White;
-        Board.OpponentColor = Piece.Black;
+    private void SetWhiteToMove (ActionEvent e){
+        Board.colorToMove = Piece.WHITE;
+        Board.opponentColor = Piece.BLACK;
     }
 
-    private void setBlackToMove(ActionEvent e){
-        Board.ColorToMove = Piece.Black;
-        Board.OpponentColor = Piece.White;
+    private void SetBlackToMove (ActionEvent e){
+        Board.colorToMove = Piece.BLACK;
+        Board.opponentColor = Piece.WHITE;
     }
 
     private void PrintLegal(ActionEvent e){
-        ArrayList<Move> moves = MoveGenerator.GenerateLegalMoves();
+        List<Move> moves = MoveGenerator.GenerateLegalMoves();
 
         StringBuilder result = new StringBuilder();
         for (Move move : moves) {
-            String moveString = Piece.PosFromIndex(move.StartSquare) + " to " + Piece.PosFromIndex(move.TargetSquare);
-            if (move.promoPiece != Piece.None) {
+            String moveString = Piece.PosFromIndex(move.startSquare) + " to " + Piece.PosFromIndex(move.targetSquare);
+            if (move.promoPiece != Piece.NONE) {
                 moveString += " promoting to " + Piece.PieceName(move.promoPiece);
             }
             result.append(moveString).append("\n");
@@ -250,20 +241,20 @@ public class GUI extends JFrame {
         moveDisplay.setText(result.toString());
     }
 
-    private void ShowAttackedSquares(ActionEvent e){
-        attackedSquares = new ArrayList<>();
+    private void ShowAttackedSquares (ActionEvent e){
+        attackedSquares = new ArrayList<>(); //NOSONAR
 
         StringBuilder result = new StringBuilder();
 
         for (int i = 0; i < 64; i++) {
-            if (Board.isSquareAttacked(i, Board.OpponentColor)) {
+            if (Board.IsSquareAttacked(i, Board.opponentColor)) {
                 attackedSquares.add(i);
 
                 result.append(Piece.PosFromIndex(i))
                         .append(" is attacked by ")
-                        .append(Board.whatIsSquareAttackedBy(i, Board.OpponentColor))
+                        .append(Board.WhatIsSquareAttackedBy(i, Board.opponentColor))
                         .append(" at ")
-                        .append(Piece.PosFromIndex(Board.fromWhereIsTheSquareAttacked(i, Board.OpponentColor)))
+                        .append(Piece.PosFromIndex(Board.FromWhereIsTheSquareAttacked(i, Board.opponentColor)))
                         .append("\n");
             }
         }
@@ -271,14 +262,14 @@ public class GUI extends JFrame {
         moveDisplay.setText(result.toString());
     }
 
-    private void HideAttackedSquares(ActionEvent e){
-        attackedSquares = new ArrayList<>();
+    private void HideAttackedSquares (ActionEvent e){
+        attackedSquares = new ArrayList<>(); //NOSONAR
         moveDisplay.setText("");
     }
 
     private void Undo(ActionEvent e) { Board.UnmakeMove(); }
 
-    public static ArrayList<Integer> getAttackedSquares (){
+    public static List<Integer> GetAttackedSquares (){
         return attackedSquares;
     }
     //endregion

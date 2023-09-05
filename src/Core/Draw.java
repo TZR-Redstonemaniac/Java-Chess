@@ -5,8 +5,12 @@ import Classes.*;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Draw extends JPanel {
+
+    private final Logger logger = Logger.getLogger(Draw.class.getName()); //NOSONAR
 
     @Override
     public void paint(Graphics graphics) {
@@ -15,7 +19,7 @@ public class Draw extends JPanel {
         Graphics2D g2d = (Graphics2D) graphics;
 
         //Board
-        for (Map<String, Object> map : Board.getSquares()){
+        for (Map<String, Object> map : Board.GetSquares()){
             int x = 0;
             int y = 0;
             int w = 0;
@@ -33,6 +37,7 @@ public class Draw extends JPanel {
                     case "r" -> r = (int) set.getValue();
                     case "g" -> g = (int) set.getValue();
                     case "b" -> b = (int) set.getValue();
+                    default -> logger.log(Level.WARNING,"Unknown Key: {0}", set.getKey());
                 }
             }
 
@@ -43,9 +48,9 @@ public class Draw extends JPanel {
         }
 
         //Attacked Squares
-        for (int index : GUI.getAttackedSquares()){
-            int x = (int) Board.getSquares()[index].get("x");
-            int y = (int) Board.getSquares()[index].get("y");
+        for (int index : GUI.GetAttackedSquares()){
+            int x = (int) Board.GetSquares()[index].get("x");
+            int y = (int) Board.GetSquares()[index].get("y");
 
             g2d.setColor(new Color(100, 100, 100));
             g2d.fillRect(x, y, 100, 100);
@@ -53,12 +58,12 @@ public class Draw extends JPanel {
 
         //Valid moves
         if (Game.GetMoves() != null) for (Move move : Game.GetMoves()){
-            int x = (int) Board.getSquares()[move.TargetSquare].get("x");
-            int y = (int) Board.getSquares()[move.TargetSquare].get("y");
+            int x = (int) Board.GetSquares()[move.targetSquare].get("x");
+            int y = (int) Board.GetSquares()[move.targetSquare].get("y");
 
-            int r = (int) Board.getSquares()[move.TargetSquare].get("mr");
-            int g = (int) Board.getSquares()[move.TargetSquare].get("mg");
-            int b = (int) Board.getSquares()[move.TargetSquare].get("mb");
+            int r = (int) Board.GetSquares()[move.targetSquare].get("mr");
+            int g = (int) Board.GetSquares()[move.targetSquare].get("mg");
+            int b = (int) Board.GetSquares()[move.targetSquare].get("mb");
 
             g2d.setColor(new Color(r, g, b));
             g2d.fillRect(x, y, 100, 100);
@@ -73,14 +78,14 @@ public class Draw extends JPanel {
             int x = 0;
             int y = 0;
 
-            if (Mouse.grabbed && index == Game.getStartIndex()) {
+            if (Mouse.GetGrabbed() && index == Game.GetStartIndex()) {
                 grabbedX = MouseInfo.getPointerInfo().getLocation().x - Game.ui.getLocationOnScreen().x - 50;
                 grabbedY = MouseInfo.getPointerInfo().getLocation().y - Game.ui.getLocationOnScreen().y - 82;
 
                 grabbedIndex = index;
             } else {
-                x = (int) Board.getSquares()[index].get("x");
-                y = (int) Board.getSquares()[index].get("y");
+                x = (int) Board.GetSquares()[index].get("x");
+                y = (int) Board.GetSquares()[index].get("y");
             }
 
             if (index != grabbedIndex) DrawPiece(g2d, index, x, y);
@@ -90,23 +95,25 @@ public class Draw extends JPanel {
     }
 
     private void DrawPiece (Graphics2D g2d, int index, int x, int y) {
-        if (Piece.IsColour(Board.Square[index], Piece.White)) {
-            switch (Piece.PieceType(Board.Square[index])) {
-                case Piece.Pawn -> g2d.drawImage(Texture.WHITE_PAWN, x, y, 100, 100, null);
-                case Piece.Knight -> g2d.drawImage(Texture.WHITE_KNIGHT, x, y, 100, 100, null);
-                case Piece.Bishop -> g2d.drawImage(Texture.WHITE_BISHOP, x, y, 100, 100, null);
-                case Piece.Rook -> g2d.drawImage(Texture.WHITE_ROOK, x, y, 100, 100, null);
-                case Piece.King -> g2d.drawImage(Texture.WHITE_KING, x, y, 100, 100, null);
-                case Piece.Queen -> g2d.drawImage(Texture.WHITE_QUEEN, x, y, 100, 100, null);
+        if (Piece.IsColour(Board.GetSquare()[index], Piece.WHITE)) {
+            switch (Piece.PieceType(Board.GetSquare()[index])) {
+                case Piece.PAWN -> g2d.drawImage(Texture.WHITE_PAWN, x, y, 100, 100, null);
+                case Piece.KNIGHT -> g2d.drawImage(Texture.WHITE_KNIGHT, x, y, 100, 100, null);
+                case Piece.BISHOP -> g2d.drawImage(Texture.WHITE_BISHOP, x, y, 100, 100, null);
+                case Piece.ROOK -> g2d.drawImage(Texture.WHITE_ROOK, x, y, 100, 100, null);
+                case Piece.KING -> g2d.drawImage(Texture.WHITE_KING, x, y, 100, 100, null);
+                case Piece.QUEEN -> g2d.drawImage(Texture.WHITE_QUEEN, x, y, 100, 100, null);
+                default -> logger.log(Level.INFO, "No Piece Here");
             }
         } else {
-            switch (Piece.PieceType(Board.Square[index])) {
-                case Piece.Pawn -> g2d.drawImage(Texture.BLACK_PAWN, x, y, 100, 100, null);
-                case Piece.Knight -> g2d.drawImage(Texture.BLACK_KNIGHT, x, y, 100, 100, null);
-                case Piece.Bishop -> g2d.drawImage(Texture.BLACK_BISHOP, x, y, 100, 100, null);
-                case Piece.Rook -> g2d.drawImage(Texture.BLACK_ROOK, x, y, 100, 100, null);
-                case Piece.King -> g2d.drawImage(Texture.BLACK_KING, x, y, 100, 100, null);
-                case Piece.Queen -> g2d.drawImage(Texture.BLACK_QUEEN, x, y, 100, 100, null);
+            switch (Piece.PieceType(Board.GetSquare()[index])) {
+                case Piece.PAWN -> g2d.drawImage(Texture.BLACK_PAWN, x, y, 100, 100, null);
+                case Piece.KNIGHT -> g2d.drawImage(Texture.BLACK_KNIGHT, x, y, 100, 100, null);
+                case Piece.BISHOP -> g2d.drawImage(Texture.BLACK_BISHOP, x, y, 100, 100, null);
+                case Piece.ROOK -> g2d.drawImage(Texture.BLACK_ROOK, x, y, 100, 100, null);
+                case Piece.KING -> g2d.drawImage(Texture.BLACK_KING, x, y, 100, 100, null);
+                case Piece.QUEEN -> g2d.drawImage(Texture.BLACK_QUEEN, x, y, 100, 100, null);
+                default -> logger.log(Level.INFO, "No Piece Here");
             }
         }
     }

@@ -15,7 +15,7 @@ public class Game {
     private static int targetIndex = -1;
     private static int currentIndex;
 
-    private static ArrayList<Move> moves = new ArrayList<>();
+    private static List<Move> moves = new ArrayList<>();
     //endregion
 
     //region Run Function and Game Loop
@@ -30,11 +30,11 @@ public class Game {
     public static void MainGameLoop() {
         currentIndex = GetIndex();
 
-        if (Mouse.pressed && !Mouse.grabbed && !(currentIndex < 0 || currentIndex > 63)) Grab();
-        else if (!Mouse.pressed && Mouse.grabbed && !(currentIndex < 0 || currentIndex > 63)) Release();
+        if (Mouse.GetPressed() && !Mouse.GetGrabbed() && !(currentIndex < 0 || currentIndex > 63)) Grab();
+        else if (!Mouse.GetPressed() && Mouse.GetGrabbed() && !(currentIndex < 0 || currentIndex > 63)) Release();
 
         //Set colors
-        Board.OpponentColor = Board.ColorToMove == Piece.White ? Piece.Black : Piece.White;
+        Board.opponentColor = Board.colorToMove == Piece.WHITE ? Piece.BLACK : Piece.WHITE;
 
         ui.repaint();
     }
@@ -43,20 +43,20 @@ public class Game {
     //region Methods
     private static void Grab(){
         //Return if grabbing no piece
-        if (Board.Square[currentIndex] == Piece.None) return;
+        if (Board.GetSquare()[currentIndex] == Piece.NONE) return;
 
         //Set the grabbed variable and startIndex
-        Mouse.grabbed = true;
+        Mouse.SetGrabbed(true);
         startIndex = currentIndex;
 
         //Generate the moves and remove any non-valid moves for the piece
         moves = MoveGenerator.GenerateLegalMoves();
-        moves.removeIf(move -> move.StartSquare != startIndex);
+        moves.removeIf(move -> move.startSquare != startIndex);
     }
 
     private static void Release(){
         //Set the grabbed variable and the targetIndex
-        Mouse.grabbed = false;
+        Mouse.SetGrabbed(false);
         targetIndex = currentIndex;
 
         //If the piece is placed in its starting position, return and set moves to null
@@ -70,7 +70,7 @@ public class Game {
 
         boolean valid = false;
         for (Move moveToCheck : moves)
-            if (moveToCheck.TargetSquare == targetIndex) {
+            if (moveToCheck.targetSquare == targetIndex) {
                 valid = true;
                 move = moveToCheck;
                 break;
@@ -81,51 +81,51 @@ public class Game {
         }
 
         //Save the board position before making the move
-        Board.prevSquares.add(Board.Square.clone());
-        Board.prevEnPassantSquares.add(Board.EnPassantSquare.clone());
+        Board.prevSquares.add(Board.GetSquare().clone());
+        Board.prevEnPassantSquares.add(Board.enPassantSquare.clone());
 
-        int newColorToMove = Board.ColorToMove;
+        int newColorToMove = Board.colorToMove;
         Board.prevColorToMove.add(newColorToMove);
 
-        boolean newWKingsideCastle = Board.WKingsideCastle;
+        boolean newWKingsideCastle = Board.wKingsideCastle;
         Board.prevWKCastling.add(newWKingsideCastle);
 
-        boolean newBKingsideCastle = Board.BKingsideCastle;
+        boolean newBKingsideCastle = Board.bKingsideCastle;
         Board.prevBKCastling.add(newBKingsideCastle);
 
-        boolean newWQueensideCastle = Board.WQueensideCastle;
+        boolean newWQueensideCastle = Board.wQueensideCastle;
         Board.prevWQCastling.add(newWQueensideCastle);
 
-        boolean newBQueensideCastle = Board.BQueensideCastle;
+        boolean newBQueensideCastle = Board.bQueensideCastle;
         Board.prevBQCastling.add(newBQueensideCastle);
 
         //Set pieceToMove to the piece being moved
-        int pieceToMove = Board.Square[startIndex];
+        int pieceToMove = Board.GetSquare()[startIndex];
 
         Castling(pieceToMove);
         EnPassant(pieceToMove);
 
         //Set the target square to the piece and remove it from the starting square
-        Board.Square[targetIndex] = Board.Square[startIndex];
-        Board.Square[startIndex] = 0;
+        Board.SetSquare(targetIndex, Board.GetSquare()[startIndex]);
+        Board.SetSquare(startIndex, 0);
 
         //Promotion
-        if (move.promoPiece != Piece.None){
-            Board.Square[targetIndex] = move.promoPiece;
+        if (move.promoPiece != Piece.NONE){
+            Board.SetSquare(targetIndex, move.promoPiece);
         }
 
         //Swap the color to move
-        Board.ColorToMove = Board.ColorToMove == Piece.White ? Piece.Black : Piece.White;
-        Board.OpponentColor = Board.ColorToMove == Piece.White ? Piece.Black : Piece.White;
+        Board.colorToMove = Board.colorToMove == Piece.WHITE ? Piece.BLACK : Piece.WHITE;
+        Board.opponentColor = Board.colorToMove == Piece.WHITE ? Piece.BLACK : Piece.WHITE;
 
         //Castling checks
-        if (Piece.PieceChecker(pieceToMove, Piece.King, Piece.White)) {
-            Board.WKingsideCastle = false;
-            Board.WQueensideCastle = false;
+        if (Piece.PieceChecker(pieceToMove, Piece.KING, Piece.WHITE)) {
+            Board.wKingsideCastle = false;
+            Board.wQueensideCastle = false;
         }
-        if (Piece.PieceChecker(pieceToMove, Piece.King, Piece.Black)) {
-            Board.BKingsideCastle = false;
-            Board.BQueensideCastle = false;
+        if (Piece.PieceChecker(pieceToMove, Piece.KING, Piece.BLACK)) {
+            Board.bKingsideCastle = false;
+            Board.bQueensideCastle = false;
         }
 
         //Set moves to null
@@ -177,42 +177,42 @@ public class Game {
 
     private static void EnPassant(int pieceToMove){
         //En-passant managing
-        if (Piece.PieceChecker(pieceToMove, Piece.Pawn) &&
-                (startIndex + 9 == targetIndex || startIndex + 7 == targetIndex) && Board.EnPassantSquare[targetIndex - 8]) Board.Square[targetIndex - 8] = Piece.None;
-        if (Piece.PieceChecker(pieceToMove, Piece.Pawn) &&
-                (startIndex - 9 == targetIndex || startIndex - 7 == targetIndex) && Board.EnPassantSquare[targetIndex + 8]) Board.Square[targetIndex + 8] = Piece.None;
+        if (Piece.PieceChecker(pieceToMove, Piece.PAWN) &&
+                (startIndex + 9 == targetIndex || startIndex + 7 == targetIndex) && Board.enPassantSquare[targetIndex - 8]) Board.SetSquare(targetIndex - 8, Piece.NONE);
+        if (Piece.PieceChecker(pieceToMove, Piece.PAWN) &&
+                (startIndex - 9 == targetIndex || startIndex - 7 == targetIndex) && Board.enPassantSquare[targetIndex + 8]) Board.SetSquare(targetIndex + 8, Piece.NONE);
 
-        for (int i = 0; i < 64; i++) Board.EnPassantSquare[i] = false;
+        for (int i = 0; i < 64; i++) Board.enPassantSquare[i] = false;
 
-        if (Piece.PieceChecker(pieceToMove, Piece.Pawn) && (startIndex + 16 == targetIndex || startIndex - 16 == targetIndex)) Board.EnPassantSquare[targetIndex] = true;
+        if (Piece.PieceChecker(pieceToMove, Piece.PAWN) && (startIndex + 16 == targetIndex || startIndex - 16 == targetIndex)) Board.enPassantSquare[targetIndex] = true;
     }
 
     private static void Castling(int pieceToMove){
         //Perform castling
-        if (Piece.PieceChecker(pieceToMove, Piece.King)) {
+        if (Piece.PieceChecker(pieceToMove, Piece.KING)) {
             if (startIndex + 2 == targetIndex) {
-                Board.Square[startIndex + 1] = Board.Square[targetIndex + 1];
-                Board.Square[targetIndex + 1] = Piece.None;
+                Board.SetSquare(startIndex + 1, Board.GetSquare()[targetIndex + 1]);
+                Board.SetSquare(targetIndex + 1, Piece.NONE);
 
-                if (Board.ColorToMove == Piece.White) {
-                    Board.WKingsideCastle = false;
-                    Board.WQueensideCastle = false;
+                if (Board.colorToMove == Piece.WHITE) {
+                    Board.wKingsideCastle = false;
+                    Board.wQueensideCastle = false;
                 }
                 else {
-                    Board.BKingsideCastle = false;
-                    Board.BQueensideCastle = false;
+                    Board.bKingsideCastle = false;
+                    Board.bQueensideCastle = false;
                 }
             } else if (startIndex - 2 == targetIndex) {
-                Board.Square[startIndex - 1] = Board.Square[targetIndex - 2];
-                Board.Square[targetIndex - 2] = Piece.None;
+                Board.SetSquare(startIndex - 1, Board.GetSquare()[targetIndex - 2]);
+                Board.SetSquare(targetIndex - 2, Piece.NONE);
 
-                if (Board.ColorToMove == Piece.White) {
-                    Board.WKingsideCastle = false;
-                    Board.WQueensideCastle = false;
+                if (Board.colorToMove == Piece.WHITE) {
+                    Board.wKingsideCastle = false;
+                    Board.wQueensideCastle = false;
                 }
                 else {
-                    Board.BKingsideCastle = false;
-                    Board.BQueensideCastle = false;
+                    Board.bKingsideCastle = false;
+                    Board.bQueensideCastle = false;
                 }
             }
         }

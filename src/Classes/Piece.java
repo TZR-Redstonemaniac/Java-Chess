@@ -2,16 +2,20 @@ package Classes;
 
 public class Piece {
 
-    public static final int None = 0;
-    public static final int Pawn = 1;
-    public static final int Knight = 2;
-    public static final int Bishop = 3;
-    public static final int Rook = 4;
-    public static final int King = 5;
-    public static final int Queen = 6;
+    private Piece() {
+        throw new IllegalStateException("Utility class");
+    }
 
-    public static final int White = 8;
-    public static final int Black = 16;
+    public static final int NONE = 0;
+    public static final int PAWN = 1;
+    public static final int KNIGHT = 2;
+    public static final int BISHOP = 3;
+    public static final int ROOK = 4;
+    public static final int KING = 5;
+    public static final int QUEEN = 6;
+
+    public static final int WHITE = 8;
+    public static final int BLACK = 16;
 
     public static boolean IsColour (int piece, int colour) {
         return (piece & colour) != 0;
@@ -22,15 +26,15 @@ public class Piece {
     }
 
     public static boolean IsRookOrQueen (int piece) {
-        return PieceType(piece) == Rook || PieceType(piece) == Queen;
+        return PieceType(piece) == ROOK || PieceType(piece) == QUEEN;
     }
 
     public static boolean IsBishopOrQueen (int piece) {
-        return PieceType(piece) == Bishop || PieceType(piece) == Queen;
+        return PieceType(piece) == BISHOP || PieceType(piece) == QUEEN;
     }
 
     public static boolean IsSlidingPiece (int piece) {
-        return PieceType(piece) == Rook || PieceType(piece) == Queen || PieceType(piece) == Bishop;
+        return PieceType(piece) == ROOK || PieceType(piece) == QUEEN || PieceType(piece) == BISHOP;
     }
 
     public static boolean PieceChecker(int pieceToCheck, int referencePiece){
@@ -49,29 +53,25 @@ public class Piece {
             case 1 -> {
                 return "Pawn";
             }
-
             case 2 -> {
                 return "Knight";
             }
-
             case 3 -> {
                 return "Bishop";
             }
-
             case 4 -> {
                 return "Rook";
             }
-
             case 5 -> {
                 return "King";
             }
-
             case 6 -> {
                 return "Queen";
             }
+            default -> {
+                return "None";
+            }
         }
-
-        return "None";
     }
 
     public static String PosFromIndex (int index){
