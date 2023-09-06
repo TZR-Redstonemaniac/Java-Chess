@@ -12,7 +12,7 @@ public class MoveGenerator {
     }
 
     //region Variables
-    private static ArrayList<Move> moves;
+    private static ArrayList<Move> moves = new ArrayList<>();
 
     private static boolean firstIteration;
     private static int totalNodes = 0;
@@ -75,7 +75,7 @@ public class MoveGenerator {
         return legalMoves;
     }
 
-    private static void GenerateSlidingMoves (int start, int piece){
+    public static void GenerateSlidingMoves (int start, int piece){
         int startDirIndex = Piece.PieceType(piece) == Piece.BISHOP ? 4: 0;
         int endDirIndex = Piece.PieceType(piece) == Piece.ROOK ? 4: 8;
 
@@ -93,7 +93,7 @@ public class MoveGenerator {
         }
     }
 
-    private static void GenerateKnightMoves (int startSquare){ //NOSONAR
+    public static void GenerateKnightMoves (int startSquare){ //NOSONAR
         if ((startSquare - 1) % 8 != 0 && startSquare % 8 != 0)
         {
             if (startSquare < 56)
@@ -163,7 +163,7 @@ public class MoveGenerator {
         }
     }
 
-    private static void GeneratePawnMoves (int startSquare) {
+    public static void GeneratePawnMoves (int startSquare) {
         if (Board.colorToMove == Piece.WHITE){
             int target = startSquare + 8;
             int piece = Board.GetSquare()[target];
@@ -191,14 +191,7 @@ public class MoveGenerator {
         }
     }
 
-    private static void GeneratePromotionMoves(int startSquare, int target, int color){
-        moves.add(new Move(startSquare, target, Piece.ROOK | color));
-        moves.add(new Move(startSquare, target, Piece.KNIGHT | color));
-        moves.add(new Move(startSquare, target, Piece.BISHOP | color));
-        moves.add(new Move(startSquare, target, Piece.QUEEN | color));
-    }
-
-    private static void GenerateKingMoves (int startSquare) {
+    public static void GenerateKingMoves (int startSquare) {
         for (int dir = 0; dir < 8; dir++){
             int target = startSquare + PrecomputedMoveData.DirectionOffsets[dir];
             if (target < 0 || target > 63) continue;
@@ -259,7 +252,7 @@ public class MoveGenerator {
             moves.add(new Move(startSquare, startSquare - 2));
     }
 
-    private static void GeneratePawnCaptures (int startSquare, int target) {
+    public static void GeneratePawnCaptures (int startSquare, int target) {
         if (target + 1 < 64 && (target - 7) % 8 != 0 && Board.GetSquare()[target + 1] != Piece.NONE && Piece.IsColour(Board.GetSquare()[target + 1], Board.opponentColor))
         {
             if (target + 1 >= 56) GeneratePromotionMoves(startSquare, target + 1, Piece.WHITE);
@@ -275,6 +268,13 @@ public class MoveGenerator {
 
         if (target + 1 < 64 && (target - 7) % 8 != 0  && Board.enPassantSquare[startSquare + 1]) moves.add(new Move(startSquare, target + 1));
         if (target - 1 >= 0 && target % 8 != 0  && Board.enPassantSquare[startSquare - 1]) moves.add(new Move(startSquare, target - 1));
+    }
+
+    public static void GeneratePromotionMoves(int startSquare, int target, int color){
+        moves.add(new Move(startSquare, target, Piece.ROOK | color));
+        moves.add(new Move(startSquare, target, Piece.KNIGHT | color));
+        moves.add(new Move(startSquare, target, Piece.BISHOP | color));
+        moves.add(new Move(startSquare, target, Piece.QUEEN | color));
     }
 
     public static int MoveGenerationTest(int depth, float delay) {
@@ -325,5 +325,13 @@ public class MoveGenerator {
     public static void Reset(){
         divide.delete(0, divide.length() - 1);
         totalNodes = 0;
+    }
+
+    public static List<Move> GetMoves(){
+        return moves;
+    }
+
+    public static void ClearMoves(){
+        moves = new ArrayList<>();
     }
 }

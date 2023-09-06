@@ -25,18 +25,6 @@ public class Piece {
         return piece > 16 ? piece - 16 : piece - 8;
     }
 
-    public static boolean IsRookOrQueen (int piece) {
-        return PieceType(piece) == ROOK || PieceType(piece) == QUEEN;
-    }
-
-    public static boolean IsBishopOrQueen (int piece) {
-        return PieceType(piece) == BISHOP || PieceType(piece) == QUEEN;
-    }
-
-    public static boolean IsSlidingPiece (int piece) {
-        return PieceType(piece) == ROOK || PieceType(piece) == QUEEN || PieceType(piece) == BISHOP;
-    }
-
     public static boolean PieceChecker(int pieceToCheck, int referencePiece){
         return PieceType(pieceToCheck) == referencePiece;
     }

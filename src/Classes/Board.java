@@ -724,5 +724,9 @@ public class Board {
         square[index] = value;
     }
 
+    public static void SetColour(int color){
+        colorToMove = color;
+    }
+
     //endregion
 }
