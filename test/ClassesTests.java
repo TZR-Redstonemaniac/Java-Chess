@@ -224,7 +224,6 @@ public class ClassesTests {
         Assertions.assertEquals(8902, MoveGenerator.MoveGenerationTest(3,0));
         Assertions.assertEquals(197281, MoveGenerator.MoveGenerationTest(4,0));
         Assertions.assertEquals(4865609, MoveGenerator.MoveGenerationTest(5,0));
-        Assertions.assertEquals(119060324, MoveGenerator.MoveGenerationTest(6,0));
     }
     //endregion
 

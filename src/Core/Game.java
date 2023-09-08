@@ -22,7 +22,6 @@ public class Game {
     public static void main(String[] args) { //NOSONAR
         PrecomputedMoveData.Init();
 
-
         //noinspection InfiniteLoopStatement
         while (true) MainGameLoop(); //NOSONAR
     }

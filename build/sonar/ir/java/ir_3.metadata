@@ -1,0 +1,7 @@
+Core.Draw#DrawPiece(Ljava/awt/Graphics2D;III)V
+Classes.Piece#IsColour(II)Z
+Classes.Board#GetSquare()[I
+Classes.Piece#PieceType(I)I
+==
+log java.util.logging.Logger#log(Ljava/util/logging/Level;Ljava/lang/String;)V
+drawImage java.awt.Graphics#drawImage(Ljava/awt/Image;IIIILjava/awt/image/ImageObserver;)Z

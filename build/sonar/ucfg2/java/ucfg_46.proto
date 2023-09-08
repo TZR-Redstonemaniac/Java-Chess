@@ -1,0 +1,168 @@
+
+/Classes.Board#FromWhereIsTheSquareAttacked(II)IF
+:/home/khalid/IntellijProjects/Chess/src/Classes/Board.javaÕ Õ(2"12*%
+2
+æ$ æ(+"
+
+æ æ(,
+""*Ý
+3
+å å(,Ø
+Õ
+
+å å(I
+%5java.lang.Integer"7Classes.Board#KingAttackLocation(II)Ljava/lang/Integer;*-
+
+__unknown_file ("
+Classes.Board*"
+
+__unknown_file (
+""*"
+
+__unknown_file (
+""i
+g
+
+å å(J
+target4java.lang.Integer"__id*5
+
+__unknown_file (
+
+%5java.lang.Integer*
+2
+1*%
+4
+â$ â(+"
+
+â â(,
+""*à
+5
+á á(/Û
+Ø
+
+á á(L
+%4java.lang.Integer":Classes.Board#SlidingAttackLocation(II)Ljava/lang/Integer;*-
+
+__unknown_file ("
+Classes.Board*"
+
+__unknown_file (
+""*"
+
+__unknown_file (
+""i
+g
+
+á á(M
+target3java.lang.Integer"__id*5
+
+__unknown_file (
+
+%4java.lang.Integer*
+3
+4*%
+6
+Þ$ Þ(+"
+
+Þ Þ(,
+""*ß
+7
+Ý Ý(.Ú
+×
+
+Ý Ý(K
+%3java.lang.Integer"9Classes.Board#KnightAttackLocation(II)Ljava/lang/Integer;*-
+
+__unknown_file ("
+Classes.Board*"
+
+__unknown_file (
+""*"
+
+__unknown_file (
+""i
+g
+
+Ý Ý(L
+target2java.lang.Integer"__id*5
+
+__unknown_file (
+
+%3java.lang.Integer*
+5
+6*%
+8
+Ú$ Ú(+"
+
+Ú Ú(,
+""*Ý
+9
+Ù Ù(,Ø
+Õ
+
+Ù Ù(I
+%2java.lang.Integer"7Classes.Board#PawnAttackLocation(II)Ljava/lang/Integer;*-
+
+__unknown_file ("
+Classes.Board*"
+
+__unknown_file (
+""*"
+
+__unknown_file (
+""i
+g
+
+Ù Ù(J
+target1java.lang.Integer"__id*5
+
+__unknown_file (
+
+%2java.lang.Integer*
+7
+8*&
+10
+Öz Ö({"
+
+Ör Ö(|
+""*Î
+11
+Ö7 Ö(<²
+¯
+
+Ö7 Ö(p
+%1boolean"Classes.Piece#IsColour(II)Z*-
+
+__unknown_file ("
+Classes.Piece*"
+
+__unknown_file (
+""*"
+
+__unknown_file (
+""*
+9
+10*^
+12
+Ö Ö(C
+A
+
+Ö) Ö(3	
+%0int"__id*"
+
+__unknown_file (
+""*
+9
+11*%
+1
+é é("
+
+é é(
+"": 
+
+__unknown_file (
+"": 
+
+__unknown_file (
+""B"
+Classes.BoardHP

@@ -1,0 +1,6 @@
+Classes.Board#WhatIsSquareAttackedBy(II)Ljava/lang/String;
+Classes.Piece#IsColour(II)Z
+Classes.Board#KnightAttackerChecker(II)Ljava/lang/String;
+Classes.Board#KingAttackerChecker(II)Ljava/lang/String;
+Classes.Board#PawnAttackerChecker(II)Ljava/lang/String;
+Classes.Board#SlidingAttackerChecker(II)Ljava/lang/String;

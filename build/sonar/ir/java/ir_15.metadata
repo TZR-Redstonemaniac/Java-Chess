@@ -1,0 +1,5 @@
+Core.GUI#HideAttackedSquares(Ljava/awt/event/ActionEvent;)V
+java.util.ArrayList#<init>()V
+java.util.ArrayList#instance-init#
+==
+setText javax.swing.text.JTextComponent#setText(Ljava/lang/String;)V

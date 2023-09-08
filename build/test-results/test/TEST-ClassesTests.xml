@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ClassesTests" tests="10" skipped="0" failures="0" errors="0" timestamp="2023-09-07T06:06:27" hostname="khalids-laptop" time="689.192">
+  <properties/>
+  <testcase name="PieceNameTest()" classname="ClassesTests" time="0.034"/>
+  <testcase name="IsColourTest()" classname="ClassesTests" time="0.002"/>
+  <testcase name="GenerateSlidingMovesTest()" classname="ClassesTests" time="0.01"/>
+  <testcase name="GenerateKingMovesTest()" classname="ClassesTests" time="0.001"/>
+  <testcase name="PieceTypeTest()" classname="ClassesTests" time="0.001"/>
+  <testcase name="GenerateKnightMovesTest()" classname="ClassesTests" time="0.001"/>
+  <testcase name="GeneratePawnMovesTest()" classname="ClassesTests" time="0.001"/>
+  <testcase name="PosFromIndexTest()" classname="ClassesTests" time="0.008"/>
+  <testcase name="PieceCheckerTest()" classname="ClassesTests" time="0.001"/>
+  <testcase name="MoveGenerationTestTest()" classname="ClassesTests" time="689.116"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

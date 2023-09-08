@@ -1,0 +1,9 @@
+Classes.Board#UnmakeMove()V
+==
+get java.util.ArrayList#get(I)Ljava/lang/Object;
+isEmpty java.util.List#isEmpty()Z
+get java.util.List#get(I)Ljava/lang/Object;
+remove java.util.List#remove(I)Ljava/lang/Object;
+remove java.util.ArrayList#remove(I)Ljava/lang/Object;
+size java.util.ArrayList#size()I
+size java.util.List#size()I

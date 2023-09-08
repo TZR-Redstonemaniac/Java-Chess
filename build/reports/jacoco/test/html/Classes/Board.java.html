@@ -1,0 +1,733 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Board.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Chess</a> &gt; <a href="index.source.html" class="el_package">Classes</a> &gt; <span class="el_source">Board.java</span></div><h1>Board.java</h1><pre class="source lang-java linenums">package Classes;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@SuppressWarnings(&quot;RedundantIfStatement&quot;)
+public class Board {
+
+    //region Constructor
+<span class="nc" id="L12">    private Board() {</span>
+<span class="nc" id="L13">        throw new IllegalStateException(&quot;Utility class&quot;);</span>
+    }
+    //endregion
+
+    //region Variables
+<span class="fc" id="L18">    private static final Map&lt;String, Object&gt;[] Squares = new HashMap[64];</span>
+
+<span class="fc" id="L20">    private static int[] square = new int[64];</span>
+<span class="fc" id="L21">    public static boolean[] enPassantSquare = new boolean[64]; //NOSONAR</span>
+
+<span class="fc" id="L23">    public static final List&lt;int[]&gt; prevSquares = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L24">    public static ArrayList&lt;boolean[]&gt; prevEnPassantSquares = new ArrayList&lt;&gt;(); //NOSONAR</span>
+    
+<span class="fc" id="L26">    public static final List&lt;Integer&gt; prevColorToMove = new ArrayList&lt;&gt;();</span>
+    
+<span class="fc" id="L28">    public static final List&lt;Boolean&gt; prevWKCastling = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L29">    public static final List&lt;Boolean&gt; prevWQCastling = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L30">    public static final List&lt;Boolean&gt; prevBKCastling = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L31">    public static final List&lt;Boolean&gt; prevBQCastling = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L33">    public static int colorToMove = Piece.WHITE; //NOSONAR</span>
+<span class="fc" id="L34">    public static int opponentColor = Piece.BLACK; //NOSONAR</span>
+
+<span class="fc" id="L36">    public static boolean wKingsideCastle = true; //NOSONAR</span>
+<span class="fc" id="L37">    public static boolean wQueensideCastle = true; //NOSONAR</span>
+<span class="fc" id="L38">    public static boolean bKingsideCastle = true; //NOSONAR</span>
+<span class="fc" id="L39">    public static boolean bQueensideCastle = true; //NOSONAR</span>
+    //endregion
+
+    //region Methods
+    public static Map&lt;String, Object&gt;[] GetSquares () {
+<span class="nc" id="L44">        return Squares;</span>
+    }
+
+    public static void MakeMove(Move move){
+        //Save the board position before making the move
+<span class="fc" id="L49">        prevSquares.add(square.clone());</span>
+<span class="fc" id="L50">        prevEnPassantSquares.add(enPassantSquare.clone());</span>
+
+<span class="fc" id="L52">        int newColorToMove = colorToMove;</span>
+<span class="fc" id="L53">        prevColorToMove.add(newColorToMove);</span>
+
+<span class="fc" id="L55">        boolean newWKingsideCastle = wKingsideCastle;</span>
+<span class="fc" id="L56">        prevWKCastling.add(newWKingsideCastle);</span>
+
+<span class="fc" id="L58">        boolean newBKingsideCastle = bKingsideCastle;</span>
+<span class="fc" id="L59">        prevBKCastling.add(newBKingsideCastle);</span>
+
+<span class="fc" id="L61">        boolean newWQueensideCastle = wQueensideCastle;</span>
+<span class="fc" id="L62">        prevWQCastling.add(newWQueensideCastle);</span>
+
+<span class="fc" id="L64">        boolean newBQueensideCastle = bQueensideCastle;</span>
+<span class="fc" id="L65">        prevBQCastling.add(newBQueensideCastle);</span>
+
+        //Set pieceToMove to the piece being moved
+<span class="fc" id="L68">        int pieceToMove = square[move.startSquare];</span>
+
+<span class="fc" id="L70">        Castling(pieceToMove, move);</span>
+
+<span class="fc" id="L72">        EnPassant(pieceToMove, move);</span>
+
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        for (int i = 0; i &lt; 64; i++) enPassantSquare[i] = false;</span>
+
+<span class="fc bfc" id="L76" title="All 6 branches covered.">        if (Piece.PieceChecker(pieceToMove, Piece.PAWN) &amp;&amp; (move.startSquare + 16 == move.targetSquare || move.startSquare - 16 == move.targetSquare))</span>
+<span class="fc" id="L77">            enPassantSquare[move.targetSquare] = true;</span>
+
+        //Set the target square to the piece and remove it from the starting square
+<span class="fc" id="L80">        square[move.targetSquare] = square[move.startSquare];</span>
+<span class="fc" id="L81">        square[move.startSquare] = 0;</span>
+
+        //Promotion
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">        if (move.promoPiece != Piece.NONE){</span>
+<span class="nc" id="L85">            Board.square[move.targetSquare] = move.promoPiece;</span>
+        }
+
+        //Swap the color to move
+<span class="fc bfc" id="L89" title="All 2 branches covered.">        colorToMove = colorToMove == Piece.WHITE ? Piece.BLACK : Piece.WHITE;</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">        opponentColor = colorToMove == Piece.WHITE ? Piece.BLACK : Piece.WHITE;</span>
+
+        //Castling checks
+<span class="fc bfc" id="L93" title="All 2 branches covered.">        if (Piece.PieceChecker(pieceToMove, Piece.KING, Piece.WHITE)) {</span>
+<span class="fc" id="L94">            wKingsideCastle = false;</span>
+<span class="fc" id="L95">            wQueensideCastle = false;</span>
+        }
+<span class="fc bfc" id="L97" title="All 2 branches covered.">        if (Piece.PieceChecker(pieceToMove, Piece.KING, Piece.BLACK)) {</span>
+<span class="fc" id="L98">            bKingsideCastle = false;</span>
+<span class="fc" id="L99">            bQueensideCastle = false;</span>
+        }
+<span class="fc" id="L101">    }</span>
+
+    public static void UnmakeMove(){
+<span class="pc bpc" id="L104" title="1 of 2 branches missed.">        if (prevSquares.isEmpty()) return;</span>
+
+<span class="fc" id="L106">        square = prevSquares.get(prevSquares.size() - 1);</span>
+<span class="fc" id="L107">        prevSquares.remove(prevSquares.size() - 1);</span>
+
+<span class="fc" id="L109">        enPassantSquare = prevEnPassantSquares.get(prevEnPassantSquares.size() - 1);</span>
+<span class="fc" id="L110">        prevEnPassantSquares.remove(prevEnPassantSquares.size() - 1);</span>
+
+<span class="fc" id="L112">        colorToMove = prevColorToMove.get(prevColorToMove.size() - 1);</span>
+<span class="fc" id="L113">        prevColorToMove.remove(prevColorToMove.size() - 1);</span>
+
+<span class="fc" id="L115">        wKingsideCastle = prevWKCastling.get(prevWKCastling.size() - 1);</span>
+<span class="fc" id="L116">        bKingsideCastle = prevBKCastling.get(prevBKCastling.size() - 1);</span>
+<span class="fc" id="L117">        wQueensideCastle = prevWQCastling.get(prevWQCastling.size() - 1);</span>
+<span class="fc" id="L118">        bQueensideCastle = prevBQCastling.get(prevBQCastling.size() - 1);</span>
+
+<span class="fc" id="L120">        prevWKCastling.remove(prevWKCastling.size() - 1);</span>
+<span class="fc" id="L121">        prevBKCastling.remove(prevBKCastling.size() - 1);</span>
+<span class="fc" id="L122">        prevWQCastling.remove(prevWQCastling.size() - 1);</span>
+<span class="fc" id="L123">        prevBQCastling.remove(prevBQCastling.size() - 1);</span>
+<span class="fc" id="L124">    }</span>
+    //endregion
+
+    //region Constructor
+    public static void Init(){
+<span class="fc" id="L129">        int index = 0;</span>
+
+<span class="fc bfc" id="L131" title="All 2 branches covered.">        for (int column = 7; column &gt;= 0; column--){</span>
+<span class="fc bfc" id="L132" title="All 2 branches covered.">            for (int row = 0; row &lt; 8; row++){</span>
+<span class="fc" id="L133">                Squares[index] = new HashMap&lt;&gt;();</span>
+
+<span class="fc bfc" id="L135" title="All 2 branches covered.">                boolean isLight = (column + row) % 2 == 0;</span>
+
+<span class="fc bfc" id="L137" title="All 2 branches covered.">                if (isLight) {</span>
+<span class="fc" id="L138">                    Squares[index].put(&quot;x&quot;, row * 100);</span>
+<span class="fc" id="L139">                    Squares[index].put(&quot;y&quot;, column * 100);</span>
+<span class="fc" id="L140">                    Squares[index].put(&quot;w&quot;, 100);</span>
+<span class="fc" id="L141">                    Squares[index].put(&quot;h&quot;, 100);</span>
+<span class="fc" id="L142">                    Squares[index].put(&quot;r&quot;, 232);</span>
+<span class="fc" id="L143">                    Squares[index].put(&quot;g&quot;, 209);</span>
+<span class="fc" id="L144">                    Squares[index].put(&quot;b&quot;, 184);</span>
+<span class="fc" id="L145">                    Squares[index].put(&quot;mr&quot;, 217);</span>
+<span class="fc" id="L146">                    Squares[index].put(&quot;mg&quot;, 66);</span>
+<span class="fc" id="L147">                    Squares[index].put(&quot;mb&quot;, 78);</span>
+                }
+                else {
+<span class="fc" id="L150">                    Squares[index].put(&quot;x&quot;, row * 100);</span>
+<span class="fc" id="L151">                    Squares[index].put(&quot;y&quot;, column * 100);</span>
+<span class="fc" id="L152">                    Squares[index].put(&quot;w&quot;, 100);</span>
+<span class="fc" id="L153">                    Squares[index].put(&quot;h&quot;, 100);</span>
+<span class="fc" id="L154">                    Squares[index].put(&quot;r&quot;, 121);</span>
+<span class="fc" id="L155">                    Squares[index].put(&quot;g&quot;, 83);</span>
+<span class="fc" id="L156">                    Squares[index].put(&quot;b&quot;, 73);</span>
+<span class="fc" id="L157">                    Squares[index].put(&quot;mr&quot;, 173);</span>
+<span class="fc" id="L158">                    Squares[index].put(&quot;mg&quot;, 43);</span>
+<span class="fc" id="L159">                    Squares[index].put(&quot;mb&quot;, 50);</span>
+                }
+
+<span class="fc" id="L162">                index++;</span>
+            }
+        }
+<span class="fc" id="L165">    }</span>
+
+    public static boolean IsSquareAttacked (int startSquare, int attackingColor) {
+<span class="fc bfc" id="L168" title="All 4 branches covered.">        if (Board.square[startSquare] != Piece.NONE &amp;&amp; Piece.IsColour(Board.square[startSquare], attackingColor)) return false;</span>
+
+        // Check if the square is attacked by a pawn
+<span class="pc bpc" id="L171" title="1 of 2 branches missed.">        if (AttackedByPawn(startSquare, attackingColor)) return true;</span>
+
+        // Check if the square is attacked by a knight
+<span class="fc bfc" id="L174" title="All 2 branches covered.">        if (AttackedByKnight(startSquare, attackingColor)) return true;</span>
+
+        // Check if the square is attacked by a bishop or rook or queen
+<span class="fc bfc" id="L177" title="All 2 branches covered.">        if (AttackedBySlidingPiece(startSquare, attackingColor)) return true;</span>
+
+        // Check if the square is attacked by a king
+<span class="pc bpc" id="L180" title="1 of 2 branches missed.">        if (AttackedByKing(startSquare, attackingColor)) return true; //NOSONAR</span>
+
+        // If none of the above conditions were met, the square is not attacked
+<span class="fc" id="L183">        return false;</span>
+    }
+
+
+
+    public static String WhatIsSquareAttackedBy (int startSquare, int attackingColor) {
+<span class="nc bnc" id="L189" title="All 4 branches missed.">        if (Board.square[startSquare] != Piece.NONE &amp;&amp; Piece.IsColour(Board.square[startSquare], attackingColor)) return &quot;None&quot;;</span>
+
+        // Check if the square is attacked by a pawn
+<span class="nc" id="L192">        String pawn = PawnAttackerChecker(startSquare, attackingColor);</span>
+<span class="nc bnc" id="L193" title="All 2 branches missed.">        if (pawn != null) return pawn;</span>
+
+        // Check if the square is attacked by a knight
+<span class="nc" id="L196">        String knight = KnightAttackerChecker(startSquare, attackingColor);</span>
+<span class="nc bnc" id="L197" title="All 2 branches missed.">        if (knight != null) return knight;</span>
+
+        // Check if the square is attacked by a bishop or queen
+<span class="nc" id="L200">        String sliding = SlidingAttackerChecker(startSquare, attackingColor);</span>
+<span class="nc bnc" id="L201" title="All 2 branches missed.">        if (sliding != null) return sliding;</span>
+
+        // Check if the square is attacked by a king
+<span class="nc" id="L204">        String king = KingAttackerChecker(startSquare, attackingColor);</span>
+<span class="nc bnc" id="L205" title="All 2 branches missed.">        if (king != null) return king;</span>
+
+        // If none of the above conditions were met, the square is not attacked
+<span class="nc" id="L208">        return &quot;None&quot;;</span>
+    }
+
+
+
+    public static int FromWhereIsTheSquareAttacked (int startSquare, int attackingColor) {
+<span class="nc bnc" id="L214" title="All 4 branches missed.">        if (Board.square[startSquare] != Piece.NONE &amp;&amp; Piece.IsColour(Board.square[startSquare], attackingColor)) return -1;</span>
+
+        // Check if the square is attacked by a pawn
+<span class="nc" id="L217">        Integer target1 = PawnAttackLocation(startSquare, attackingColor);</span>
+<span class="nc bnc" id="L218" title="All 2 branches missed.">        if (target1 != null) return target1;</span>
+
+        // Check if the square is attacked by a knight
+<span class="nc" id="L221">        Integer target2 = KnightAttackLocation(startSquare, attackingColor);</span>
+<span class="nc bnc" id="L222" title="All 2 branches missed.">        if (target2 != null) return target2;</span>
+
+        // Check if the square is attacked by a bishop or rook or queen
+<span class="nc" id="L225">        Integer target3 = SlidingAttackLocation(startSquare, attackingColor);</span>
+<span class="nc bnc" id="L226" title="All 2 branches missed.">        if (target3 != null) return target3;</span>
+
+        // Check if the square is attacked by a king
+<span class="nc" id="L229">        Integer target4 = KingAttackLocation(startSquare, attackingColor);</span>
+<span class="nc bnc" id="L230" title="All 2 branches missed.">        if (target4 != null) return target4;</span>
+
+        // If none of the above conditions were met, the square is not attacked
+<span class="nc" id="L233">        return -1;</span>
+    }
+
+    //endregion
+
+    //region Convenience
+
+    //region Special Moves
+    private static void Castling(int pieceToMove, Move move){
+        //Perform castling
+<span class="fc bfc" id="L243" title="All 2 branches covered.">        if (Piece.PieceChecker(pieceToMove, Piece.KING)) {</span>
+<span class="pc bpc" id="L244" title="1 of 2 branches missed.">            if (move.startSquare + 2 == move.targetSquare) {</span>
+<span class="nc" id="L245">                square[move.startSquare + 1] = square[move.targetSquare + 1];</span>
+<span class="nc" id="L246">                square[move.targetSquare + 1] = Piece.NONE;</span>
+
+<span class="nc bnc" id="L248" title="All 2 branches missed.">                if (colorToMove == Piece.WHITE) {</span>
+<span class="nc" id="L249">                    wKingsideCastle = false;</span>
+<span class="nc" id="L250">                    wQueensideCastle = false;</span>
+                }
+                else {
+<span class="nc" id="L253">                    bKingsideCastle = false;</span>
+<span class="nc" id="L254">                    bQueensideCastle = false;</span>
+                }
+<span class="pc bpc" id="L256" title="1 of 2 branches missed.">            } else if (move.startSquare - 2 == move.targetSquare) {</span>
+<span class="nc" id="L257">                square[move.startSquare - 1] = square[move.targetSquare - 2];</span>
+<span class="nc" id="L258">                square[move.targetSquare - 2] = Piece.NONE;</span>
+
+<span class="nc bnc" id="L260" title="All 2 branches missed.">                if (colorToMove == Piece.WHITE) {</span>
+<span class="nc" id="L261">                    wKingsideCastle = false;</span>
+<span class="nc" id="L262">                    wQueensideCastle = false;</span>
+                }
+                else {
+<span class="nc" id="L265">                    bKingsideCastle = false;</span>
+<span class="nc" id="L266">                    bQueensideCastle = false;</span>
+                }
+            }
+        }
+<span class="fc" id="L270">    }</span>
+
+    private static void EnPassant(int pieceToMove, Move move){
+        //En-passant managing
+<span class="fc bfc" id="L274" title="All 8 branches covered.">        if (Piece.PieceChecker(pieceToMove, Piece.PAWN) &amp;&amp;</span>
+                (move.startSquare + 9 == move.targetSquare || move.startSquare + 7 == move.targetSquare) &amp;&amp; enPassantSquare[move.targetSquare - 8])
+<span class="fc" id="L276">            square[move.targetSquare - 8] = Piece.NONE;</span>
+<span class="fc bfc" id="L277" title="All 8 branches covered.">        if (Piece.PieceChecker(pieceToMove, Piece.PAWN) &amp;&amp;</span>
+                (move.startSquare - 9 == move.targetSquare || move.startSquare - 7 == move.targetSquare) &amp;&amp; enPassantSquare[move.targetSquare + 8])
+<span class="fc" id="L279">            square[move.targetSquare + 8] = Piece.NONE;</span>
+<span class="fc" id="L280">    }</span>
+    //endregion
+
+    //region Attacking Checks
+    private static boolean AttackedByKing (int startSquare, int attackingColor) { //NOSONAR
+<span class="fc bfc" id="L285" title="All 2 branches covered.">        for (int dir = 0; dir &lt; 8; dir++){</span>
+<span class="fc" id="L286">            int target = startSquare + PrecomputedMoveData.DirectionOffsets[dir];</span>
+<span class="fc bfc" id="L287" title="All 4 branches covered.">            if (target &lt; 0 || target &gt; 63) continue;</span>
+
+<span class="pc bpc" id="L289" title="20 of 32 branches missed.">            if (((startSquare - 7) % 8 == 0 &amp;&amp; (PrecomputedMoveData.DirectionOffsets[dir] == 9 || PrecomputedMoveData.DirectionOffsets[dir] == 1</span>
+                    || PrecomputedMoveData.DirectionOffsets[dir] == -7)) ||
+                (startSquare % 8 == 0 &amp;&amp; (PrecomputedMoveData.DirectionOffsets[dir] == -9 || PrecomputedMoveData.DirectionOffsets[dir] == -1
+                        || PrecomputedMoveData.DirectionOffsets[dir] == 7)) ||
+                (startSquare &gt;= 56 &amp;&amp; (PrecomputedMoveData.DirectionOffsets[dir] == 9 || PrecomputedMoveData.DirectionOffsets[dir] == 8
+                        || PrecomputedMoveData.DirectionOffsets[dir] == 7)) ||
+                (startSquare &lt;= 7 &amp;&amp; (PrecomputedMoveData.DirectionOffsets[dir] == -9 || PrecomputedMoveData.DirectionOffsets[dir] == -8
+<span class="nc" id="L296">                        || PrecomputedMoveData.DirectionOffsets[dir] == -7))) continue;</span>
+
+<span class="fc" id="L298">            int piece = Board.square[target];</span>
+
+<span class="fc bfc" id="L300" title="All 4 branches covered.">            if (piece == Piece.NONE || !Piece.IsColour(piece, attackingColor)) continue;</span>
+<span class="pc bpc" id="L301" title="1 of 2 branches missed.">            if (Piece.PieceChecker(piece, Piece.KING, attackingColor)) return true;</span>
+        }
+<span class="fc" id="L303">        return false;</span>
+    }
+
+    private static boolean AttackedBySlidingPiece (int startSquare, int attackingColor) {
+<span class="fc bfc" id="L307" title="All 2 branches covered.">        for (int dirIndex = 4; dirIndex &lt; 8; dirIndex++){</span>
+<span class="fc bfc" id="L308" title="All 2 branches covered.">            for (int n = 0; n &lt; PrecomputedMoveData.NumSquaresToEdge[startSquare][dirIndex]; n++){</span>
+<span class="fc" id="L309">                int target = startSquare + PrecomputedMoveData.DirectionOffsets[dirIndex] * (n + 1);</span>
+<span class="fc" id="L310">                int pieceOnTarget = Board.square[target];</span>
+
+<span class="fc bfc" id="L312" title="All 2 branches covered.">                if (pieceOnTarget == Piece.NONE) continue;</span>
+
+<span class="fc bfc" id="L314" title="All 4 branches covered.">                if (Piece.PieceChecker(pieceOnTarget, Piece.BISHOP, attackingColor) || Piece.PieceChecker(pieceOnTarget, Piece.QUEEN, attackingColor)) return true;</span>
+
+                break;
+            }
+        }
+
+<span class="fc bfc" id="L320" title="All 2 branches covered.">        for (int dirIndex = 0; dirIndex &lt; 4; dirIndex++){</span>
+<span class="fc bfc" id="L321" title="All 2 branches covered.">            for (int n = 0; n &lt; PrecomputedMoveData.NumSquaresToEdge[startSquare][dirIndex]; n++){</span>
+<span class="fc" id="L322">                int target = startSquare + PrecomputedMoveData.DirectionOffsets[dirIndex] * (n + 1);</span>
+<span class="fc" id="L323">                int pieceOnTarget = Board.square[target];</span>
+
+<span class="fc bfc" id="L325" title="All 2 branches covered.">                if (pieceOnTarget == Piece.NONE) continue;</span>
+
+<span class="pc bpc" id="L327" title="1 of 4 branches missed.">                if (Piece.PieceChecker(pieceOnTarget, Piece.ROOK, attackingColor) || Piece.PieceChecker(pieceOnTarget, Piece.QUEEN, attackingColor)) return true;</span>
+
+                break;
+            }
+        }
+<span class="fc" id="L332">        return false;</span>
+    }
+
+    private static boolean AttackedByKnight (int startSquare, int attackingColor) { //NOSONAR
+<span class="pc bpc" id="L336" title="2 of 4 branches missed.">        if ((startSquare - 1) % 8 != 0 &amp;&amp; startSquare % 8 != 0)</span>
+        {
+<span class="fc bfc" id="L338" title="All 2 branches covered.">            if (startSquare &lt; 56)</span>
+            {
+<span class="fc" id="L340">                var targetSquare = startSquare + 6;</span>
+<span class="fc" id="L341">                int pieceOnTarget = Board.square[targetSquare];</span>
+<span class="fc bfc" id="L342" title="All 2 branches covered.">                if (pieceOnTarget == (Piece.KNIGHT | attackingColor)) return true;</span>
+            }
+
+<span class="fc bfc" id="L345" title="All 2 branches covered.">            if (startSquare &gt; 7)</span>
+            {
+<span class="fc" id="L347">                var targetSquare = startSquare - 10;</span>
+<span class="fc" id="L348">                int pieceOnTarget = Board.square[targetSquare];</span>
+<span class="fc bfc" id="L349" title="All 2 branches covered.">                if (pieceOnTarget == (Piece.KNIGHT | attackingColor)) return true;</span>
+            }
+        }
+
+<span class="fc bfc" id="L353" title="All 2 branches covered.">        if (startSquare &lt; 48)</span>
+        {
+<span class="pc bpc" id="L355" title="1 of 2 branches missed.">            if (startSquare % 8 != 0)</span>
+            {
+<span class="fc" id="L357">                var targetSquare = startSquare + 15;</span>
+<span class="fc" id="L358">                int pieceOnTarget = Board.square[targetSquare];</span>
+<span class="fc bfc" id="L359" title="All 2 branches covered.">                if (pieceOnTarget == (Piece.KNIGHT | attackingColor)) return true;</span>
+            }
+
+<span class="pc bpc" id="L362" title="1 of 2 branches missed.">            if ((startSquare - 7) % 8 != 0)</span>
+            {
+<span class="fc" id="L364">                var targetSquare = startSquare + 17;</span>
+<span class="fc" id="L365">                int pieceOnTarget = Board.square[targetSquare];</span>
+<span class="fc bfc" id="L366" title="All 2 branches covered.">                if (pieceOnTarget == (Piece.KNIGHT | attackingColor)) return true;</span>
+            }
+        }
+
+<span class="pc bpc" id="L370" title="1 of 4 branches missed.">        if ((startSquare - 6) % 8 != 0 &amp;&amp; (startSquare - 7) % 8 != 0)</span>
+        {
+<span class="fc bfc" id="L372" title="All 2 branches covered.">            if (startSquare &lt; 56)</span>
+            {
+<span class="fc" id="L374">                var targetSquare = startSquare + 10;</span>
+<span class="fc" id="L375">                int pieceOnTarget = Board.square[targetSquare];</span>
+<span class="fc bfc" id="L376" title="All 2 branches covered.">                if (pieceOnTarget == (Piece.KNIGHT | attackingColor)) return true;</span>
+            }
+
+<span class="fc bfc" id="L379" title="All 2 branches covered.">            if (startSquare &gt; 7)</span>
+            {
+<span class="fc" id="L381">                var targetSquare = startSquare - 6;</span>
+<span class="fc" id="L382">                int pieceOnTarget = Board.square[targetSquare];</span>
+<span class="fc bfc" id="L383" title="All 2 branches covered.">                if (pieceOnTarget == (Piece.KNIGHT | attackingColor)) return true;</span>
+            }
+        }
+
+<span class="fc bfc" id="L387" title="All 2 branches covered.">        if (startSquare &gt; 15)</span>
+        {
+<span class="pc bpc" id="L389" title="1 of 2 branches missed.">            if (startSquare % 8 != 0)</span>
+            {
+<span class="fc" id="L391">                var targetSquare = startSquare - 17;</span>
+<span class="fc" id="L392">                int pieceOnTarget = Board.square[targetSquare];</span>
+<span class="fc bfc" id="L393" title="All 2 branches covered.">                if (pieceOnTarget == (Piece.KNIGHT | attackingColor)) return true;</span>
+            }
+
+<span class="pc bpc" id="L396" title="1 of 2 branches missed.">            if ((startSquare - 7) % 8 != 0)</span>
+            {
+<span class="fc" id="L398">                var targetSquare = startSquare - 15;</span>
+<span class="fc" id="L399">                int pieceOnTarget = Board.square[targetSquare];</span>
+<span class="fc bfc" id="L400" title="All 2 branches covered.">                if (pieceOnTarget == (Piece.KNIGHT | attackingColor)) return true;</span>
+            }
+        }
+<span class="fc" id="L403">        return false;</span>
+    }
+
+    private static boolean AttackedByPawn (int startSquare, int attackingColor) {
+<span class="fc bfc" id="L407" title="All 2 branches covered.">        if (attackingColor == Piece.WHITE) {</span>
+<span class="pc bpc" id="L408" title="3 of 6 branches missed.">            if (startSquare - 9 &gt;= 0 &amp;&amp; (startSquare % 8) != 0 &amp;&amp; Board.square[startSquare - 9] == (attackingColor | Piece.PAWN)) {</span>
+<span class="nc" id="L409">                return true;</span>
+            }
+<span class="pc bpc" id="L411" title="3 of 6 branches missed.">            if (startSquare - 7 &gt;= 0 &amp;&amp; ((startSquare - 7) % 8) != 0 &amp;&amp; Board.square[startSquare - 7] == (attackingColor | Piece.PAWN)) {</span>
+<span class="nc" id="L412">                return true;</span>
+            }
+        } else {
+<span class="pc bpc" id="L415" title="3 of 6 branches missed.">            if (startSquare + 7 &lt;= 63 &amp;&amp; (startSquare % 8) != 0 &amp;&amp; Board.square[startSquare + 7] == (attackingColor | Piece.PAWN)) {</span>
+<span class="nc" id="L416">                return true;</span>
+            }
+<span class="pc bpc" id="L418" title="3 of 6 branches missed.">            if (startSquare + 9 &lt;= 63 &amp;&amp; ((startSquare - 7) % 8) != 0 &amp;&amp; Board.square[startSquare + 9] == (attackingColor | Piece.PAWN)) {</span>
+<span class="nc" id="L419">                return true;</span>
+            }
+        }
+<span class="fc" id="L422">        return false;</span>
+    }
+    //endregion
+
+    //region Attacker Check
+    private static String KingAttackerChecker (int startSquare, int attackingColor) { //NOSONAR
+<span class="nc bnc" id="L428" title="All 2 branches missed.">        for (int dir = 0; dir &lt; 8; dir++){</span>
+<span class="nc" id="L429">            int target = startSquare + PrecomputedMoveData.DirectionOffsets[dir];</span>
+<span class="nc bnc" id="L430" title="All 4 branches missed.">            if (target &lt; 0 || target &gt; 63) continue;</span>
+
+<span class="nc bnc" id="L432" title="All 32 branches missed.">            if ((startSquare - 7) % 8 == 0 &amp;&amp; (PrecomputedMoveData.DirectionOffsets[dir] == 9 || PrecomputedMoveData.DirectionOffsets[dir] == 1</span>
+                    || PrecomputedMoveData.DirectionOffsets[dir] == -7) ||
+            (startSquare % 8 == 0 &amp;&amp; (PrecomputedMoveData.DirectionOffsets[dir] == -9 || PrecomputedMoveData.DirectionOffsets[dir] == -1
+                    || PrecomputedMoveData.DirectionOffsets[dir] == 7)) ||
+            (startSquare &gt;= 56 &amp;&amp; (PrecomputedMoveData.DirectionOffsets[dir] == 9 || PrecomputedMoveData.DirectionOffsets[dir] == 8
+                    || PrecomputedMoveData.DirectionOffsets[dir] == 7)) ||
+            (startSquare &lt;= 7 &amp;&amp; (PrecomputedMoveData.DirectionOffsets[dir] == -9 || PrecomputedMoveData.DirectionOffsets[dir] == -8
+<span class="nc" id="L439">                    || PrecomputedMoveData.DirectionOffsets[dir] == -7))) continue;</span>
+
+
+<span class="nc" id="L442">            int piece = Board.square[target];</span>
+
+<span class="nc bnc" id="L444" title="All 4 branches missed.">            if (piece == Piece.NONE || !Piece.IsColour(piece, attackingColor)) continue;</span>
+<span class="nc bnc" id="L445" title="All 2 branches missed.">            if (Piece.PieceChecker(piece, Piece.KING, attackingColor)) return &quot;King&quot;;</span>
+        }
+<span class="nc" id="L447">        return null;</span>
+    }
+
+    private static String SlidingAttackerChecker (int startSquare, int attackingColor) {
+<span class="nc bnc" id="L451" title="All 2 branches missed.">        for (int dirIndex = 4; dirIndex &lt; 8; dirIndex++){</span>
+<span class="nc bnc" id="L452" title="All 2 branches missed.">            for (int n = 0; n &lt; PrecomputedMoveData.NumSquaresToEdge[startSquare][dirIndex]; n++){</span>
+<span class="nc" id="L453">                int target = startSquare + PrecomputedMoveData.DirectionOffsets[dirIndex] * (n + 1);</span>
+<span class="nc" id="L454">                int pieceOnTarget = Board.square[target];</span>
+
+<span class="nc bnc" id="L456" title="All 2 branches missed.">                if (pieceOnTarget == Piece.NONE) continue;</span>
+
+<span class="nc bnc" id="L458" title="All 4 branches missed.">                if (Piece.PieceChecker(pieceOnTarget, Piece.BISHOP, attackingColor) || Piece.PieceChecker(pieceOnTarget, Piece.QUEEN, attackingColor)) return &quot;Bishop/Queen&quot;;</span>
+
+                break;
+            }
+        }
+
+<span class="nc bnc" id="L464" title="All 2 branches missed.">        for (int dirIndex = 0; dirIndex &lt; 4; dirIndex++){</span>
+<span class="nc bnc" id="L465" title="All 2 branches missed.">            for (int n = 0; n &lt; PrecomputedMoveData.NumSquaresToEdge[startSquare][dirIndex]; n++){</span>
+<span class="nc" id="L466">                int target = startSquare + PrecomputedMoveData.DirectionOffsets[dirIndex] * (n + 1);</span>
+<span class="nc" id="L467">                int pieceOnTarget = Board.square[target];</span>
+
+<span class="nc bnc" id="L469" title="All 2 branches missed.">                if (pieceOnTarget == Piece.NONE) continue;</span>
+
+<span class="nc bnc" id="L471" title="All 4 branches missed.">                if (Piece.PieceChecker(pieceOnTarget, Piece.ROOK, attackingColor) || Piece.PieceChecker(pieceOnTarget, Piece.QUEEN, attackingColor)) return &quot;Rook/Queen&quot;;</span>
+
+                break;
+            }
+        }
+<span class="nc" id="L476">        return null;</span>
+    }
+
+    private static String KnightAttackerChecker (int startSquare, int attackingColor) { //NOSONAR
+<span class="nc" id="L480">        String knight = &quot;Knight&quot;;</span>
+
+<span class="nc bnc" id="L482" title="All 4 branches missed.">        if ((startSquare - 1) % 8 != 0 &amp;&amp; startSquare % 8 != 0)</span>
+        {
+<span class="nc bnc" id="L484" title="All 2 branches missed.">            if (startSquare &lt; 56)</span>
+            {
+<span class="nc" id="L486">                var targetSquare = startSquare + 6;</span>
+<span class="nc" id="L487">                int pieceOnTarget = Board.square[targetSquare];</span>
+<span class="nc bnc" id="L488" title="All 2 branches missed.">                if (pieceOnTarget == (Piece.KNIGHT | attackingColor)) return knight;</span>
+            }
+
+<span class="nc bnc" id="L491" title="All 2 branches missed.">            if (startSquare &gt; 7)</span>
+            {
+<span class="nc" id="L493">                var targetSquare = startSquare - 10;</span>
+<span class="nc" id="L494">                int pieceOnTarget = Board.square[targetSquare];</span>
+<span class="nc bnc" id="L495" title="All 2 branches missed.">                if (pieceOnTarget == (Piece.KNIGHT | attackingColor)) return knight;</span>
+            }
+        }
+
+<span class="nc bnc" id="L499" title="All 2 branches missed.">        if (startSquare &lt; 48)</span>
+        {
+<span class="nc bnc" id="L501" title="All 2 branches missed.">            if (startSquare % 8 != 0)</span>
+            {
+<span class="nc" id="L503">                var targetSquare = startSquare + 15;</span>
+<span class="nc" id="L504">                int pieceOnTarget = Board.square[targetSquare];</span>
+<span class="nc bnc" id="L505" title="All 2 branches missed.">                if (pieceOnTarget == (Piece.KNIGHT | attackingColor)) return knight;</span>
+            }
+
+<span class="nc bnc" id="L508" title="All 2 branches missed.">            if ((startSquare - 7) % 8 != 0)</span>
+            {
+<span class="nc" id="L510">                var targetSquare = startSquare + 17;</span>
+<span class="nc" id="L511">                int pieceOnTarget = Board.square[targetSquare];</span>
+<span class="nc bnc" id="L512" title="All 2 branches missed.">                if (pieceOnTarget == (Piece.KNIGHT | attackingColor)) return knight;</span>
+            }
+        }
+
+<span class="nc bnc" id="L516" title="All 4 branches missed.">        if ((startSquare - 6) % 8 != 0 &amp;&amp; (startSquare - 7) % 8 != 0)</span>
+        {
+<span class="nc bnc" id="L518" title="All 2 branches missed.">            if (startSquare &lt; 56)</span>
+            {
+<span class="nc" id="L520">                var targetSquare = startSquare + 10;</span>
+<span class="nc" id="L521">                int pieceOnTarget = Board.square[targetSquare];</span>
+<span class="nc bnc" id="L522" title="All 2 branches missed.">                if (pieceOnTarget == (Piece.KNIGHT | attackingColor)) return knight;</span>
+            }
+
+<span class="nc bnc" id="L525" title="All 2 branches missed.">            if (startSquare &gt; 7)</span>
+            {
+<span class="nc" id="L527">                var targetSquare = startSquare - 6;</span>
+<span class="nc" id="L528">                int pieceOnTarget = Board.square[targetSquare];</span>
+<span class="nc bnc" id="L529" title="All 2 branches missed.">                if (pieceOnTarget == (Piece.KNIGHT | attackingColor)) return knight;</span>
+            }
+        }
+
+<span class="nc bnc" id="L533" title="All 2 branches missed.">        if (startSquare &gt; 15)</span>
+        {
+<span class="nc bnc" id="L535" title="All 2 branches missed.">            if (startSquare % 8 != 0)</span>
+            {
+<span class="nc" id="L537">                var targetSquare = startSquare - 17;</span>
+<span class="nc" id="L538">                int pieceOnTarget = Board.square[targetSquare];</span>
+<span class="nc bnc" id="L539" title="All 2 branches missed.">                if (pieceOnTarget == (Piece.KNIGHT | attackingColor)) return knight;</span>
+            }
+
+<span class="nc bnc" id="L542" title="All 2 branches missed.">            if ((startSquare - 7) % 8 != 0)</span>
+            {
+<span class="nc" id="L544">                var targetSquare = startSquare - 15;</span>
+<span class="nc" id="L545">                int pieceOnTarget = Board.square[targetSquare];</span>
+<span class="nc bnc" id="L546" title="All 2 branches missed.">                if (pieceOnTarget == (Piece.KNIGHT | attackingColor)) return knight;</span>
+            }
+        }
+<span class="nc" id="L549">        return null;</span>
+    }
+
+    private static String PawnAttackerChecker (int startSquare, int attackingColor) {
+<span class="nc bnc" id="L553" title="All 2 branches missed.">        if (attackingColor == Piece.WHITE) {</span>
+<span class="nc bnc" id="L554" title="All 6 branches missed.">            if (startSquare - 9 &gt;= 0 &amp;&amp; (startSquare % 8) != 0 &amp;&amp; Board.square[startSquare - 9] == (attackingColor | Piece.PAWN)) {</span>
+<span class="nc" id="L555">                return &quot;Pawn&quot;;</span>
+            }
+<span class="nc bnc" id="L557" title="All 6 branches missed.">            if (startSquare - 7 &gt;= 0 &amp;&amp; ((startSquare + 7) % 8) != 0 &amp;&amp; Board.square[startSquare - 7] == (attackingColor | Piece.PAWN)) {</span>
+<span class="nc" id="L558">                return &quot;Pawn&quot;;</span>
+            }
+        } else {
+<span class="nc bnc" id="L561" title="All 6 branches missed.">            if (startSquare + 7 &lt;= 63 &amp;&amp; (startSquare % 8) != 0 &amp;&amp; Board.square[startSquare + 7] == (attackingColor | Piece.PAWN)) {</span>
+<span class="nc" id="L562">                return &quot;Pawn&quot;;</span>
+            }
+<span class="nc bnc" id="L564" title="All 6 branches missed.">            if (startSquare + 9 &lt;= 63 &amp;&amp; ((startSquare + 7) % 8) != 0 &amp;&amp; Board.square[startSquare + 9] == (attackingColor | Piece.PAWN)) {</span>
+<span class="nc" id="L565">                return &quot;Pawn&quot;;</span>
+            }
+        }
+<span class="nc" id="L568">        return null;</span>
+    }
+    //endregion
+
+    //region Checker Location
+    private static Integer KingAttackLocation (int startSquare, int attackingColor) { //NOSONAR
+<span class="nc bnc" id="L574" title="All 2 branches missed.">        for (int dir = 0; dir &lt; 8; dir++){</span>
+<span class="nc" id="L575">            int target = startSquare + PrecomputedMoveData.DirectionOffsets[dir];</span>
+<span class="nc bnc" id="L576" title="All 4 branches missed.">            if (target &lt; 0 || target &gt; 63) continue;</span>
+
+<span class="nc bnc" id="L578" title="All 32 branches missed.">            if (((startSquare - 7) % 8 == 0 &amp;&amp; (PrecomputedMoveData.DirectionOffsets[dir] == 9 || PrecomputedMoveData.DirectionOffsets[dir] == 1</span>
+                    || PrecomputedMoveData.DirectionOffsets[dir] == -7)) ||
+            (startSquare % 8 == 0 &amp;&amp; (PrecomputedMoveData.DirectionOffsets[dir] == -9 || PrecomputedMoveData.DirectionOffsets[dir] == -1
+                    || PrecomputedMoveData.DirectionOffsets[dir] == 7)) ||
+            (startSquare &gt;= 56 &amp;&amp; (PrecomputedMoveData.DirectionOffsets[dir] == 9 || PrecomputedMoveData.DirectionOffsets[dir] == 8
+                    || PrecomputedMoveData.DirectionOffsets[dir] == 7)) ||
+            (startSquare &lt;= 7 &amp;&amp; (PrecomputedMoveData.DirectionOffsets[dir] == -9 || PrecomputedMoveData.DirectionOffsets[dir] == -8
+<span class="nc" id="L585">                    || PrecomputedMoveData.DirectionOffsets[dir] == -7))) continue;</span>
+
+<span class="nc" id="L587">            int piece = Board.square[target];</span>
+
+<span class="nc bnc" id="L589" title="All 4 branches missed.">            if (piece == Piece.NONE || !Piece.IsColour(piece, attackingColor)) continue;</span>
+<span class="nc bnc" id="L590" title="All 2 branches missed.">            if (Piece.PieceChecker(piece, Piece.KING, attackingColor)) return target;</span>
+        }
+<span class="nc" id="L592">        return null;</span>
+    }
+
+    private static Integer SlidingAttackLocation (int startSquare, int attackingColor) {
+<span class="nc bnc" id="L596" title="All 2 branches missed.">        for (int dirIndex = 4; dirIndex &lt; 8; dirIndex++){</span>
+<span class="nc bnc" id="L597" title="All 2 branches missed.">            for (int n = 0; n &lt; PrecomputedMoveData.NumSquaresToEdge[startSquare][dirIndex]; n++){</span>
+<span class="nc" id="L598">                int target = startSquare + PrecomputedMoveData.DirectionOffsets[dirIndex] * (n + 1);</span>
+<span class="nc" id="L599">                int pieceOnTarget = Board.square[target];</span>
+
+<span class="nc bnc" id="L601" title="All 2 branches missed.">                if (pieceOnTarget == Piece.NONE) continue;</span>
+
+<span class="nc bnc" id="L603" title="All 4 branches missed.">                if (Piece.PieceChecker(pieceOnTarget, Piece.BISHOP, attackingColor) || Piece.PieceChecker(pieceOnTarget, Piece.QUEEN, attackingColor)) return target;</span>
+
+                break;
+            }
+        }
+
+<span class="nc bnc" id="L609" title="All 2 branches missed.">        for (int dirIndex = 0; dirIndex &lt; 4; dirIndex++){</span>
+<span class="nc bnc" id="L610" title="All 2 branches missed.">            for (int n = 0; n &lt; PrecomputedMoveData.NumSquaresToEdge[startSquare][dirIndex]; n++){</span>
+<span class="nc" id="L611">                int target = startSquare + PrecomputedMoveData.DirectionOffsets[dirIndex] * (n + 1);</span>
+<span class="nc" id="L612">                int pieceOnTarget = Board.square[target];</span>
+
+<span class="nc bnc" id="L614" title="All 2 branches missed.">                if (pieceOnTarget == Piece.NONE) continue;</span>
+
+<span class="nc bnc" id="L616" title="All 4 branches missed.">                if (Piece.PieceChecker(pieceOnTarget, Piece.ROOK, attackingColor) || Piece.PieceChecker(pieceOnTarget, Piece.QUEEN, attackingColor)) return target;</span>
+
+                break;
+            }
+        }
+<span class="nc" id="L621">        return null;</span>
+    }
+
+    private static Integer KnightAttackLocation (int startSquare, int attackingColor) { //NOSONAR
+<span class="nc bnc" id="L625" title="All 4 branches missed.">        if ((startSquare - 1) % 8 != 0 &amp;&amp; startSquare % 8 != 0)</span>
+        {
+<span class="nc bnc" id="L627" title="All 2 branches missed.">            if (startSquare &lt; 56)</span>
+            {
+<span class="nc" id="L629">                var targetSquare = startSquare + 6;</span>
+<span class="nc" id="L630">                int pieceOnTarget = Board.square[targetSquare];</span>
+<span class="nc bnc" id="L631" title="All 2 branches missed.">                if (pieceOnTarget == (Piece.KNIGHT | attackingColor)) return startSquare + 6;</span>
+            }
+
+<span class="nc bnc" id="L634" title="All 2 branches missed.">            if (startSquare &gt; 7)</span>
+            {
+<span class="nc" id="L636">                var targetSquare = startSquare - 10;</span>
+<span class="nc" id="L637">                int pieceOnTarget = Board.square[targetSquare];</span>
+<span class="nc bnc" id="L638" title="All 2 branches missed.">                if (pieceOnTarget == (Piece.KNIGHT | attackingColor)) return startSquare - 10;</span>
+            }
+        }
+
+<span class="nc bnc" id="L642" title="All 2 branches missed.">        if (startSquare &lt; 48)</span>
+        {
+<span class="nc bnc" id="L644" title="All 2 branches missed.">            if (startSquare % 8 != 0)</span>
+            {
+<span class="nc" id="L646">                var targetSquare = startSquare + 15;</span>
+<span class="nc" id="L647">                int pieceOnTarget = Board.square[targetSquare];</span>
+<span class="nc bnc" id="L648" title="All 2 branches missed.">                if (pieceOnTarget == (Piece.KNIGHT | attackingColor)) return startSquare + 15;</span>
+            }
+
+<span class="nc bnc" id="L651" title="All 2 branches missed.">            if ((startSquare - 7) % 8 != 0)</span>
+            {
+<span class="nc" id="L653">                var targetSquare = startSquare + 17;</span>
+<span class="nc" id="L654">                int pieceOnTarget = Board.square[targetSquare];</span>
+<span class="nc bnc" id="L655" title="All 2 branches missed.">                if (pieceOnTarget == (Piece.KNIGHT | attackingColor)) return startSquare + 17;</span>
+            }
+        }
+
+<span class="nc bnc" id="L659" title="All 4 branches missed.">        if ((startSquare - 6) % 8 != 0 &amp;&amp; (startSquare - 7) % 8 != 0)</span>
+        {
+<span class="nc bnc" id="L661" title="All 2 branches missed.">            if (startSquare &lt; 56)</span>
+            {
+<span class="nc" id="L663">                var targetSquare = startSquare + 10;</span>
+<span class="nc" id="L664">                int pieceOnTarget = Board.square[targetSquare];</span>
+<span class="nc bnc" id="L665" title="All 2 branches missed.">                if (pieceOnTarget == (Piece.KNIGHT | attackingColor)) return startSquare + 10;</span>
+            }
+
+<span class="nc bnc" id="L668" title="All 2 branches missed.">            if (startSquare &gt; 7)</span>
+            {
+<span class="nc" id="L670">                var targetSquare = startSquare - 6;</span>
+<span class="nc" id="L671">                int pieceOnTarget = Board.square[targetSquare];</span>
+<span class="nc bnc" id="L672" title="All 2 branches missed.">                if (pieceOnTarget == (Piece.KNIGHT | attackingColor)) return startSquare - 6;</span>
+            }
+        }
+
+<span class="nc bnc" id="L676" title="All 2 branches missed.">        if (startSquare &gt; 15)</span>
+        {
+<span class="nc bnc" id="L678" title="All 2 branches missed.">            if (startSquare % 8 != 0)</span>
+            {
+<span class="nc" id="L680">                var targetSquare = startSquare - 17;</span>
+<span class="nc" id="L681">                int pieceOnTarget = Board.square[targetSquare];</span>
+<span class="nc bnc" id="L682" title="All 2 branches missed.">                if (pieceOnTarget == (Piece.KNIGHT | attackingColor)) return startSquare - 17;</span>
+            }
+
+<span class="nc bnc" id="L685" title="All 2 branches missed.">            if ((startSquare - 7) % 8 != 0)</span>
+            {
+<span class="nc" id="L687">                var targetSquare = startSquare - 15;</span>
+<span class="nc" id="L688">                int pieceOnTarget = Board.square[targetSquare];</span>
+<span class="nc bnc" id="L689" title="All 2 branches missed.">                if (pieceOnTarget == (Piece.KNIGHT | attackingColor)) return startSquare - 15;</span>
+            }
+        }
+<span class="nc" id="L692">        return null;</span>
+    }
+
+    private static Integer PawnAttackLocation (int startSquare, int attackingColor) {
+<span class="nc bnc" id="L696" title="All 2 branches missed.">        if (attackingColor == Piece.WHITE) {</span>
+<span class="nc bnc" id="L697" title="All 6 branches missed.">            if (startSquare - 9 &gt;= 0 &amp;&amp; (startSquare % 8) != 0 &amp;&amp; Board.square[startSquare - 9] == (attackingColor | Piece.PAWN)) {</span>
+<span class="nc" id="L698">                return startSquare - 9;</span>
+            }
+<span class="nc bnc" id="L700" title="All 6 branches missed.">            if (startSquare - 7 &gt;= 0 &amp;&amp; ((startSquare + 7) % 8) != 0 &amp;&amp; Board.square[startSquare - 7] == (attackingColor | Piece.PAWN)) {</span>
+<span class="nc" id="L701">                return startSquare - 7;</span>
+            }
+        } else {
+<span class="nc bnc" id="L704" title="All 6 branches missed.">            if (startSquare + 7 &lt;= 63 &amp;&amp; (startSquare % 8) != 0 &amp;&amp; Board.square[startSquare + 7] == (attackingColor | Piece.PAWN)) {</span>
+<span class="nc" id="L705">                return startSquare + 7;</span>
+            }
+<span class="nc bnc" id="L707" title="All 6 branches missed.">            if (startSquare + 9 &lt;= 63 &amp;&amp; ((startSquare + 7) % 8) != 0 &amp;&amp; Board.square[startSquare + 9] == (attackingColor | Piece.PAWN)) {</span>
+<span class="nc" id="L708">                return startSquare + 9;</span>
+            }
+        }
+<span class="nc" id="L711">        return null;</span>
+    }
+    //endregion
+
+    //endregion
+
+    //region Getters and setters
+
+    public static int[] GetSquare() {
+<span class="fc" id="L720">        return square;</span>
+    }
+
+    public static void SetSquare (int index, int value) {
+<span class="fc" id="L724">        square[index] = value;</span>
+<span class="fc" id="L725">    }</span>
+
+    public static void SetColour(int color){
+<span class="fc" id="L728">        colorToMove = color;</span>
+<span class="fc" id="L729">    }</span>
+
+    //endregion
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

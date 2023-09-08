@@ -1,0 +1,14 @@
+Core.GUI#ShowAttackedSquares(Ljava/awt/event/ActionEvent;)V
+java.util.ArrayList#<init>()V
+Classes.Board#IsSquareAttacked(II)Z
+Classes.Board#WhatIsSquareAttackedBy(II)Ljava/lang/String;
+Classes.Board#FromWhereIsTheSquareAttacked(II)I
+java.lang.StringBuilder#instance-init#
+Classes.Piece#PosFromIndex(I)Ljava/lang/String;
+java.lang.StringBuilder#append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+java.util.ArrayList#instance-init#
+java.lang.StringBuilder#<init>()V
+java.lang.StringBuilder#toString()Ljava/lang/String;
+==
+add java.util.ArrayList#add(Ljava/lang/Object;)Z
+setText javax.swing.text.JTextComponent#setText(Ljava/lang/String;)V

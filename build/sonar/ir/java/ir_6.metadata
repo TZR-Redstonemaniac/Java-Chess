@@ -1,0 +1,10 @@
+Core.GUI#ConfigureComponents()V
+Classes.FenManager#LoadFromFen(Ljava/lang/String;)V
+Classes.Board#Init()V
+Classes.Texture#Init()V
+Classes.FenManager#Init()V
+==
+setVerticalScrollBarPolicy javax.swing.JScrollPane#setVerticalScrollBarPolicy(I)V
+addActionListener javax.swing.AbstractButton#addActionListener(Ljava/awt/event/ActionListener;)V
+setEditable javax.swing.text.JTextComponent#setEditable(Z)V
+setBounds java.awt.Component#setBounds(IIII)V

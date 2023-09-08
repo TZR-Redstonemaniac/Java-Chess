@@ -1,0 +1,5 @@
+Classes.MoveGenerator#GeneratePromotionMoves(III)V
+Classes.Move#instance-init#
+Classes.Move#<init>(III)V
+==
+add java.util.ArrayList#add(Ljava/lang/Object;)Z

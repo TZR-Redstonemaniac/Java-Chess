@@ -1,0 +1,698 @@
+
+Classes.Board#Init()VF
+:/home/khalid/IntellijProjects/Chess/src/Classes/Board.javaÄ Ä("0"6*´
+4
+ñ ñ(P
+N
+
+ñ ñ(
+%34java.util.Map[]"__id*"
+
+__unknown_file (
+""ã
+à
+
+ñ ñ("
+%35java.util.Map"
+__arrayGet*4
+
+__unknown_file (
+
+%34java.util.Map[]*"
+
+__unknown_file (
+""≠
+™
+
+ñ ñ(6
+%36java.lang.Object"__mapSet*2
+
+__unknown_file (
+
+%35java.util.Map*!
+
+__unknown_file (
+x*"
+
+__unknown_file (
+""P
+N
+
+ó ó(
+%37java.util.Map[]"__id*"
+
+__unknown_file (
+""ã
+à
+
+ó ó("
+%38java.util.Map"
+__arrayGet*4
+
+__unknown_file (
+
+%37java.util.Map[]*"
+
+__unknown_file (
+""≠
+™
+
+ó ó(9
+%39java.lang.Object"__mapSet*2
+
+__unknown_file (
+
+%38java.util.Map*!
+
+__unknown_file (
+y*"
+
+__unknown_file (
+""P
+N
+
+ò ò(
+%40java.util.Map[]"__id*"
+
+__unknown_file (
+""ã
+à
+
+ò ò("
+%41java.util.Map"
+__arrayGet*4
+
+__unknown_file (
+
+%40java.util.Map[]*"
+
+__unknown_file (
+""´
+®
+
+ò ò(0
+%42java.lang.Object"__mapSet*2
+
+__unknown_file (
+
+%41java.util.Map*!
+
+__unknown_file (
+w* 
+
+__unknown_file (2dP
+N
+
+ô ô(
+%43java.util.Map[]"__id*"
+
+__unknown_file (
+""ã
+à
+
+ô ô("
+%44java.util.Map"
+__arrayGet*4
+
+__unknown_file (
+
+%43java.util.Map[]*"
+
+__unknown_file (
+""´
+®
+
+ô ô(0
+%45java.lang.Object"__mapSet*2
+
+__unknown_file (
+
+%44java.util.Map*!
+
+__unknown_file (
+h* 
+
+__unknown_file (2dP
+N
+
+ö ö(
+%46java.util.Map[]"__id*"
+
+__unknown_file (
+""ã
+à
+
+ö ö("
+%47java.util.Map"
+__arrayGet*4
+
+__unknown_file (
+
+%46java.util.Map[]*"
+
+__unknown_file (
+""´
+®
+
+ö ö(0
+%48java.lang.Object"__mapSet*2
+
+__unknown_file (
+
+%47java.util.Map*!
+
+__unknown_file (
+r* 
+
+__unknown_file (2yP
+N
+
+õ õ(
+%49java.util.Map[]"__id*"
+
+__unknown_file (
+""ã
+à
+
+õ õ("
+%50java.util.Map"
+__arrayGet*4
+
+__unknown_file (
+
+%49java.util.Map[]*"
+
+__unknown_file (
+""´
+®
+
+õ õ(/
+%51java.lang.Object"__mapSet*2
+
+__unknown_file (
+
+%50java.util.Map*!
+
+__unknown_file (
+g* 
+
+__unknown_file (2SP
+N
+
+ú ú(
+%52java.util.Map[]"__id*"
+
+__unknown_file (
+""ã
+à
+
+ú ú("
+%53java.util.Map"
+__arrayGet*4
+
+__unknown_file (
+
+%52java.util.Map[]*"
+
+__unknown_file (
+""´
+®
+
+ú ú(/
+%54java.lang.Object"__mapSet*2
+
+__unknown_file (
+
+%53java.util.Map*!
+
+__unknown_file (
+b* 
+
+__unknown_file (2IP
+N
+
+ù ù(
+%55java.util.Map[]"__id*"
+
+__unknown_file (
+""ã
+à
+
+ù ù("
+%56java.util.Map"
+__arrayGet*4
+
+__unknown_file (
+
+%55java.util.Map[]*"
+
+__unknown_file (
+""≠
+™
+
+ù ù(1
+%57java.lang.Object"__mapSet*2
+
+__unknown_file (
+
+%56java.util.Map*"
+
+__unknown_file (
+mr*!
+
+__unknown_file (2≠P
+N
+
+û û(
+%58java.util.Map[]"__id*"
+
+__unknown_file (
+""ã
+à
+
+û û("
+%59java.util.Map"
+__arrayGet*4
+
+__unknown_file (
+
+%58java.util.Map[]*"
+
+__unknown_file (
+""¨
+©
+
+û û(0
+%60java.lang.Object"__mapSet*2
+
+__unknown_file (
+
+%59java.util.Map*"
+
+__unknown_file (
+mg* 
+
+__unknown_file (2+P
+N
+
+ü ü(
+%61java.util.Map[]"__id*"
+
+__unknown_file (
+""ã
+à
+
+ü ü("
+%62java.util.Map"
+__arrayGet*4
+
+__unknown_file (
+
+%61java.util.Map[]*"
+
+__unknown_file (
+""¨
+©
+
+ü ü(0
+%63java.lang.Object"__mapSet*2
+
+__unknown_file (
+
+%62java.util.Map*"
+
+__unknown_file (
+mb* 
+
+__unknown_file (22*
+6
+0*§
+5
+ä ä(O
+M
+
+ä ä(
+%4java.util.Map[]"__id*"
+
+__unknown_file (
+""â
+Ü
+
+ä ä("
+%5java.util.Map"
+__arrayGet*3
+
+__unknown_file (
+
+%4java.util.Map[]*"
+
+__unknown_file (
+""´
+®
+
+ä ä(6
+%6java.lang.Object"__mapSet*1
+
+__unknown_file (
+
+%5java.util.Map*!
+
+__unknown_file (
+x*"
+
+__unknown_file (
+""O
+M
+
+ã ã(
+%7java.util.Map[]"__id*"
+
+__unknown_file (
+""â
+Ü
+
+ã ã("
+%8java.util.Map"
+__arrayGet*3
+
+__unknown_file (
+
+%7java.util.Map[]*"
+
+__unknown_file (
+""´
+®
+
+ã ã(9
+%9java.lang.Object"__mapSet*1
+
+__unknown_file (
+
+%8java.util.Map*!
+
+__unknown_file (
+y*"
+
+__unknown_file (
+""P
+N
+
+å å(
+%10java.util.Map[]"__id*"
+
+__unknown_file (
+""ã
+à
+
+å å("
+%11java.util.Map"
+__arrayGet*4
+
+__unknown_file (
+
+%10java.util.Map[]*"
+
+__unknown_file (
+""´
+®
+
+å å(0
+%12java.lang.Object"__mapSet*2
+
+__unknown_file (
+
+%11java.util.Map*!
+
+__unknown_file (
+w* 
+
+__unknown_file (2dP
+N
+
+ç ç(
+%13java.util.Map[]"__id*"
+
+__unknown_file (
+""ã
+à
+
+ç ç("
+%14java.util.Map"
+__arrayGet*4
+
+__unknown_file (
+
+%13java.util.Map[]*"
+
+__unknown_file (
+""´
+®
+
+ç ç(0
+%15java.lang.Object"__mapSet*2
+
+__unknown_file (
+
+%14java.util.Map*!
+
+__unknown_file (
+h* 
+
+__unknown_file (2dP
+N
+
+é é(
+%16java.util.Map[]"__id*"
+
+__unknown_file (
+""ã
+à
+
+é é("
+%17java.util.Map"
+__arrayGet*4
+
+__unknown_file (
+
+%16java.util.Map[]*"
+
+__unknown_file (
+""¨
+©
+
+é é(0
+%18java.lang.Object"__mapSet*2
+
+__unknown_file (
+
+%17java.util.Map*!
+
+__unknown_file (
+r*!
+
+__unknown_file (2ËP
+N
+
+è è(
+%19java.util.Map[]"__id*"
+
+__unknown_file (
+""ã
+à
+
+è è("
+%20java.util.Map"
+__arrayGet*4
+
+__unknown_file (
+
+%19java.util.Map[]*"
+
+__unknown_file (
+""¨
+©
+
+è è(0
+%21java.lang.Object"__mapSet*2
+
+__unknown_file (
+
+%20java.util.Map*!
+
+__unknown_file (
+g*!
+
+__unknown_file (2—P
+N
+
+ê ê(
+%22java.util.Map[]"__id*"
+
+__unknown_file (
+""ã
+à
+
+ê ê("
+%23java.util.Map"
+__arrayGet*4
+
+__unknown_file (
+
+%22java.util.Map[]*"
+
+__unknown_file (
+""¨
+©
+
+ê ê(0
+%24java.lang.Object"__mapSet*2
+
+__unknown_file (
+
+%23java.util.Map*!
+
+__unknown_file (
+b*!
+
+__unknown_file (2∏P
+N
+
+ë ë(
+%25java.util.Map[]"__id*"
+
+__unknown_file (
+""ã
+à
+
+ë ë("
+%26java.util.Map"
+__arrayGet*4
+
+__unknown_file (
+
+%25java.util.Map[]*"
+
+__unknown_file (
+""≠
+™
+
+ë ë(1
+%27java.lang.Object"__mapSet*2
+
+__unknown_file (
+
+%26java.util.Map*"
+
+__unknown_file (
+mr*!
+
+__unknown_file (2ŸP
+N
+
+í í(
+%28java.util.Map[]"__id*"
+
+__unknown_file (
+""ã
+à
+
+í í("
+%29java.util.Map"
+__arrayGet*4
+
+__unknown_file (
+
+%28java.util.Map[]*"
+
+__unknown_file (
+""¨
+©
+
+í í(0
+%30java.lang.Object"__mapSet*2
+
+__unknown_file (
+
+%29java.util.Map*"
+
+__unknown_file (
+mg* 
+
+__unknown_file (2BP
+N
+
+ì ì(
+%31java.util.Map[]"__id*"
+
+__unknown_file (
+""ã
+à
+
+ì ì("
+%32java.util.Map"
+__arrayGet*4
+
+__unknown_file (
+
+%31java.util.Map[]*"
+
+__unknown_file (
+""¨
+©
+
+ì ì(0
+%33java.lang.Object"__mapSet*2
+
+__unknown_file (
+
+%32java.util.Map*"
+
+__unknown_file (
+mb* 
+
+__unknown_file (2N*
+6
+0*¬
+6
+Ö Ö(O
+M
+
+Ö Ö(
+%0java.util.Map[]"__id*"
+
+__unknown_file (
+"":8
+
+Ö% Ö(.
+%1java.util.HashMap"java.util.HashMaph
+f
+
+Ö! Ö(0
+%2"java.util.HashMap#<init>()V*5
+
+__unknown_file (
+
+%1java.util.HashMap±
+Æ
+
+Ö Ö(0
+%3"
+__arraySet*3
+
+__unknown_file (
+
+%0java.util.Map[]*"
+
+__unknown_file (
+""*5
+
+__unknown_file (
+
+%1java.util.HashMap*
+4
+5*(
+0 "!
+
+• •(
+implicit returnB"
+Classes.BoardH

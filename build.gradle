@@ -1,0 +1,56 @@
+plugins {
+    id "jacoco"
+    id "org.sonarqube" version "4.3.1.3277"
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: "jacoco"
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['test']
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+repositories {
+    mavenCentral()
+}
+
+sonar {
+    properties {
+        property "sonar.projectKey", "TZR-Redstonemaniac_Java-Chess"
+        property "sonar.organization", "tzr-redstonemaniac"
+        property "sonar.host.url", "https://sonarcloud.io/"
+    }
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+    testCompileOnly 'junit:junit:4.13.1'
+    testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.8.1'
+    implementation 'org.junit.jupiter:junit-jupiter-api:5.5.1'
+}
+
+idea {
+    project {
+        languageLevel = '20'
+    }
+}

@@ -1,0 +1,11 @@
+Classes.FenManager#LoadFromFen(Ljava/lang/String;)V
+java.lang.Character#isUpperCase(C)Z
+java.lang.String#split(Ljava/lang/String;)[Ljava/lang/String;
+Classes.Board#SetSquare(II)V
+java.lang.Character#isDigit(C)Z
+java.lang.Character#getNumericValue(C)I
+java.util.Objects#equals(Ljava/lang/Object;Ljava/lang/Object;)Z
+java.lang.String#contains(Ljava/lang/CharSequence;)Z
+java.lang.Character#toLowerCase(C)C
+==
+get java.util.Map#get(Ljava/lang/Object;)Ljava/lang/Object;

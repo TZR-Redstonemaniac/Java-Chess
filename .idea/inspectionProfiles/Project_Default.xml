@@ -6,6 +6,7 @@
         <language minSize="173" name="Java" />
       </Languages>
     </inspection_tool>
+    <inspection_tool class="JUnit5AssertionsConverter" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="TrivialIf" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ignoreChainedIf" value="true" />
     </inspection_tool>

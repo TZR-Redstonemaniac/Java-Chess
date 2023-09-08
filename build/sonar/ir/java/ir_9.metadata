@@ -1,0 +1,14 @@
+Core.GUI#TestMoves()V
+Classes.MoveGenerator#Reset()V
+java.lang.String#valueOf(I)Ljava/lang/String;
+Core.GUI#GetDepth()I
+Classes.MoveGenerator#MoveGenerationTest(IF)I
+java.lang.Thread#<init>(Ljava/lang/Runnable;)V
+java.lang.Thread#instance-init#
+java.lang.StringBuilder#toString()Ljava/lang/String;
+java.lang.Float#parseFloat(Ljava/lang/String;)F
+==
+setText javax.swing.JLabel#setText(Ljava/lang/String;)V
+getText javax.swing.text.JTextComponent#getText()Ljava/lang/String;
+setText javax.swing.text.JTextComponent#setText(Ljava/lang/String;)V
+start java.lang.Thread#start()V

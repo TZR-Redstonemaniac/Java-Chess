@@ -1,0 +1,208 @@
+
+-Classes.MoveGenerator#MoveGenerationTest(IF)IN
+B/home/khalid/IntellijProjects/Chess/src/Classes/MoveGenerator.javaò ò(("14"15*˜
+2
+† †(N
+L
+
+† †(
+moveClasses.Move"__id*"
+
+__unknown_file (
+""å
+â
+
+† †(
+moveClasses.Move"
+__arrayGet*5
+
+__unknown_file (
+
+movesjava.util.List*"
+
+__unknown_file (
+""*
+10
+1*ì
+14
+õ õ(ò
+ï
+
+ù ù(=
+%0java.util.List":Classes.MoveGenerator#GenerateLegalMoves()Ljava/util/List;*5
+
+__unknown_file ("
+Classes.MoveGeneratora
+_
+
+ù ù(>
+movesjava.util.List"__id*2
+
+__unknown_file (
+
+%0java.util.List*
+2*¿
+3
+µ µ()X
+V
+
+∑ ∑(
+%10java.lang.StringBuilder"__id*"
+
+__unknown_file (
+""¨
+©
+
+∑ ∑(B
+%11java.lang.String"/Classes.Piece#PosFromIndex(I)Ljava/lang/String;*-
+
+__unknown_file ("
+Classes.Piece*"
+
+__unknown_file (
+""çä
+
+∑ ∑(C
+%12java.lang.StringBuilder"Kjava.lang.StringBuilder#append(Ljava/lang/String;)Ljava/lang/StringBuilder;*<
+
+__unknown_file ( 
+
+%10java.lang.StringBuilder*5
+
+__unknown_file (
+
+%11java.lang.String2append(Ljava/lang/String;)¸˘
+
+∑ ∏('
+%13java.lang.StringBuilder"Kjava.lang.StringBuilder#append(Ljava/lang/String;)Ljava/lang/StringBuilder;*<
+
+__unknown_file ( 
+
+%12java.lang.StringBuilder*$
+
+__unknown_file (
+ to 2append(Ljava/lang/String;)¨
+©
+
+π  π(E
+%14java.lang.String"/Classes.Piece#PosFromIndex(I)Ljava/lang/String;*-
+
+__unknown_file ("
+Classes.Piece*"
+
+__unknown_file (
+""çä
+
+∑ π(F
+%15java.lang.StringBuilder"Kjava.lang.StringBuilder#append(Ljava/lang/String;)Ljava/lang/StringBuilder;*<
+
+__unknown_file ( 
+
+%13java.lang.StringBuilder*5
+
+__unknown_file (
+
+%14java.lang.String2append(Ljava/lang/String;)˙˜
+
+∑ ∫(%
+%16java.lang.StringBuilder"Kjava.lang.StringBuilder#append(Ljava/lang/String;)Ljava/lang/StringBuilder;*<
+
+__unknown_file ( 
+
+%15java.lang.StringBuilder*"
+
+__unknown_file (
+: 2append(Ljava/lang/String;)ÿ’
+
+∑ ª(&
+%17java.lang.StringBuilder":java.lang.StringBuilder#append(I)Ljava/lang/StringBuilder;*<
+
+__unknown_file ( 
+
+%16java.lang.StringBuilder*"
+
+__unknown_file (
+""2	append(I)˙˜
+
+∑ º(%
+%18java.lang.StringBuilder"Kjava.lang.StringBuilder#append(Ljava/lang/String;)Ljava/lang/StringBuilder;*<
+
+__unknown_file ( 
+
+%17java.lang.StringBuilder*"
+
+__unknown_file (
+\n2append(Ljava/lang/String;)*
+2*&
+15
+ô ô( "
+
+ô ô(!
+""* 
+4
+± ±(»
+≈
+
+± ±(@	
+%8int"-Classes.MoveGenerator#MoveGenerationTest(IF)I*5
+
+__unknown_file ("
+Classes.MoveGenerator*"
+
+__unknown_file (
+""*"
+
+__unknown_file (
+""f
+d
+
+≤ ≤(
+
+%9void"Classes.Board#UnmakeMove()V*-
+
+__unknown_file ("
+Classes.Board*
+2
+3*§
+8
+™ ™(ç
+ä
+
+™ ™(7
+
+%2void"java.lang.Thread#sleep(J)V*0
+
+__unknown_file ("
+java.lang.Thread*"
+
+__unknown_file (
+""*
+4*¬
+10
+¶ ¶(ß
+§
+
+¶ ¶( 
+
+%1void"'Classes.Board#MakeMove(LClasses/Move;)V*-
+
+__unknown_file ("
+Classes.Board*2
+
+__unknown_file (
+
+moveClasses.Move*
+4
+8*%
+1
+¬ ¬("
+
+¬ ¬(
+"": 
+
+__unknown_file (
+"": 
+
+__unknown_file (
+""B"
+Classes.MoveGeneratorHP

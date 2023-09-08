@@ -1,0 +1,2 @@
+Core.GUI#Undo(Ljava/awt/event/ActionEvent;)V
+Classes.Board#UnmakeMove()V

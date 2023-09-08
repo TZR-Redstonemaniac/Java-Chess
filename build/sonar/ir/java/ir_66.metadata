@@ -1,0 +1,8 @@
+Classes.MoveGenerator#GenerateSlidingMoves(II)V
+Classes.Piece#IsColour(II)Z
+Classes.Move#<init>(II)V
+Classes.Move#instance-init#
+Classes.Board#GetSquare()[I
+Classes.Piece#PieceType(I)I
+==
+add java.util.ArrayList#add(Ljava/lang/Object;)Z

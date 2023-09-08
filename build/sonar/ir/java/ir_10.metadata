@@ -1,0 +1,4 @@
+Core.GUI#SetFEN(Ljava/awt/event/ActionEvent;)V
+Classes.FenManager#LoadFromFen(Ljava/lang/String;)V
+==
+getText javax.swing.text.JTextComponent#getText()Ljava/lang/String;

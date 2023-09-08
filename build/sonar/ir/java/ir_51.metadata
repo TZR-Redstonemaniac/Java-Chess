@@ -1,0 +1,6 @@
+Classes.Board#FromWhereIsTheSquareAttacked(II)I
+Classes.Board#PawnAttackLocation(II)Ljava/lang/Integer;
+Classes.Piece#IsColour(II)Z
+Classes.Board#KingAttackLocation(II)Ljava/lang/Integer;
+Classes.Board#KnightAttackLocation(II)Ljava/lang/Integer;
+Classes.Board#SlidingAttackLocation(II)Ljava/lang/Integer;

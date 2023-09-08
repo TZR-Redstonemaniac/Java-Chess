@@ -1,0 +1,8 @@
+Core.Game#MainGameLoop()V
+Core.Game#Grab()V
+Classes.Mouse#GetPressed()Z
+Core.Game#Release()V
+Core.Game#GetIndex()I
+Classes.Mouse#GetGrabbed()Z
+==
+repaint java.awt.Component#repaint()V

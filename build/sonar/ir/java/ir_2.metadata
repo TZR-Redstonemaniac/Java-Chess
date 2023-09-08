@@ -1,0 +1,21 @@
+Core.Draw#paint(Ljava/awt/Graphics;)V
+Core.Draw#DrawPiece(Ljava/awt/Graphics2D;III)V
+java.awt.Color#instance-init#
+java.awt.PointerInfo#getLocation()Ljava/awt/Point;
+java.awt.Color#<init>(III)V
+Core.GUI#GetAttackedSquares()Ljava/util/List;
+java.awt.MouseInfo#getPointerInfo()Ljava/awt/PointerInfo;
+Classes.Board#GetSquares()[Ljava/util/Map;
+Core.Game#GetStartIndex()I
+Core.Game#GetMoves()Ljava/util/List;
+Classes.Mouse#GetGrabbed()Z
+==
+fillRect java.awt.Graphics#fillRect(IIII)V
+paint javax.swing.JComponent#paint(Ljava/awt/Graphics;)V
+log java.util.logging.Logger#log(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Object;)V
+getLocationOnScreen java.awt.Component#getLocationOnScreen()Ljava/awt/Point;
+entrySet java.util.Map#entrySet()Ljava/util/Set;
+get java.util.Map#get(Ljava/lang/Object;)Ljava/lang/Object;
+getKey java.util.Map$Entry#getKey()Ljava/lang/Object;
+getValue java.util.Map$Entry#getValue()Ljava/lang/Object;
+setColor java.awt.Graphics#setColor(Ljava/awt/Color;)V
