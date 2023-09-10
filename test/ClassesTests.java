@@ -105,6 +105,9 @@ class ClassesTests {
         Board.SetSquare(29, Piece.WHITE | Piece.BISHOP);
 
         MoveGenerator.ClearMoves();
+
+        Board.SetColour(Piece.WHITE);
+
         MoveGenerator.GenerateSlidingMoves(22, Piece.WHITE | Piece.BISHOP);
 
         Assertions.assertEquals(4, MoveGenerator.GetMoves().size());

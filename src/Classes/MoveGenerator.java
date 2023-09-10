@@ -217,6 +217,7 @@ public class MoveGenerator {
 
         if (Piece.IsColour(Board.GetSquare()[startSquare], Piece.WHITE)
                 && Board.wKingsideCastle
+                && startSquare == 4
                 && Board.GetSquare()[startSquare + 1] == Piece.NONE
                 && Board.GetSquare()[startSquare + 2] == Piece.NONE
                 && Piece.PieceChecker(Board.GetSquare()[startSquare + 3], Piece.ROOK, Piece.WHITE)
@@ -226,6 +227,7 @@ public class MoveGenerator {
 
         if (Piece.IsColour(Board.GetSquare()[startSquare], Piece.BLACK)
                 && Board.bKingsideCastle
+                && startSquare == 60
                 && Board.GetSquare()[startSquare + 1] == Piece.NONE
                 && Board.GetSquare()[startSquare + 2] == Piece.NONE
                 && Piece.PieceChecker(Board.GetSquare()[startSquare + 3], Piece.ROOK, Piece.BLACK)
@@ -235,6 +237,7 @@ public class MoveGenerator {
 
         if (Piece.IsColour(Board.GetSquare()[startSquare], Piece.WHITE)
                 && Board.wQueensideCastle
+                && startSquare == 4
                 && Board.GetSquare()[startSquare - 1] == Piece.NONE
                 && Board.GetSquare()[startSquare - 2] == Piece.NONE
                 && Board.GetSquare()[startSquare - 3] == Piece.NONE
@@ -245,6 +248,7 @@ public class MoveGenerator {
 
         if (Piece.IsColour(Board.GetSquare()[startSquare], Piece.BLACK)
                 && Board.bQueensideCastle
+                && startSquare == 60
                 && !Board.IsSquareAttacked(startSquare - 1, Board.opponentColor)
                 && !Board.IsSquareAttacked(startSquare - 2, Board.opponentColor)
                 && Board.GetSquare()[startSquare - 1] == Piece.NONE
