@@ -4,11 +4,11 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-public class ClassesTests {
+class ClassesTests {
 
     //region Piece Class
     @Test
-    public void IsColourTest(){
+    void IsColourTest(){
         int piece1 = Piece.WHITE | Piece.ROOK;
         int piece2 = Piece.WHITE | Piece.PAWN;
         int piece3 = Piece.BLACK | Piece.ROOK;
@@ -21,7 +21,7 @@ public class ClassesTests {
     }
 
     @Test
-    public void PieceTypeTest(){
+    void PieceTypeTest(){
         int piece1 = Piece.WHITE | Piece.ROOK;
         int piece2 = Piece.WHITE | Piece.PAWN;
         int piece3 = Piece.BLACK | Piece.BISHOP;
@@ -34,7 +34,7 @@ public class ClassesTests {
     }
 
     @Test
-    public void PieceCheckerTest(){
+    void PieceCheckerTest(){
         int piece1 = Piece.WHITE | Piece.ROOK;
         int piece2 = Piece.WHITE | Piece.PAWN;
         int piece3 = Piece.BLACK | Piece.BISHOP;
@@ -54,7 +54,7 @@ public class ClassesTests {
     }
 
     @Test
-    public void PieceNameTest(){
+    void PieceNameTest(){
         int piece1 = Piece.WHITE | Piece.ROOK;
         int piece2 = Piece.WHITE | Piece.PAWN;
         int piece3 = Piece.BLACK | Piece.BISHOP;
@@ -72,7 +72,7 @@ public class ClassesTests {
     }
 
     @Test
-    public void PosFromIndexTest(){
+    void PosFromIndexTest(){
         int index1 = 35;
         int index2 = 27;
         int index3 = 53;
@@ -89,7 +89,7 @@ public class ClassesTests {
 
     //region Move Generator Class
     @Test
-    public void GenerateSlidingMovesTest(){
+    void GenerateSlidingMovesTest(){
         PrecomputedMoveData.Init();
 
         //Bishop Test
@@ -101,6 +101,16 @@ public class ClassesTests {
         Assertions.assertTrue(TestIfMoveExists(22, 4, MoveGenerator.GetMoves()));
         Assertions.assertTrue(TestIfMoveExists(22, 50, MoveGenerator.GetMoves()));
         Assertions.assertTrue(TestIfMoveExists(22, 36, MoveGenerator.GetMoves()));
+
+        Board.SetSquare(29, Piece.WHITE | Piece.BISHOP);
+
+        MoveGenerator.ClearMoves();
+        MoveGenerator.GenerateSlidingMoves(22, Piece.WHITE | Piece.BISHOP);
+
+        Assertions.assertEquals(4, MoveGenerator.GetMoves().size());
+        Assertions.assertFalse(TestIfMoveExists(22, 36, MoveGenerator.GetMoves()));
+
+        Board.SetSquare(29, Piece.NONE);
 
         //Rook Test
         MoveGenerator.ClearMoves();
@@ -128,7 +138,7 @@ public class ClassesTests {
     }
 
     @Test
-    public void GenerateKnightMovesTest(){
+    void GenerateKnightMovesTest(){
         PrecomputedMoveData.Init();
 
         MoveGenerator.ClearMoves();
@@ -143,7 +153,7 @@ public class ClassesTests {
     }
 
     @Test
-    public void GeneratePawnMovesTest(){
+    void GeneratePawnMovesTest(){
         PrecomputedMoveData.Init();
 
         //Test normal moves
@@ -152,20 +162,22 @@ public class ClassesTests {
 
         Board.SetColour(Piece.WHITE);
 
-        MoveGenerator.GeneratePawnMoves(20);
-        Assertions.assertEquals(1, MoveGenerator.GetMoves().size());
+        MoveGenerator.GeneratePawnMoves(15);
+        Assertions.assertEquals(2, MoveGenerator.GetMoves().size());
 
-        Assertions.assertTrue(TestIfMoveExists(20, 28, MoveGenerator.GetMoves()));
+        Assertions.assertTrue(TestIfMoveExists(15, 23, MoveGenerator.GetMoves()));
+        Assertions.assertTrue(TestIfMoveExists(15, 31, MoveGenerator.GetMoves()));
 
         //Black
         MoveGenerator.ClearMoves();
 
         Board.SetColour(Piece.BLACK);
 
-        MoveGenerator.GeneratePawnMoves(20);
-        Assertions.assertEquals(1, MoveGenerator.GetMoves().size());
+        MoveGenerator.GeneratePawnMoves(55);
+        Assertions.assertEquals(2, MoveGenerator.GetMoves().size());
 
-        Assertions.assertTrue(TestIfMoveExists(20, 12, MoveGenerator.GetMoves()));
+        Assertions.assertTrue(TestIfMoveExists(55, 47, MoveGenerator.GetMoves()));
+        Assertions.assertTrue(TestIfMoveExists(55, 39, MoveGenerator.GetMoves()));
 
         //Test promotion moves
         //White
@@ -193,12 +205,42 @@ public class ClassesTests {
         Assertions.assertTrue(TestIfMoveExists(15, 7, Piece.BISHOP | Board.colorToMove, MoveGenerator.GetMoves()));
         Assertions.assertTrue(TestIfMoveExists(15, 7, Piece.KNIGHT | Board.colorToMove, MoveGenerator.GetMoves()));
         Assertions.assertTrue(TestIfMoveExists(15, 7, Piece.QUEEN | Board.colorToMove, MoveGenerator.GetMoves()));
+
+        //Test Captures
+        //White
+        MoveGenerator.ClearMoves();
+
+        Board.SetColour(Piece.WHITE);
+
+        Board.SetSquare(36, Piece.PAWN | Piece.BLACK);
+
+        MoveGenerator.GeneratePawnMoves(27);
+        Assertions.assertEquals(2, MoveGenerator.GetMoves().size());
+
+        Assertions.assertTrue(TestIfMoveExists(27, 36, MoveGenerator.GetMoves()));
+
+        Board.Clear();
+
+        //Black
+        MoveGenerator.ClearMoves();
+
+        Board.SetColour(Piece.BLACK);
+
+        Board.SetSquare(27, Piece.PAWN | Piece.WHITE);
+
+        MoveGenerator.GeneratePawnMoves(36);
+        Assertions.assertEquals(2, MoveGenerator.GetMoves().size());
+
+        Assertions.assertTrue(TestIfMoveExists(36, 27, MoveGenerator.GetMoves()));
+
+        Board.Clear();
     }
 
     @Test
-    public void GenerateKingMovesTest(){
+    void GenerateKingMovesTest(){
         PrecomputedMoveData.Init();
 
+        //Top Right
         MoveGenerator.ClearMoves();
 
         MoveGenerator.GenerateKingMoves(63);
@@ -208,10 +250,98 @@ public class ClassesTests {
         Assertions.assertTrue(TestIfMoveExists(63, 62, MoveGenerator.GetMoves()));
         Assertions.assertTrue(TestIfMoveExists(63, 54, MoveGenerator.GetMoves()));
         Assertions.assertTrue(TestIfMoveExists(63, 55, MoveGenerator.GetMoves()));
+
+        //Top Left
+        MoveGenerator.ClearMoves();
+
+        MoveGenerator.GenerateKingMoves(56);
+
+        Assertions.assertEquals(3, MoveGenerator.GetMoves().size());
+
+        Assertions.assertTrue(TestIfMoveExists(56, 57, MoveGenerator.GetMoves()));
+        Assertions.assertTrue(TestIfMoveExists(56, 48, MoveGenerator.GetMoves()));
+        Assertions.assertTrue(TestIfMoveExists(56, 49, MoveGenerator.GetMoves()));
+
+        //Bottom Left
+        MoveGenerator.ClearMoves();
+
+        MoveGenerator.GenerateKingMoves(0);
+
+        Assertions.assertEquals(3, MoveGenerator.GetMoves().size());
+
+        Assertions.assertTrue(TestIfMoveExists(0, 8, MoveGenerator.GetMoves()));
+        Assertions.assertTrue(TestIfMoveExists(0, 9, MoveGenerator.GetMoves()));
+        Assertions.assertTrue(TestIfMoveExists(0, 1, MoveGenerator.GetMoves()));
+
+        //Bottom Right
+        MoveGenerator.ClearMoves();
+
+        MoveGenerator.GenerateKingMoves(7);
+
+        Assertions.assertEquals(3, MoveGenerator.GetMoves().size());
+
+        Assertions.assertTrue(TestIfMoveExists(7, 6, MoveGenerator.GetMoves()));
+        Assertions.assertTrue(TestIfMoveExists(7, 14, MoveGenerator.GetMoves()));
+        Assertions.assertTrue(TestIfMoveExists(7, 15, MoveGenerator.GetMoves()));
     }
 
     @Test
-    public void MoveGenerationTestTest(){
+    void GenerateCastleMovesTest(){
+        //Castling White
+        Board.wQueensideCastle = true;
+        Board.wKingsideCastle = true;
+
+        MoveGenerator.ClearMoves();
+
+        Board.SetColour(Piece.WHITE);
+
+        Board.SetSquare(7, Piece.WHITE | Piece.ROOK);
+        Board.SetSquare(0, Piece.WHITE | Piece.ROOK);
+        Board.SetSquare(4, Piece.WHITE | Piece.KING);
+
+        MoveGenerator.GenerateKingMoves(4);
+
+        Assertions.assertEquals(7, MoveGenerator.GetMoves().size());
+
+        Assertions.assertTrue(TestIfMoveExists(4, 2, MoveGenerator.GetMoves()));
+        Assertions.assertTrue(TestIfMoveExists(4, 3, MoveGenerator.GetMoves()));
+        Assertions.assertTrue(TestIfMoveExists(4, 5, MoveGenerator.GetMoves()));
+        Assertions.assertTrue(TestIfMoveExists(4, 6, MoveGenerator.GetMoves()));
+        Assertions.assertTrue(TestIfMoveExists(4, 11, MoveGenerator.GetMoves()));
+        Assertions.assertTrue(TestIfMoveExists(4, 12, MoveGenerator.GetMoves()));
+        Assertions.assertTrue(TestIfMoveExists(4, 13, MoveGenerator.GetMoves()));
+
+        Board.Clear();
+
+        //Castling Black
+        Board.bQueensideCastle = true;
+        Board.bKingsideCastle = true;
+
+        MoveGenerator.ClearMoves();
+
+        Board.SetColour(Piece.BLACK);
+
+        Board.SetSquare(63, Piece.BLACK | Piece.ROOK);
+        Board.SetSquare(56, Piece.BLACK | Piece.ROOK);
+        Board.SetSquare(60, Piece.BLACK | Piece.KING);
+
+        MoveGenerator.GenerateKingMoves(60);
+
+        Assertions.assertEquals(7, MoveGenerator.GetMoves().size());
+
+        Assertions.assertTrue(TestIfMoveExists(60, 58, MoveGenerator.GetMoves()));
+        Assertions.assertTrue(TestIfMoveExists(60, 59, MoveGenerator.GetMoves()));
+        Assertions.assertTrue(TestIfMoveExists(60, 61, MoveGenerator.GetMoves()));
+        Assertions.assertTrue(TestIfMoveExists(60, 62, MoveGenerator.GetMoves()));
+        Assertions.assertTrue(TestIfMoveExists(60, 51, MoveGenerator.GetMoves()));
+        Assertions.assertTrue(TestIfMoveExists(60, 52, MoveGenerator.GetMoves()));
+        Assertions.assertTrue(TestIfMoveExists(60, 53, MoveGenerator.GetMoves()));
+
+        Board.Clear();
+    }
+
+    @Test
+    void MoveGenerationTestTest(){
         MoveGenerator.ClearMoves();
 
         PrecomputedMoveData.Init();
@@ -219,7 +349,7 @@ public class ClassesTests {
         FenManager.LoadFromFen(FenManager.START_FEN);
         Board.Init();
 
-        Assertions.assertEquals(20, MoveGenerator.MoveGenerationTest(1,0));
+        Assertions.assertEquals(20, MoveGenerator.MoveGenerationTest(1,1));
         Assertions.assertEquals(400, MoveGenerator.MoveGenerationTest(2,0));
         Assertions.assertEquals(8902, MoveGenerator.MoveGenerationTest(3,0));
         Assertions.assertEquals(197281, MoveGenerator.MoveGenerationTest(4,0));

@@ -122,6 +122,10 @@ public class Board {
         prevWQCastling.remove(prevWQCastling.size() - 1);
         prevBQCastling.remove(prevBQCastling.size() - 1);
     }
+
+    public static void Clear() {
+        for (int i = 0; i < 63; i++) square[i] = 0;
+    }
     //endregion
 
     //region Constructor
@@ -234,8 +238,6 @@ public class Board {
     }
 
     //endregion
-
-    //region Convenience
 
     //region Special Moves
     private static void Castling(int pieceToMove, Move move){
@@ -712,8 +714,6 @@ public class Board {
     }
     //endregion
 
-    //endregion
-
     //region Getters and setters
 
     public static int[] GetSquare() {
@@ -726,6 +726,11 @@ public class Board {
 
     public static void SetColour(int color){
         colorToMove = color;
+        if (colorToMove == Piece.WHITE) {
+            opponentColor = Piece.BLACK;
+        } else {
+            opponentColor = Piece.WHITE;
+        }
     }
 
     //endregion

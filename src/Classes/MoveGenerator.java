@@ -7,9 +7,11 @@ import java.util.logging.Logger;
 
 public class MoveGenerator {
 
+    //ignore
     private MoveGenerator() {
         throw new IllegalStateException("Utility class");
     }
+    //endignore
 
     //region Variables
     private static ArrayList<Move> moves = new ArrayList<>();
@@ -322,10 +324,12 @@ public class MoveGenerator {
         return numPositions;
     }
 
+    //ignore
     public static void Reset(){
         divide.delete(0, divide.length() - 1);
         totalNodes = 0;
     }
+    //endignore
 
     public static List<Move> GetMoves(){
         return moves;

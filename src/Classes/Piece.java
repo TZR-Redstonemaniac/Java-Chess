@@ -2,9 +2,11 @@ package Classes;
 
 public class Piece {
 
+    //ignore
     private Piece() {
         throw new IllegalStateException("Utility class");
     }
+    //endignore
 
     public static final int NONE = 0;
     public static final int PAWN = 1;

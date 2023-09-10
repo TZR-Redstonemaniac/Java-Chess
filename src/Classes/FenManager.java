@@ -6,9 +6,11 @@ import java.util.Objects;
 
 public class FenManager {
 
+    //ignore
     private FenManager() {
         throw new IllegalStateException("Utility class");
     }
+    //endignore
 
     public static final String START_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
