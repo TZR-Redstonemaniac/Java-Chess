@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ClassesTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-09-10T10:05:19" hostname="KAD-HP" time="0.043">
+<testsuite name="ClassesTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-09-11T11:05:27" hostname="KAD-HP" time="30.812">
   <properties/>
-  <testcase name="GeneratePawnMovesTest()" classname="ClassesTests" time="0.043"/>
+  <testcase name="MoveGenerationTest1()" classname="ClassesTests" time="30.812"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

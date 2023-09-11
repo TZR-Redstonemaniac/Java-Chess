@@ -343,14 +343,15 @@ class ClassesTests {
         Board.Clear();
     }
 
+    //region Move generation tests
     @Test
-    void MoveGenerationTestTest(){
+    void MoveGenerationTest1(){
+        PrecomputedMoveData.Init();
+
         MoveGenerator.ClearMoves();
 
-        PrecomputedMoveData.Init();
         FenManager.Init();
         FenManager.LoadFromFen(FenManager.START_FEN);
-        Board.Init();
 
         Assertions.assertEquals(20, MoveGenerator.MoveGenerationTest(1,1));
         Assertions.assertEquals(400, MoveGenerator.MoveGenerationTest(2,0));
@@ -358,6 +359,64 @@ class ClassesTests {
         Assertions.assertEquals(197281, MoveGenerator.MoveGenerationTest(4,0));
         Assertions.assertEquals(4865609, MoveGenerator.MoveGenerationTest(5,0));
     }
+
+    @Test
+    void MoveGenerationTest2(){
+        MoveGenerator.ClearMoves();
+
+        FenManager.Init();
+        FenManager.LoadFromFen("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -");
+
+        Assertions.assertEquals(48, MoveGenerator.MoveGenerationTest(1,1));
+        Assertions.assertEquals(2039, MoveGenerator.MoveGenerationTest(2,0));
+        Assertions.assertEquals(97862, MoveGenerator.MoveGenerationTest(3,0));
+        Assertions.assertEquals(4085603, MoveGenerator.MoveGenerationTest(4,0));
+    }
+
+    @Test
+    void MoveGenerationTest3(){
+        MoveGenerator.ClearMoves();
+
+        FenManager.Init();
+        FenManager.LoadFromFen("8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - -");
+
+        Assertions.assertEquals(14, MoveGenerator.MoveGenerationTest(1,1));
+        Assertions.assertEquals(191, MoveGenerator.MoveGenerationTest(2,0));
+        Assertions.assertEquals(2812, MoveGenerator.MoveGenerationTest(3,0));
+        Assertions.assertEquals(43238, MoveGenerator.MoveGenerationTest(4,0));
+        Assertions.assertEquals(674624, MoveGenerator.MoveGenerationTest(5,0));
+    }
+
+    @Test
+    void MoveGenerationTest4(){
+        MoveGenerator.ClearMoves();
+
+        FenManager.Init();
+        FenManager.LoadFromFen("rnbq1k1r/pp1Pbppp/2p5/8/2B5/8/PPP1NnPP/RNBQK2R w KQ - 1 8");
+
+        Assertions.assertEquals(44, MoveGenerator.MoveGenerationTest(1,1));
+        Assertions.assertEquals(1486, MoveGenerator.MoveGenerationTest(2,0));
+        Assertions.assertEquals(62379, MoveGenerator.MoveGenerationTest(3,0));
+        Assertions.assertEquals(2103487, MoveGenerator.MoveGenerationTest(4,0));
+    }
+
+    @Test
+    void MoveGenerationTest5(){
+        MoveGenerator.ClearMoves();
+
+        FenManager.Init();
+        FenManager.LoadFromFen("r4rk1/1pp1qppp/p1np1n2/2b1p1B1/2B1P1b1/P1NP1N2/1PP1QPPP/R4RK1 w - - 0 10");
+
+        Assertions.assertEquals(46, MoveGenerator.MoveGenerationTest(1,1));
+        Assertions.assertEquals(2079, MoveGenerator.MoveGenerationTest(2,0));
+        Assertions.assertEquals(89890, MoveGenerator.MoveGenerationTest(3,0));
+        Assertions.assertEquals(3894594, MoveGenerator.MoveGenerationTest(4,0));
+    }
+    //endregion
+    //endregion
+
+    //region Board Class
+
     //endregion
 
     //region Test Functions
