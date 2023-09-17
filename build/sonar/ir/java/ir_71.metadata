@@ -1,4 +1,0 @@
-Classes.MoveGenerator#Reset()V
-java.lang.StringBuilder#delete(II)Ljava/lang/StringBuilder;
-==
-length java.lang.AbstractStringBuilder#length()I

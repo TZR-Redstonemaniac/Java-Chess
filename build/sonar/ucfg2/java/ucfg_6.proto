@@ -1,35 +1,0 @@
-
-Core.GUI#GetDepth()IA
-5/home/khalid/IntellijProjects/Chess/src/Core/GUI.javaÉ É("1*â
-1
-Ê Ê(V
-T
-
-Ê  Ê(-
-%0javax.swing.JTextField"__id*"
-
-__unknown_file (
-""«¨
-
-Ê  Ê(7
-%1java.lang.String";javax.swing.text.JTextComponent#getText()Ljava/lang/String;*:
-
-__unknown_file (
-
-%0javax.swing.JTextField2	getText()´
-±
-
-Ê Ê(8	
-%2int"/java.lang.Integer#parseInt(Ljava/lang/String;)I*1
-
-__unknown_file ("
-java.lang.Integer*4
-
-__unknown_file (
-
-%1java.lang.String"
-
-Ê Ê(9
-""B
-
-Core.GUIP

@@ -1,3 +1,0 @@
-Core.Game#main([Ljava/lang/String;)V
-Classes.PrecomputedMoveData#Init()V
-Core.Game#MainGameLoop()V

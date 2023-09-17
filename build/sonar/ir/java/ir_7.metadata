@@ -1,6 +1,0 @@
-Core.GUI#AddComponents()V
-Classes.Mouse#instance-init#
-Classes.Mouse#<init>()V
-==
-add java.awt.Container#add(Ljava/awt/Component;)Ljava/awt/Component;
-addMouseListener java.awt.Component#addMouseListener(Ljava/awt/event/MouseListener;)V

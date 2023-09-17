@@ -1,3 +1,0 @@
-Core.Game#EnPassant(I)V
-Classes.Board#SetSquare(II)V
-Classes.Piece#PieceChecker(II)Z

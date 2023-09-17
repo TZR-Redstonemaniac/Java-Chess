@@ -1,95 +1,0 @@
-
-__sonar_lambda_1$Core.GUIB
-5/home/khalid/IntellijProjects/Chess/src/Core/GUI.javaÑ Ñ(—"startingBlock*“
-startingBlockÑ Ñ(—p
-n
-
-__unknown_file (
-GUI.thisCore.GUI"__id*6
-
-__unknown_file (*
-
-Core.GUI"
-
-GUI.this*
-1*“
-
-1
-Ñ Ñ(&R
-P
-
-Ñ Ñ(&
-%5javax.swing.JLabel"__id*"
-
-__unknown_file (
-""c
-a
-
-Ñ_ Ñ(i	
-%6int"Core.GUI#GetDepth()I*2
-
-__unknown_file (
-
-GUI.thisCore.GUIW
-U
-Ñ| Ñ(‰
-%7javax.swing.JTextField"__id*"
-
-__unknown_file (
-""¬©
-Ñ| Ñ(“
-%8java.lang.String";javax.swing.text.JTextComponent#getText()Ljava/lang/String;*:
-
-__unknown_file (
-
-%7javax.swing.JTextField2	getText()µ
-²
-Ñk Ñ(”
-%9float"/java.lang.Float#parseFloat(Ljava/lang/String;)F*/
-
-__unknown_file ("
-java.lang.Float*4
-
-__unknown_file (
-
-%8java.lang.StringÖ
-Ó
-Ñ> Ñ(•
-
-%10int"-Classes.MoveGenerator#MoveGenerationTest(IF)I*5
-
-__unknown_file ("
-Classes.MoveGenerator*'
-
-__unknown_file (
-	
-%6int*)
-
-__unknown_file (
-
-%9float´
-±
-Ñ/ Ñ(–
-%11java.lang.String"-java.lang.String#valueOf(I)Ljava/lang/String;*0
-
-__unknown_file ("
-java.lang.String*(
-
-__unknown_file (
-
-
-%10intÚ×
-Ñ Ñ(—
-%12void"/javax.swing.JLabel#setText(Ljava/lang/String;)V*6
-
-__unknown_file (
-
-%5javax.swing.JLabel*5
-
-__unknown_file (
-
-%11java.lang.String2setText(Ljava/lang/String;)"
-Ñ Ñ(—
-
-%12voidB
-java.lang.Runnable

@@ -1,6 +1,0 @@
-Core.Game#Grab()V
-Classes.Mouse#SetGrabbed(Z)V
-Classes.MoveGenerator#GenerateLegalMoves()Ljava/util/List;
-Classes.Board#GetSquare()[I
-==
-removeIf java.util.Collection#removeIf(Ljava/util/function/Predicate;)Z

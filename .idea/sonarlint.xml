@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="SonarLintProjectSettings">
-    <option name="analysisLogsEnabled" value="true" />
-    <option name="bindingEnabled" value="true" />
-    <option name="projectKey" value="TZR-Redstonemaniac_Java-Chess" />
-    <option name="serverId" value="Java-Chess" />
-  </component>
-</project>

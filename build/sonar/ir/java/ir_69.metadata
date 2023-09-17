@@ -1,8 +1,0 @@
-Classes.MoveGenerator#GeneratePawnCaptures(II)V
-Classes.MoveGenerator#GeneratePromotionMoves(III)V
-Classes.Piece#IsColour(II)Z
-Classes.Move#<init>(II)V
-Classes.Move#instance-init#
-Classes.Board#GetSquare()[I
-==
-add java.util.ArrayList#add(Ljava/lang/Object;)Z

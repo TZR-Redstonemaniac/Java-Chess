@@ -1,4 +1,0 @@
-Core.Game#Castling(I)V
-Classes.Board#SetSquare(II)V
-Classes.Piece#PieceChecker(II)Z
-Classes.Board#GetSquare()[I

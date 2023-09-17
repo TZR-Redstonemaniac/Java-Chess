@@ -1,9 +1,0 @@
-Core.Game#GetIndex()I
-java.awt.PointerInfo#getLocation()Ljava/awt/Point;
-java.awt.MouseInfo#getPointerInfo()Ljava/awt/PointerInfo;
-Core.Game#ConvertY(I)I
-Core.Game#ConvertX(I)I
-==
-getLocationOnScreen java.awt.Component#getLocationOnScreen()Ljava/awt/Point;
-getHeight java.awt.Component#getHeight()I
-getWidth java.awt.Component#getWidth()I

@@ -1,4 +1,0 @@
-Core.GUI#GetDepth()I
-java.lang.Integer#parseInt(Ljava/lang/String;)I
-==
-getText javax.swing.text.JTextComponent#getText()Ljava/lang/String;

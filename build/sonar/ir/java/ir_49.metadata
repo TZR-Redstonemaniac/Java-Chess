@@ -1,6 +1,0 @@
-Classes.Board#IsSquareAttacked(II)Z
-Classes.Piece#IsColour(II)Z
-Classes.Board#AttackedByKing(II)Z
-Classes.Board#AttackedBySlidingPiece(II)Z
-Classes.Board#AttackedByPawn(II)Z
-Classes.Board#AttackedByKnight(II)Z

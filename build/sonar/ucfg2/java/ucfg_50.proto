@@ -1,199 +1,0 @@
-
-)Classes.Board#AttackedBySlidingPiece(II)ZF
-:/home/khalid/IntellijProjects/Chess/src/Classes/Board.java² ²(1"1"10"22*)
-5Çœ Ç( "
-Ç• Ç(¡
-""**
-17ºž º(¢"
-º— º(£
-""*È
-6
-ÇU Ç(ZE
-C
-Çw Ç(‚
-
-%12int"__id*"
-
-__unknown_file (
-""ã
-à
-ÇU Ç(“
-%13boolean" Classes.Piece#PieceChecker(III)Z*-
-
-__unknown_file ("
-Classes.Piece*"
-
-__unknown_file (
-""*(
-
-__unknown_file (
-
-
-%12int*"
-
-__unknown_file (
-""*
-
-5
-10
-1*Ë
-18
-ºW º(\D
-B
-ºy º(„	
-%5int"__id*"
-
-__unknown_file (
-""á
-Þ
-ºW º(•
-%6boolean" Classes.Piece#PieceChecker(III)Z*-
-
-__unknown_file ("
-Classes.Piece*"
-
-__unknown_file (
-""*'
-
-__unknown_file (
-	
-%5int*"
-
-__unknown_file (
-""*
-17
-10
-22
-1*Â
-7
-Ç Ç(D
-B
-
-Ç6 Ç(@
-
-%10int"__id*"
-
-__unknown_file (
-""â
-ß
-
-Ç Ç(Q
-%11boolean" Classes.Piece#PieceChecker(III)Z*-
-
-__unknown_file ("
-Classes.Piece*"
-
-__unknown_file (
-""*(
-
-__unknown_file (
-
-
-%10int*"
-
-__unknown_file (
-""*
-5
-6*Â
-19
-º º(C
-A
-
-º6 º(B	
-%3int"__id*"
-
-__unknown_file (
-""à
-Ý
-
-º º(S
-%4boolean" Classes.Piece#PieceChecker(III)Z*-
-
-__unknown_file ("
-Classes.Piece*"
-
-__unknown_file (
-""*'
-
-__unknown_file (
-	
-%3int*"
-
-__unknown_file (
-""*
-17
-18*¤
-9
-Â Â((E
-C
-
-Â+ Â(O
-%8int[]"__id*"
-
-__unknown_file (
-""C
-A
-
-Å% Å(/	
-%9int"__id*"
-
-__unknown_file (
-""*
-7
-10*¦
-21
-µ µ((E
-C
-
-µ+ µ(O
-%1int[]"__id*"
-
-__unknown_file (
-""C
-A
-
-¸% ¸(/	
-%2int"__id*"
-
-__unknown_file (
-""*
-19
-22*e
-10
-Á Á(G
-E
-
-Á  Á(D
-%7int[][]"__id*"
-
-__unknown_file (
-""*
-
-9
-10
-1*j
-22
-´ ´(G
-E
-
-´  ´(D
-%0int[][]"__id*"
-
-__unknown_file (
-""*
-21
-10
-22
-1*%
-1
-Ì Ì("
-
-Ì Ì(
-"": 
-
-__unknown_file (
-"": 
-
-__unknown_file (
-""B"
-Classes.BoardP
