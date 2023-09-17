@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Texture.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Chess</a> &gt; <a href="index.source.html" class="el_package">Classes</a> &gt; <span class="el_source">Texture.java</span></div><h1>Texture.java</h1><pre class="source lang-java linenums">package Classes;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class Texture {
+
+<span class="nc" id="L12">    private Texture() {</span>
+<span class="nc" id="L13">        throw new IllegalStateException(&quot;Utility class&quot;);</span>
+    }
+
+<span class="nc" id="L16">    public static Image WHITE_PAWN = null; //NOSONAR</span>
+<span class="nc" id="L17">    public static Image WHITE_KNIGHT = null; //NOSONAR</span>
+<span class="nc" id="L18">    public static Image WHITE_BISHOP = null; //NOSONAR</span>
+<span class="nc" id="L19">    public static Image WHITE_ROOK = null; //NOSONAR</span>
+<span class="nc" id="L20">    public static Image WHITE_KING = null; //NOSONAR</span>
+<span class="nc" id="L21">    public static Image WHITE_QUEEN = null; //NOSONAR</span>
+
+<span class="nc" id="L23">    public static Image BLACK_PAWN = null; //NOSONAR</span>
+<span class="nc" id="L24">    public static Image BLACK_KNIGHT = null; //NOSONAR</span>
+<span class="nc" id="L25">    public static Image BLACK_BISHOP = null; //NOSONAR</span>
+<span class="nc" id="L26">    public static Image BLACK_ROOK = null; //NOSONAR</span>
+<span class="nc" id="L27">    public static Image BLACK_KING = null; //NOSONAR</span>
+<span class="nc" id="L28">    public static Image BLACK_QUEEN = null; //NOSONAR</span>
+
+    private static final String WHITE_FOLDER = &quot;/home/khalid/IntellijProjects/Chess/src/Textures/White_Pieces/&quot;;
+    private static final String BLACK_FOLDER = &quot;/home/khalid/IntellijProjects/Chess/src/Textures/Black_Pieces/&quot;;
+<span class="nc" id="L32">    private static final Logger LOGGER = Logger.getLogger(Texture.class.getName());</span>
+
+    public static void Init(){
+        try {
+<span class="nc" id="L36">            WHITE_PAWN = ImageIO.read(new File(WHITE_FOLDER, &quot;White_Pawn.png&quot;));</span>
+<span class="nc" id="L37">            WHITE_KNIGHT = ImageIO.read(new File(WHITE_FOLDER, &quot;White_Knight.png&quot;));</span>
+<span class="nc" id="L38">            WHITE_BISHOP = ImageIO.read(new File(WHITE_FOLDER, &quot;White_Bishop.png&quot;));</span>
+<span class="nc" id="L39">            WHITE_ROOK = ImageIO.read(new File(WHITE_FOLDER, &quot;White_Rook.png&quot;));</span>
+<span class="nc" id="L40">            WHITE_KING = ImageIO.read(new File(WHITE_FOLDER, &quot;White_King.png&quot;));</span>
+<span class="nc" id="L41">            WHITE_QUEEN = ImageIO.read(new File(WHITE_FOLDER, &quot;White_Queen.png&quot;));</span>
+
+<span class="nc" id="L43">            BLACK_PAWN = ImageIO.read(new File(BLACK_FOLDER, &quot;Black_Pawn.png&quot;));</span>
+<span class="nc" id="L44">            BLACK_KNIGHT = ImageIO.read(new File(BLACK_FOLDER, &quot;Black_Knight.png&quot;));</span>
+<span class="nc" id="L45">            BLACK_BISHOP = ImageIO.read(new File(BLACK_FOLDER, &quot;Black_Bishop.png&quot;));</span>
+<span class="nc" id="L46">            BLACK_ROOK = ImageIO.read(new File(BLACK_FOLDER, &quot;Black_Rook.png&quot;));</span>
+<span class="nc" id="L47">            BLACK_KING = ImageIO.read(new File(BLACK_FOLDER, &quot;Black_King.png&quot;));</span>
+<span class="nc" id="L48">            BLACK_QUEEN = ImageIO.read(new File(BLACK_FOLDER, &quot;Black_Queen.png&quot;));</span>
+<span class="nc" id="L49">        } catch (IOException e) {</span>
+<span class="nc" id="L50">            LOGGER.log(Level.SEVERE, e.getMessage(), e);</span>
+<span class="nc" id="L51">        }</span>
+<span class="nc" id="L52">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

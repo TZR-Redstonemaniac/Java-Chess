@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FenManager.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Chess</a> &gt; <a href="index.source.html" class="el_package">Classes</a> &gt; <span class="el_source">FenManager.java</span></div><h1>FenManager.java</h1><pre class="source lang-java linenums">package Classes;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
+public class FenManager {
+
+<span class="nc" id="L9">    private FenManager() {</span>
+<span class="nc" id="L10">        throw new IllegalStateException(&quot;Utility class&quot;);</span>
+    }
+
+    public static final String START_FEN = &quot;rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1&quot;;
+
+<span class="fc" id="L15">    static Map&lt;Character, Integer&gt; pieceTypeFromSymbol = new HashMap&lt;&gt;();</span>
+
+    public static void Init(){
+<span class="fc" id="L18">        pieceTypeFromSymbol.put('k', Piece.KING);</span>
+<span class="fc" id="L19">        pieceTypeFromSymbol.put('p', Piece.PAWN);</span>
+<span class="fc" id="L20">        pieceTypeFromSymbol.put('n', Piece.KNIGHT);</span>
+<span class="fc" id="L21">        pieceTypeFromSymbol.put('b', Piece.BISHOP);</span>
+<span class="fc" id="L22">        pieceTypeFromSymbol.put('r', Piece.ROOK);</span>
+<span class="fc" id="L23">        pieceTypeFromSymbol.put('q', Piece.QUEEN);</span>
+<span class="fc" id="L24">    }</span>
+
+    public static void LoadFromFen(String fen){
+<span class="fc bfc" id="L27" title="All 2 branches covered.">        for (int i = 0; i &lt; 64; i++) Board.SetSquare(i, 0);</span>
+
+<span class="fc" id="L29">        String[] sections = fen.split (&quot; &quot;);</span>
+
+<span class="fc" id="L31">        int file = 0;</span>
+<span class="fc" id="L32">        int rank = 7;</span>
+
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        for (char symbol : sections[0].toCharArray()) {</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">            if (symbol == '/') {</span>
+<span class="fc" id="L36">                file = 0;</span>
+<span class="fc" id="L37">                rank--;</span>
+            } else {
+<span class="fc bfc" id="L39" title="All 2 branches covered.">                if (Character.isDigit(symbol)) {</span>
+<span class="fc" id="L40">                    file += Character.getNumericValue(symbol);</span>
+                } else {
+<span class="fc bfc" id="L42" title="All 2 branches covered.">                    int pieceColour = (Character.isUpperCase(symbol)) ? Piece.WHITE : Piece.BLACK;</span>
+<span class="fc" id="L43">                    int pieceType = pieceTypeFromSymbol.get(Character.toLowerCase(symbol));</span>
+<span class="fc" id="L44">                    Board.SetSquare(rank * 8 + file, pieceType | pieceColour);</span>
+<span class="fc" id="L45">                    file++;</span>
+                }
+            }
+        }
+
+<span class="pc bpc" id="L50" title="1 of 2 branches missed.">        Board.colorToMove = (Objects.equals(sections[1], &quot;w&quot;)) ? Piece.WHITE : Piece.BLACK;</span>
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">        Board.opponentColor = (Objects.equals(sections[1], &quot;w&quot;)) ? Piece.BLACK : Piece.WHITE;</span>
+
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">        String castlingRights = (sections.length &gt; 2) ? sections[2] : &quot;KQkq&quot;;</span>
+<span class="fc" id="L54">        Board.wKingsideCastle = castlingRights.contains(&quot;K&quot;);</span>
+<span class="fc" id="L55">        Board.wQueensideCastle = castlingRights.contains(&quot;Q&quot;);</span>
+<span class="fc" id="L56">        Board.bKingsideCastle = castlingRights.contains(&quot;k&quot;);</span>
+<span class="fc" id="L57">        Board.bQueensideCastle = castlingRights.contains(&quot;q&quot;);</span>
+<span class="fc" id="L58">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

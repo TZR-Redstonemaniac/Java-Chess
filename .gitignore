@@ -57,5 +57,13 @@ Desktop.ini
 $RECYCLE.BIN/
 
 # Gradle
-build
+!build/
+
+build/*
+!build/reports/
+
+build/reports/*
+!build/reports/jacoco
+
+
 .scannerwork/
