@@ -5,6 +5,7 @@ import Classes.*;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,7 +38,10 @@ public class Draw extends JPanel {
                     case "r" -> r = (int) set.getValue();
                     case "g" -> g = (int) set.getValue();
                     case "b" -> b = (int) set.getValue();
-                    default -> logger.log(Level.WARNING,"Unknown Key: {0}", set.getKey());
+                    default -> {
+                        if (!Objects.equals(set.getKey(), "mr") && !Objects.equals(set.getKey(), "mg") && !Objects.equals(set.getKey(), "mb"))
+                            logger.log(Level.WARNING,"Unknown Key: {0}", set.getKey());
+                    }
                 }
             }
 

@@ -27,8 +27,8 @@ public class Texture {
     public static Image BLACK_KING = null; //NOSONAR
     public static Image BLACK_QUEEN = null; //NOSONAR
 
-    private static final String WHITE_FOLDER = "/home/khalid/IntellijProjects/Chess/src/Textures/White_Pieces/";
-    private static final String BLACK_FOLDER = "/home/khalid/IntellijProjects/Chess/src/Textures/Black_Pieces/";
+    private static final String WHITE_FOLDER = "C:\\Users\\kdeen\\Documents\\Coding Projects\\Intellij\\Java-Chess\\src\\Textures\\White_Pieces";
+    private static final String BLACK_FOLDER = "C:\\Users\\kdeen\\Documents\\Coding Projects\\Intellij\\Java-Chess\\src\\Textures\\Black_Pieces/";
     private static final Logger LOGGER = Logger.getLogger(Texture.class.getName());
 
     public static void Init(){

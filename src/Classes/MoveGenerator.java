@@ -1,7 +1,9 @@
 package Classes;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -221,6 +223,7 @@ public class MoveGenerator {
                 && Board.GetSquare()[startSquare + 1] == Piece.NONE
                 && Board.GetSquare()[startSquare + 2] == Piece.NONE
                 && Piece.PieceChecker(Board.GetSquare()[startSquare + 3], Piece.ROOK, Piece.WHITE)
+                && !Board.IsSquareAttacked(startSquare, Board.opponentColor)
                 && !Board.IsSquareAttacked(startSquare + 1, Board.opponentColor)
                 && !Board.IsSquareAttacked(startSquare + 2, Board.opponentColor))
             moves.add(new Move(startSquare, startSquare + 2));
@@ -231,6 +234,7 @@ public class MoveGenerator {
                 && Board.GetSquare()[startSquare + 1] == Piece.NONE
                 && Board.GetSquare()[startSquare + 2] == Piece.NONE
                 && Piece.PieceChecker(Board.GetSquare()[startSquare + 3], Piece.ROOK, Piece.BLACK)
+                && !Board.IsSquareAttacked(startSquare, Board.opponentColor)
                 && !Board.IsSquareAttacked(startSquare + 1, Board.opponentColor)
                 && !Board.IsSquareAttacked(startSquare + 2, Board.opponentColor))
             moves.add(new Move(startSquare, startSquare + 2));
@@ -242,6 +246,7 @@ public class MoveGenerator {
                 && Board.GetSquare()[startSquare - 2] == Piece.NONE
                 && Board.GetSquare()[startSquare - 3] == Piece.NONE
                 && Piece.PieceChecker(Board.GetSquare()[startSquare - 4], Piece.ROOK, Piece.WHITE)
+                && !Board.IsSquareAttacked(startSquare, Board.opponentColor)
                 && !Board.IsSquareAttacked(startSquare - 1, Board.opponentColor)
                 && !Board.IsSquareAttacked(startSquare - 2, Board.opponentColor))
             moves.add(new Move(startSquare, startSquare - 2));
@@ -249,6 +254,7 @@ public class MoveGenerator {
         if (Piece.IsColour(Board.GetSquare()[startSquare], Piece.BLACK)
                 && Board.bQueensideCastle
                 && startSquare == 60
+                && !Board.IsSquareAttacked(startSquare, Board.opponentColor)
                 && !Board.IsSquareAttacked(startSquare - 1, Board.opponentColor)
                 && !Board.IsSquareAttacked(startSquare - 2, Board.opponentColor)
                 && Board.GetSquare()[startSquare - 1] == Piece.NONE
@@ -289,6 +295,11 @@ public class MoveGenerator {
         boolean first = false;
 
         List<Move> moves = MoveGenerator.GenerateLegalMoves();
+
+        Set<Move> set = new HashSet<>(moves);
+        moves.clear();
+        moves.addAll(set);
+
         int numPositions = 0;
 
         for (Move move : moves){
@@ -315,7 +326,6 @@ public class MoveGenerator {
                 int nodes = (numPositions - totalNodes);
                 totalNodes += nodes;
                 divide.append(Piece.PosFromIndex(move.startSquare))
-                        .append(" to ")
                         .append(Piece.PosFromIndex(move.targetSquare))
                         .append(": ")
                         .append(nodes)

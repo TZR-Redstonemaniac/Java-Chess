@@ -4,6 +4,7 @@ jobs:
   build:
     docker:
       - image: cimg/openjdk:20.0.1
+    parallelism: 4
     steps:
       - checkout
       - run:
