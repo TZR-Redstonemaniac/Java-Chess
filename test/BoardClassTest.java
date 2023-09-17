@@ -149,4 +149,147 @@ class BoardClassTest {
         assertTrue(WhatIsSquareAttackedBy(51, WHITE).contains("Queen"));
         assertTrue(WhatIsSquareAttackedBy(59, WHITE).contains("Queen"));
     }
+
+
+    @Test
+    void WhereIsSquareAttackedByPawnTest(){
+        PrecomputedMoveData.Init();
+
+        Clear();
+        SetSquare(27, PAWN | WHITE);
+
+        assertEquals(27, FromWhereIsTheSquareAttacked(34, WHITE) );
+        assertEquals(27, FromWhereIsTheSquareAttacked(36, WHITE));
+    }
+
+    @Test
+    void WhereIsSquareAttackedByKnight(){
+        PrecomputedMoveData.Init();
+
+        Clear();
+        SetSquare(37, KNIGHT | WHITE);
+
+        assertEquals(37, FromWhereIsTheSquareAttacked(43, WHITE));
+        assertEquals(37, FromWhereIsTheSquareAttacked(27, WHITE));
+
+        assertEquals(37, FromWhereIsTheSquareAttacked(52, WHITE));
+        assertEquals(37, FromWhereIsTheSquareAttacked(54, WHITE));
+
+        assertEquals(37, FromWhereIsTheSquareAttacked(47, WHITE));
+        assertEquals(37, FromWhereIsTheSquareAttacked(31, WHITE));
+
+        assertEquals(37, FromWhereIsTheSquareAttacked(22, WHITE));
+        assertEquals(37, FromWhereIsTheSquareAttacked(20, WHITE));
+    }
+
+    @Test
+    void WhereIsSquareAttackedByKing(){
+        PrecomputedMoveData.Init();
+
+        Clear();
+        SetSquare(27, KING | WHITE);
+
+        assertEquals(27, FromWhereIsTheSquareAttacked(18, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(19, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(20, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(26, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(28, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(34, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(35, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(36, WHITE));
+    }
+
+    @Test
+    void WhereIsSquareAttackedByBishop(){
+        PrecomputedMoveData.Init();
+
+        Clear();
+        SetSquare(27, BISHOP | WHITE);
+
+        assertEquals(27, FromWhereIsTheSquareAttacked(20, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(13, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(6, WHITE));
+
+        assertEquals(27, FromWhereIsTheSquareAttacked(18, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(9, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(0, WHITE));
+
+        assertEquals(27, FromWhereIsTheSquareAttacked(34, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(41, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(48, WHITE));
+
+        assertEquals(27, FromWhereIsTheSquareAttacked(36, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(45, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(54, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(63, WHITE));
+    }
+
+    @Test
+    void WhereIsSquareAttackedByRook(){
+        PrecomputedMoveData.Init();
+
+        Clear();
+        SetSquare(27, ROOK | WHITE);
+
+        assertEquals(27, FromWhereIsTheSquareAttacked(19, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(11, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(3, WHITE));
+
+        assertEquals(27, FromWhereIsTheSquareAttacked(24, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(25, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(26, WHITE));
+
+        assertEquals(27, FromWhereIsTheSquareAttacked(28, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(29, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(30, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(31, WHITE));
+
+        assertEquals(27, FromWhereIsTheSquareAttacked(35, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(43, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(51, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(59, WHITE));
+    }
+
+    @Test
+    void WhereIsSquareAttackedByQueen(){
+        PrecomputedMoveData.Init();
+
+        Clear();
+        SetSquare(27, QUEEN | WHITE);
+
+        assertEquals(27, FromWhereIsTheSquareAttacked(20, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(13, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(6, WHITE));
+
+        assertEquals(27, FromWhereIsTheSquareAttacked(18, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(9, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(0, WHITE));
+
+        assertEquals(27, FromWhereIsTheSquareAttacked(34, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(41, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(48, WHITE));
+
+        assertEquals(27, FromWhereIsTheSquareAttacked(36, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(45, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(54, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(63, WHITE));
+
+        assertEquals(27, FromWhereIsTheSquareAttacked(19, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(11, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(3, WHITE));
+
+        assertEquals(27, FromWhereIsTheSquareAttacked(24, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(25, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(26, WHITE));
+
+        assertEquals(27, FromWhereIsTheSquareAttacked(28, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(29, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(30, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(31, WHITE));
+
+        assertEquals(27, FromWhereIsTheSquareAttacked(35, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(43, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(51, WHITE));
+        assertEquals(27, FromWhereIsTheSquareAttacked(59, WHITE));
+    }
 }
