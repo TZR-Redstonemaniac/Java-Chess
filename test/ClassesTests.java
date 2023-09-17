@@ -158,6 +158,7 @@ class ClassesTests {
     @Test
     void GeneratePawnMovesTest(){
         PrecomputedMoveData.Init();
+        Board.Clear();
 
         //Test normal moves
         //White
