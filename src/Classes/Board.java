@@ -8,11 +8,13 @@ import java.util.Map;
 @SuppressWarnings("RedundantIfStatement")
 public class Board {
 
+    //ignore
     //region Constructor
     private Board() {
         throw new IllegalStateException("Utility class");
     }
     //endregion
+    //endignore
 
     //region Variables
     private static final Map<String, Object>[] Squares = new HashMap[64];
@@ -40,9 +42,12 @@ public class Board {
     //endregion
 
     //region Methods
+
+    //ignore
     public static Map<String, Object>[] GetSquares () {
         return Squares;
     }
+    //endignore
 
     public static void MakeMove(Move move){
         //Save the board position before making the move
@@ -190,8 +195,6 @@ public class Board {
 
 
     public static String WhatIsSquareAttackedBy (int startSquare, int attackingColor) {
-        if (Board.square[startSquare] != Piece.NONE && Piece.IsColour(Board.square[startSquare], attackingColor)) return "None";
-
         // Check if the square is attacked by a pawn
         String pawn = PawnAttackerChecker(startSquare, attackingColor);
         if (pawn != null) return pawn;
@@ -553,17 +556,17 @@ public class Board {
 
     private static String PawnAttackerChecker (int startSquare, int attackingColor) {
         if (attackingColor == Piece.WHITE) {
-            if (startSquare - 9 >= 0 && (startSquare % 8) != 0 && Board.square[startSquare - 9] == (attackingColor | Piece.PAWN)) {
+            if (startSquare - 9 >= 0 && (startSquare % 8) != 0 && Piece.PieceChecker(square[startSquare - 9], Piece.PAWN, attackingColor)) {
                 return "Pawn";
             }
-            if (startSquare - 7 >= 0 && ((startSquare + 7) % 8) != 0 && Board.square[startSquare - 7] == (attackingColor | Piece.PAWN)) {
+            if (startSquare - 7 >= 0 && ((startSquare + 7) % 8) != 0 && Piece.PieceChecker(square[startSquare - 7], Piece.PAWN, attackingColor)) {
                 return "Pawn";
             }
         } else {
-            if (startSquare + 7 <= 63 && (startSquare % 8) != 0 && Board.square[startSquare + 7] == (attackingColor | Piece.PAWN)) {
+            if (startSquare + 7 <= 63 && (startSquare % 8) != 0 && Piece.PieceChecker(square[startSquare + 7], Piece.PAWN, attackingColor)) {
                 return "Pawn";
             }
-            if (startSquare + 9 <= 63 && ((startSquare + 7) % 8) != 0 && Board.square[startSquare + 9] == (attackingColor | Piece.PAWN)) {
+            if (startSquare + 9 <= 63 && ((startSquare + 7) % 8) != 0 && Piece.PieceChecker(square[startSquare + 9], Piece.PAWN, attackingColor)) {
                 return "Pawn";
             }
         }
