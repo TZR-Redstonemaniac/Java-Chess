@@ -62,8 +62,4 @@ $RECYCLE.BIN/
 build/*
 !build/reports/
 
-build/reports/*
-!build/reports/jacoco
-
-
 .scannerwork/
