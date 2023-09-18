@@ -11,7 +11,7 @@ jobs:
           name: Analyze on SonarCloud
           command: gradle build sonar
       - store_test_results:
-          path: C:\Users\kdeen\Documents\Coding Projects\Intellij\Java-Chess\build\reports
+          path: C:\Users\kdeen\Documents\Coding Projects\Intellij\Java-Chess\build\reports\jacoco
 
 workflows:
   main:
