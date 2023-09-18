@@ -9,9 +9,9 @@ jobs:
       - checkout
       - run:
           name: Analyze on SonarCloud
-          command: gradle build sonarqube
+          command: gradle build sonar
       - store_test_results:
-          path: test-results
+          path: build/reports
 
 workflows:
   main:
