@@ -1,338 +1,356 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MoveGenerator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Chess</a> &gt; <a href="index.source.html" class="el_package">Classes</a> &gt; <span class="el_source">MoveGenerator.java</span></div><h1>MoveGenerator.java</h1><pre class="source lang-java linenums">package Classes;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MoveGenerator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java-Chess</a> &gt; <a href="index.source.html" class="el_package">Classes</a> &gt; <span class="el_source">MoveGenerator.java</span></div><h1>MoveGenerator.java</h1><pre class="source lang-java linenums">package Classes;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class MoveGenerator {
 
-<span class="nc" id="L10">    private MoveGenerator() {</span>
-<span class="nc" id="L11">        throw new IllegalStateException(&quot;Utility class&quot;);</span>
+    //ignore
+<span class="nc" id="L13">    private MoveGenerator() {</span>
+<span class="nc" id="L14">        throw new IllegalStateException(&quot;Utility class&quot;);</span>
     }
+    //endignore
 
     //region Variables
-<span class="fc" id="L15">    private static ArrayList&lt;Move&gt; moves = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L19">    private static ArrayList&lt;Move&gt; moves = new ArrayList&lt;&gt;();</span>
 
     private static boolean firstIteration;
-<span class="fc" id="L18">    private static int totalNodes = 0;</span>
+<span class="fc" id="L22">    private static int totalNodes = 0;</span>
 
-<span class="fc" id="L20">    public static final StringBuilder divide = new StringBuilder();</span>
+<span class="fc" id="L24">    public static final StringBuilder divide = new StringBuilder();</span>
 
-<span class="fc" id="L22">    private static final Logger LOGGER = Logger.getLogger(MoveGenerator.class.getName());</span>
+<span class="fc" id="L26">    private static final Logger LOGGER = Logger.getLogger(MoveGenerator.class.getName());</span>
     //endregion
 
     private static ArrayList&lt;Move&gt; GenerateMoves(){
-<span class="fc" id="L26">        moves = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L30">        moves = new ArrayList&lt;&gt;();</span>
 
-<span class="fc bfc" id="L28" title="All 2 branches covered.">        for (int startSquare = 0; startSquare &lt; 64; startSquare++){</span>
-<span class="fc" id="L29">            int piece = Board.GetSquare()[startSquare];</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        for (int startSquare = 0; startSquare &lt; 64; startSquare++){</span>
+<span class="fc" id="L33">            int piece = Board.GetSquare()[startSquare];</span>
 
-<span class="fc bfc" id="L31" title="All 2 branches covered.">            if (piece == Piece.NONE) continue;</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">            if (piece == Piece.NONE) continue;</span>
 
-<span class="fc bfc" id="L33" title="All 2 branches covered.">            if (Piece.IsColour(piece, Board.colorToMove)){</span>
-<span class="pc bpc" id="L34" title="1 of 5 branches missed.">                switch (Piece.PieceType(piece)){</span>
-<span class="fc" id="L35">                    case Piece.BISHOP, Piece.ROOK, Piece.QUEEN -&gt; GenerateSlidingMoves(startSquare, piece);</span>
-<span class="fc" id="L36">                    case Piece.KNIGHT -&gt; GenerateKnightMoves(startSquare);</span>
-<span class="fc" id="L37">                    case Piece.PAWN -&gt; GeneratePawnMoves(startSquare);</span>
-<span class="fc" id="L38">                    case Piece.KING -&gt; GenerateKingMoves(startSquare);</span>
-<span class="nc" id="L39">                    default -&gt; throw new IllegalStateException(&quot;Unexpected value: &quot; + Piece.PieceType(piece));</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">            if (Piece.IsColour(piece, Board.colorToMove)){</span>
+<span class="pc bpc" id="L38" title="1 of 5 branches missed.">                switch (Piece.PieceType(piece)){</span>
+<span class="fc" id="L39">                    case Piece.BISHOP, Piece.ROOK, Piece.QUEEN -&gt; GenerateSlidingMoves(startSquare, piece);</span>
+<span class="fc" id="L40">                    case Piece.KNIGHT -&gt; GenerateKnightMoves(startSquare);</span>
+<span class="fc" id="L41">                    case Piece.PAWN -&gt; GeneratePawnMoves(startSquare);</span>
+<span class="fc" id="L42">                    case Piece.KING -&gt; GenerateKingMoves(startSquare);</span>
+<span class="nc" id="L43">                    default -&gt; throw new IllegalStateException(&quot;Unexpected value: &quot; + Piece.PieceType(piece));</span>
                 }
             }
         }
 
-<span class="fc" id="L44">        return moves;</span>
+<span class="fc" id="L48">        return moves;</span>
     }
 
     public static List&lt;Move&gt; GenerateLegalMoves(){
-<span class="fc" id="L48">        ArrayList&lt;Move&gt; pseudoLegalMoves = GenerateMoves();</span>
-<span class="fc" id="L49">        ArrayList&lt;Move&gt; legalMoves = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L52">        ArrayList&lt;Move&gt; pseudoLegalMoves = GenerateMoves();</span>
+<span class="fc" id="L53">        ArrayList&lt;Move&gt; legalMoves = new ArrayList&lt;&gt;();</span>
 
-<span class="fc" id="L51">        int kingSquare = 0;</span>
+<span class="fc" id="L55">        int kingSquare = 0;</span>
 
-<span class="fc bfc" id="L53" title="All 2 branches covered.">        for (Move moveToVerify : pseudoLegalMoves) {</span>
-<span class="fc" id="L54">            Board.MakeMove(moveToVerify);</span>
-<span class="fc" id="L55">            ArrayList&lt;Move&gt; opponentResponses = GenerateMoves();</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">        for (Move moveToVerify : pseudoLegalMoves) {</span>
+<span class="fc" id="L58">            Board.MakeMove(moveToVerify);</span>
+<span class="fc" id="L59">            ArrayList&lt;Move&gt; opponentResponses = GenerateMoves();</span>
 
-<span class="fc bfc" id="L57" title="All 2 branches covered.">            for (int startSquare = 0; startSquare &lt; 64; startSquare++){</span>
-<span class="fc" id="L58">                int piece = Board.GetSquare()[startSquare];</span>
-<span class="fc bfc" id="L59" title="All 2 branches covered.">                if (Piece.PieceChecker(piece, Piece.KING, Board.opponentColor)) kingSquare = startSquare;</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">            for (int startSquare = 0; startSquare &lt; 64; startSquare++){</span>
+<span class="fc" id="L62">                int piece = Board.GetSquare()[startSquare];</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">                if (Piece.PieceChecker(piece, Piece.KING, Board.opponentColor)) kingSquare = startSquare;</span>
             }
 
-<span class="fc" id="L62">            boolean anyResponseMatches = false;</span>
-<span class="fc bfc" id="L63" title="All 2 branches covered.">            for (Move response : opponentResponses) {</span>
-<span class="fc bfc" id="L64" title="All 2 branches covered.">                if (response.targetSquare == kingSquare) {</span>
-<span class="fc" id="L65">                    anyResponseMatches = true;</span>
-<span class="fc" id="L66">                    break;</span>
+<span class="fc" id="L66">            boolean anyResponseMatches = false;</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">            for (Move response : opponentResponses) {</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">                if (response.targetSquare == kingSquare) {</span>
+<span class="fc" id="L69">                    anyResponseMatches = true;</span>
+<span class="fc" id="L70">                    break;</span>
                 }
-<span class="fc" id="L68">            }</span>
+<span class="fc" id="L72">            }</span>
 
-<span class="fc bfc" id="L70" title="All 2 branches covered.">            if (!anyResponseMatches) legalMoves.add(moveToVerify);</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">            if (!anyResponseMatches) legalMoves.add(moveToVerify);</span>
 
-<span class="fc" id="L72">            Board.UnmakeMove();</span>
-<span class="fc" id="L73">        }</span>
+<span class="fc" id="L76">            Board.UnmakeMove();</span>
+<span class="fc" id="L77">        }</span>
 
-<span class="fc" id="L75">        return legalMoves;</span>
+<span class="fc" id="L79">        return legalMoves;</span>
     }
 
     public static void GenerateSlidingMoves (int start, int piece){
-<span class="fc bfc" id="L79" title="All 2 branches covered.">        int startDirIndex = Piece.PieceType(piece) == Piece.BISHOP ? 4: 0;</span>
-<span class="fc bfc" id="L80" title="All 2 branches covered.">        int endDirIndex = Piece.PieceType(piece) == Piece.ROOK ? 4: 8;</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">        int startDirIndex = Piece.PieceType(piece) == Piece.BISHOP ? 4: 0;</span>
+<span class="fc bfc" id="L84" title="All 2 branches covered.">        int endDirIndex = Piece.PieceType(piece) == Piece.ROOK ? 4: 8;</span>
 
-<span class="fc bfc" id="L82" title="All 2 branches covered.">        for (int dirIndex = startDirIndex; dirIndex &lt; endDirIndex; dirIndex++){</span>
-<span class="fc bfc" id="L83" title="All 2 branches covered.">            for (int n = 0; n &lt; PrecomputedMoveData.NumSquaresToEdge[start][dirIndex]; n++){</span>
-<span class="fc" id="L84">                int target = start + PrecomputedMoveData.DirectionOffsets[dirIndex] * (n + 1);</span>
-<span class="fc" id="L85">                int pieceOnTarget = Board.GetSquare()[target];</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">        for (int dirIndex = startDirIndex; dirIndex &lt; endDirIndex; dirIndex++){</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">            for (int n = 0; n &lt; PrecomputedMoveData.NumSquaresToEdge[start][dirIndex]; n++){</span>
+<span class="fc" id="L88">                int target = start + PrecomputedMoveData.DirectionOffsets[dirIndex] * (n + 1);</span>
+<span class="fc" id="L89">                int pieceOnTarget = Board.GetSquare()[target];</span>
 
-<span class="fc bfc" id="L87" title="All 2 branches covered.">                if (Piece.IsColour(pieceOnTarget, Board.colorToMove)) break;</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">                if (Piece.IsColour(pieceOnTarget, Board.colorToMove)) break;</span>
 
-<span class="fc" id="L89">                moves.add(new Move(start, target));</span>
+<span class="fc" id="L93">                moves.add(new Move(start, target));</span>
 
-<span class="pc bpc" id="L91" title="1 of 4 branches missed.">                if (!Piece.IsColour(pieceOnTarget, Board.colorToMove) &amp;&amp; pieceOnTarget != Piece.NONE) break;</span>
+<span class="pc bpc" id="L95" title="1 of 4 branches missed.">                if (!Piece.IsColour(pieceOnTarget, Board.colorToMove) &amp;&amp; pieceOnTarget != Piece.NONE) break;</span>
             }
         }
-<span class="fc" id="L94">    }</span>
+<span class="fc" id="L98">    }</span>
 
     public static void GenerateKnightMoves (int startSquare){ //NOSONAR
-<span class="fc bfc" id="L97" title="All 4 branches covered.">        if ((startSquare - 1) % 8 != 0 &amp;&amp; startSquare % 8 != 0)</span>
+<span class="fc bfc" id="L101" title="All 4 branches covered.">        if ((startSquare - 1) % 8 != 0 &amp;&amp; startSquare % 8 != 0)</span>
         {
-<span class="fc bfc" id="L99" title="All 2 branches covered.">            if (startSquare &lt; 56)</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">            if (startSquare &lt; 56)</span>
             {
-<span class="fc" id="L101">                var targetSquare = startSquare + 6;</span>
-<span class="fc" id="L102">                int pieceOnTarget = Board.GetSquare()[targetSquare];</span>
-<span class="fc bfc" id="L103" title="All 2 branches covered.">                if (!Piece.IsColour(pieceOnTarget, Board.colorToMove)) moves.add(new Move(startSquare, targetSquare));</span>
+<span class="fc" id="L105">                var targetSquare = startSquare + 6;</span>
+<span class="fc" id="L106">                int pieceOnTarget = Board.GetSquare()[targetSquare];</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">                if (!Piece.IsColour(pieceOnTarget, Board.colorToMove)) moves.add(new Move(startSquare, targetSquare));</span>
             }
 
-<span class="fc bfc" id="L106" title="All 2 branches covered.">            if (startSquare &gt; 7)</span>
+<span class="fc bfc" id="L110" title="All 2 branches covered.">            if (startSquare &gt; 7)</span>
             {
-<span class="fc" id="L108">                var targetSquare = startSquare - 10;</span>
-<span class="fc" id="L109">                int pieceOnTarget = Board.GetSquare()[targetSquare];</span>
-<span class="fc bfc" id="L110" title="All 2 branches covered.">                if (!Piece.IsColour(pieceOnTarget, Board.colorToMove)) moves.add(new Move(startSquare, targetSquare));</span>
+<span class="fc" id="L112">                var targetSquare = startSquare - 10;</span>
+<span class="fc" id="L113">                int pieceOnTarget = Board.GetSquare()[targetSquare];</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">                if (!Piece.IsColour(pieceOnTarget, Board.colorToMove)) moves.add(new Move(startSquare, targetSquare));</span>
             }
         }
 
-<span class="fc bfc" id="L114" title="All 2 branches covered.">        if (startSquare &lt; 48)</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">        if (startSquare &lt; 48)</span>
         {
-<span class="fc bfc" id="L116" title="All 2 branches covered.">            if (startSquare % 8 != 0)</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">            if (startSquare % 8 != 0)</span>
             {
-<span class="fc" id="L118">                var targetSquare = startSquare + 15;</span>
-<span class="fc" id="L119">                int pieceOnTarget = Board.GetSquare()[targetSquare];</span>
-<span class="fc bfc" id="L120" title="All 2 branches covered.">                if (!Piece.IsColour(pieceOnTarget, Board.colorToMove)) moves.add(new Move(startSquare, targetSquare));</span>
+<span class="fc" id="L122">                var targetSquare = startSquare + 15;</span>
+<span class="fc" id="L123">                int pieceOnTarget = Board.GetSquare()[targetSquare];</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">                if (!Piece.IsColour(pieceOnTarget, Board.colorToMove)) moves.add(new Move(startSquare, targetSquare));</span>
             }
 
-<span class="fc bfc" id="L123" title="All 2 branches covered.">            if ((startSquare - 7) % 8 != 0)</span>
+<span class="fc bfc" id="L127" title="All 2 branches covered.">            if ((startSquare - 7) % 8 != 0)</span>
             {
-<span class="fc" id="L125">                var targetSquare = startSquare + 17;</span>
-<span class="fc" id="L126">                int pieceOnTarget = Board.GetSquare()[targetSquare];</span>
-<span class="fc bfc" id="L127" title="All 2 branches covered.">                if (!Piece.IsColour(pieceOnTarget, Board.colorToMove)) moves.add(new Move(startSquare, targetSquare));</span>
+<span class="fc" id="L129">                var targetSquare = startSquare + 17;</span>
+<span class="fc" id="L130">                int pieceOnTarget = Board.GetSquare()[targetSquare];</span>
+<span class="fc bfc" id="L131" title="All 2 branches covered.">                if (!Piece.IsColour(pieceOnTarget, Board.colorToMove)) moves.add(new Move(startSquare, targetSquare));</span>
             }
         }
 
-<span class="fc bfc" id="L131" title="All 4 branches covered.">        if ((startSquare - 6) % 8 != 0 &amp;&amp; (startSquare - 7) % 8 != 0)</span>
+<span class="fc bfc" id="L135" title="All 4 branches covered.">        if ((startSquare - 6) % 8 != 0 &amp;&amp; (startSquare - 7) % 8 != 0)</span>
         {
-<span class="fc bfc" id="L133" title="All 2 branches covered.">            if (startSquare &lt; 56)</span>
+<span class="fc bfc" id="L137" title="All 2 branches covered.">            if (startSquare &lt; 56)</span>
             {
-<span class="fc" id="L135">                var targetSquare = startSquare + 10;</span>
-<span class="fc" id="L136">                int pieceOnTarget = Board.GetSquare()[targetSquare];</span>
-<span class="fc bfc" id="L137" title="All 2 branches covered.">                if (!Piece.IsColour(pieceOnTarget, Board.colorToMove)) moves.add(new Move(startSquare, targetSquare));</span>
+<span class="fc" id="L139">                var targetSquare = startSquare + 10;</span>
+<span class="fc" id="L140">                int pieceOnTarget = Board.GetSquare()[targetSquare];</span>
+<span class="fc bfc" id="L141" title="All 2 branches covered.">                if (!Piece.IsColour(pieceOnTarget, Board.colorToMove)) moves.add(new Move(startSquare, targetSquare));</span>
             }
 
-<span class="fc bfc" id="L140" title="All 2 branches covered.">            if (startSquare &gt; 7)</span>
+<span class="fc bfc" id="L144" title="All 2 branches covered.">            if (startSquare &gt; 7)</span>
             {
-<span class="fc" id="L142">                var targetSquare = startSquare - 6;</span>
-<span class="fc" id="L143">                int pieceOnTarget = Board.GetSquare()[targetSquare];</span>
-<span class="fc bfc" id="L144" title="All 2 branches covered.">                if (!Piece.IsColour(pieceOnTarget, Board.colorToMove)) moves.add(new Move(startSquare, targetSquare));</span>
+<span class="fc" id="L146">                var targetSquare = startSquare - 6;</span>
+<span class="fc" id="L147">                int pieceOnTarget = Board.GetSquare()[targetSquare];</span>
+<span class="fc bfc" id="L148" title="All 2 branches covered.">                if (!Piece.IsColour(pieceOnTarget, Board.colorToMove)) moves.add(new Move(startSquare, targetSquare));</span>
             }
         }
 
-<span class="fc bfc" id="L148" title="All 2 branches covered.">        if (startSquare &gt; 15)</span>
+<span class="fc bfc" id="L152" title="All 2 branches covered.">        if (startSquare &gt; 15)</span>
         {
-<span class="fc bfc" id="L150" title="All 2 branches covered.">            if (startSquare % 8 != 0)</span>
+<span class="fc bfc" id="L154" title="All 2 branches covered.">            if (startSquare % 8 != 0)</span>
             {
-<span class="fc" id="L152">                var targetSquare = startSquare - 17;</span>
-<span class="fc" id="L153">                int pieceOnTarget = Board.GetSquare()[targetSquare];</span>
-<span class="fc bfc" id="L154" title="All 2 branches covered.">                if (!Piece.IsColour(pieceOnTarget, Board.colorToMove)) moves.add(new Move(startSquare, targetSquare));</span>
+<span class="fc" id="L156">                var targetSquare = startSquare - 17;</span>
+<span class="fc" id="L157">                int pieceOnTarget = Board.GetSquare()[targetSquare];</span>
+<span class="fc bfc" id="L158" title="All 2 branches covered.">                if (!Piece.IsColour(pieceOnTarget, Board.colorToMove)) moves.add(new Move(startSquare, targetSquare));</span>
             }
 
-<span class="fc bfc" id="L157" title="All 2 branches covered.">            if ((startSquare - 7) % 8 != 0)</span>
+<span class="fc bfc" id="L161" title="All 2 branches covered.">            if ((startSquare - 7) % 8 != 0)</span>
             {
-<span class="fc" id="L159">                var targetSquare = startSquare - 15;</span>
-<span class="fc" id="L160">                int pieceOnTarget = Board.GetSquare()[targetSquare];</span>
-<span class="fc bfc" id="L161" title="All 2 branches covered.">                if (!Piece.IsColour(pieceOnTarget, Board.colorToMove)) moves.add(new Move(startSquare, targetSquare));</span>
+<span class="fc" id="L163">                var targetSquare = startSquare - 15;</span>
+<span class="fc" id="L164">                int pieceOnTarget = Board.GetSquare()[targetSquare];</span>
+<span class="fc bfc" id="L165" title="All 2 branches covered.">                if (!Piece.IsColour(pieceOnTarget, Board.colorToMove)) moves.add(new Move(startSquare, targetSquare));</span>
             }
         }
-<span class="fc" id="L164">    }</span>
+<span class="fc" id="L168">    }</span>
 
     public static void GeneratePawnMoves (int startSquare) {
-<span class="fc bfc" id="L167" title="All 2 branches covered.">        if (Board.colorToMove == Piece.WHITE){</span>
-<span class="fc" id="L168">            int target = startSquare + 8;</span>
-<span class="fc" id="L169">            int piece = Board.GetSquare()[target];</span>
+<span class="fc bfc" id="L171" title="All 2 branches covered.">        if (Board.colorToMove == Piece.WHITE){</span>
+<span class="fc" id="L172">            int target = startSquare + 8;</span>
+<span class="fc" id="L173">            int piece = Board.GetSquare()[target];</span>
 
-<span class="fc bfc" id="L171" title="All 2 branches covered.">            if (piece == Piece.NONE) {</span>
-<span class="fc bfc" id="L172" title="All 2 branches covered.">                if (target &gt;= 56) GeneratePromotionMoves(startSquare, target, Piece.WHITE);</span>
-<span class="fc" id="L173">                else moves.add(new Move(startSquare, target));</span>
-<span class="pc bpc" id="L174" title="1 of 6 branches missed.">                if (startSquare &gt;= 8 &amp;&amp; startSquare &lt;= 15 &amp;&amp; Board.GetSquare()[target + 8] == Piece.NONE) moves.add(new Move(startSquare, target + 8));</span>
+<span class="fc bfc" id="L175" title="All 2 branches covered.">            if (piece == Piece.NONE) {</span>
+<span class="fc bfc" id="L176" title="All 2 branches covered.">                if (target &gt;= 56) GeneratePromotionMoves(startSquare, target, Piece.WHITE);</span>
+<span class="fc" id="L177">                else moves.add(new Move(startSquare, target));</span>
+<span class="pc bpc" id="L178" title="1 of 6 branches missed.">                if (startSquare &gt;= 8 &amp;&amp; startSquare &lt;= 15 &amp;&amp; Board.GetSquare()[target + 8] == Piece.NONE) moves.add(new Move(startSquare, target + 8));</span>
             }
 
-<span class="fc" id="L177">            GeneratePawnCaptures(startSquare, target);</span>
+<span class="fc" id="L181">            GeneratePawnCaptures(startSquare, target);</span>
         }
 
-<span class="fc bfc" id="L180" title="All 2 branches covered.">        if (Board.colorToMove == Piece.BLACK){</span>
-<span class="fc" id="L181">            int target = startSquare - 8;</span>
-<span class="fc" id="L182">            int piece = Board.GetSquare()[target];</span>
+<span class="fc bfc" id="L184" title="All 2 branches covered.">        if (Board.colorToMove == Piece.BLACK){</span>
+<span class="fc" id="L185">            int target = startSquare - 8;</span>
+<span class="fc" id="L186">            int piece = Board.GetSquare()[target];</span>
 
-<span class="fc bfc" id="L184" title="All 2 branches covered.">            if (piece == Piece.NONE) {</span>
-<span class="fc bfc" id="L185" title="All 2 branches covered.">                if (target &lt;= 7) GeneratePromotionMoves(startSquare, target, Piece.BLACK);</span>
-<span class="fc" id="L186">                else moves.add(new Move(startSquare, target));</span>
-<span class="pc bpc" id="L187" title="1 of 6 branches missed.">                if (startSquare &gt;= 48 &amp;&amp; startSquare &lt;= 55 &amp;&amp; Board.GetSquare()[target - 8] == Piece.NONE) moves.add(new Move(startSquare, target - 8));</span>
+<span class="fc bfc" id="L188" title="All 2 branches covered.">            if (piece == Piece.NONE) {</span>
+<span class="fc bfc" id="L189" title="All 2 branches covered.">                if (target &lt;= 7) GeneratePromotionMoves(startSquare, target, Piece.BLACK);</span>
+<span class="fc" id="L190">                else moves.add(new Move(startSquare, target));</span>
+<span class="pc bpc" id="L191" title="1 of 6 branches missed.">                if (startSquare &gt;= 48 &amp;&amp; startSquare &lt;= 55 &amp;&amp; Board.GetSquare()[target - 8] == Piece.NONE) moves.add(new Move(startSquare, target - 8));</span>
             }
 
-<span class="fc" id="L190">            GeneratePawnCaptures(startSquare, target);</span>
+<span class="fc" id="L194">            GeneratePawnCaptures(startSquare, target);</span>
         }
-<span class="fc" id="L192">    }</span>
+<span class="fc" id="L196">    }</span>
 
     public static void GenerateKingMoves (int startSquare) {
-<span class="fc bfc" id="L195" title="All 2 branches covered.">        for (int dir = 0; dir &lt; 8; dir++){</span>
-<span class="fc" id="L196">            int target = startSquare + PrecomputedMoveData.DirectionOffsets[dir];</span>
-<span class="fc bfc" id="L197" title="All 4 branches covered.">            if (target &lt; 0 || target &gt; 63) continue;</span>
+<span class="fc bfc" id="L199" title="All 2 branches covered.">        for (int dir = 0; dir &lt; 8; dir++){</span>
+<span class="fc" id="L200">            int target = startSquare + PrecomputedMoveData.DirectionOffsets[dir];</span>
+<span class="fc bfc" id="L201" title="All 4 branches covered.">            if (target &lt; 0 || target &gt; 63) continue;</span>
 
-<span class="pc bpc" id="L199" title="15 of 32 branches missed.">            if (((startSquare - 7) % 8 == 0 &amp;&amp; (PrecomputedMoveData.DirectionOffsets[dir] == 9 || PrecomputedMoveData.DirectionOffsets[dir] == 1</span>
+<span class="pc bpc" id="L203" title="6 of 32 branches missed.">            if (((startSquare - 7) % 8 == 0 &amp;&amp; (PrecomputedMoveData.DirectionOffsets[dir] == 9 || PrecomputedMoveData.DirectionOffsets[dir] == 1</span>
                     || PrecomputedMoveData.DirectionOffsets[dir] == -7)) ||
              (startSquare % 8 == 0 &amp;&amp; (PrecomputedMoveData.DirectionOffsets[dir] == -9 || PrecomputedMoveData.DirectionOffsets[dir] == -1
                     || PrecomputedMoveData.DirectionOffsets[dir] == 7)) ||
                 (startSquare &gt;= 56 &amp;&amp; (PrecomputedMoveData.DirectionOffsets[dir] == 9 || PrecomputedMoveData.DirectionOffsets[dir] == 8
                     || PrecomputedMoveData.DirectionOffsets[dir] == 7)) ||
             (startSquare &lt;= 7 &amp;&amp; (PrecomputedMoveData.DirectionOffsets[dir] == -9 || PrecomputedMoveData.DirectionOffsets[dir] == -8
-<span class="nc" id="L206">                    || PrecomputedMoveData.DirectionOffsets[dir] == -7))) continue;</span>
+<span class="nc" id="L210">                    || PrecomputedMoveData.DirectionOffsets[dir] == -7))) continue;</span>
 
 
-<span class="fc" id="L209">            int piece = Board.GetSquare()[target];</span>
+<span class="fc" id="L213">            int piece = Board.GetSquare()[target];</span>
 
-<span class="fc bfc" id="L211" title="All 2 branches covered.">            if (Piece.IsColour(piece, Board.colorToMove)) continue;</span>
+<span class="fc bfc" id="L215" title="All 2 branches covered.">            if (Piece.IsColour(piece, Board.colorToMove)) continue;</span>
 
-<span class="fc" id="L213">            moves.add(new Move(startSquare, target));</span>
+<span class="fc" id="L217">            moves.add(new Move(startSquare, target));</span>
         }
 
-<span class="fc bfc" id="L216" title="All 4 branches covered.">        if (Piece.IsColour(Board.GetSquare()[startSquare], Piece.WHITE)</span>
+<span class="pc bpc" id="L220" title="1 of 6 branches missed.">        if (Piece.IsColour(Board.GetSquare()[startSquare], Piece.WHITE)</span>
                 &amp;&amp; Board.wKingsideCastle
-<span class="fc bfc" id="L218" title="All 2 branches covered.">                &amp;&amp; Board.GetSquare()[startSquare + 1] == Piece.NONE</span>
-<span class="fc bfc" id="L219" title="All 2 branches covered.">                &amp;&amp; Board.GetSquare()[startSquare + 2] == Piece.NONE</span>
-<span class="pc bpc" id="L220" title="1 of 2 branches missed.">                &amp;&amp; Piece.PieceChecker(Board.GetSquare()[startSquare + 3], Piece.ROOK, Piece.WHITE)</span>
-<span class="fc bfc" id="L221" title="All 2 branches covered.">                &amp;&amp; !Board.IsSquareAttacked(startSquare + 1, Board.opponentColor)</span>
-<span class="fc bfc" id="L222" title="All 2 branches covered.">                &amp;&amp; !Board.IsSquareAttacked(startSquare + 2, Board.opponentColor))</span>
-<span class="fc" id="L223">            moves.add(new Move(startSquare, startSquare + 2));</span>
+                &amp;&amp; startSquare == 4
+<span class="fc bfc" id="L223" title="All 2 branches covered.">                &amp;&amp; Board.GetSquare()[startSquare + 1] == Piece.NONE</span>
+<span class="fc bfc" id="L224" title="All 2 branches covered.">                &amp;&amp; Board.GetSquare()[startSquare + 2] == Piece.NONE</span>
+<span class="pc bpc" id="L225" title="1 of 2 branches missed.">                &amp;&amp; Piece.PieceChecker(Board.GetSquare()[startSquare + 3], Piece.ROOK, Piece.WHITE)</span>
+<span class="pc bpc" id="L226" title="1 of 2 branches missed.">                &amp;&amp; !Board.IsSquareAttacked(startSquare, Board.opponentColor)</span>
+<span class="fc bfc" id="L227" title="All 2 branches covered.">                &amp;&amp; !Board.IsSquareAttacked(startSquare + 1, Board.opponentColor)</span>
+<span class="pc bpc" id="L228" title="1 of 2 branches missed.">                &amp;&amp; !Board.IsSquareAttacked(startSquare + 2, Board.opponentColor))</span>
+<span class="fc" id="L229">            moves.add(new Move(startSquare, startSquare + 2));</span>
 
-<span class="fc bfc" id="L225" title="All 4 branches covered.">        if (Piece.IsColour(Board.GetSquare()[startSquare], Piece.BLACK)</span>
+<span class="fc bfc" id="L231" title="All 6 branches covered.">        if (Piece.IsColour(Board.GetSquare()[startSquare], Piece.BLACK)</span>
                 &amp;&amp; Board.bKingsideCastle
-<span class="fc bfc" id="L227" title="All 2 branches covered.">                &amp;&amp; Board.GetSquare()[startSquare + 1] == Piece.NONE</span>
-<span class="pc bpc" id="L228" title="1 of 2 branches missed.">                &amp;&amp; Board.GetSquare()[startSquare + 2] == Piece.NONE</span>
-<span class="nc bnc" id="L229" title="All 2 branches missed.">                &amp;&amp; Piece.PieceChecker(Board.GetSquare()[startSquare + 3], Piece.ROOK, Piece.BLACK)</span>
-<span class="nc bnc" id="L230" title="All 2 branches missed.">                &amp;&amp; !Board.IsSquareAttacked(startSquare + 1, Board.opponentColor)</span>
-<span class="nc bnc" id="L231" title="All 2 branches missed.">                &amp;&amp; !Board.IsSquareAttacked(startSquare + 2, Board.opponentColor))</span>
-<span class="nc" id="L232">            moves.add(new Move(startSquare, startSquare + 2));</span>
+                &amp;&amp; startSquare == 60
+<span class="fc bfc" id="L234" title="All 2 branches covered.">                &amp;&amp; Board.GetSquare()[startSquare + 1] == Piece.NONE</span>
+<span class="fc bfc" id="L235" title="All 2 branches covered.">                &amp;&amp; Board.GetSquare()[startSquare + 2] == Piece.NONE</span>
+<span class="fc bfc" id="L236" title="All 2 branches covered.">                &amp;&amp; Piece.PieceChecker(Board.GetSquare()[startSquare + 3], Piece.ROOK, Piece.BLACK)</span>
+<span class="fc bfc" id="L237" title="All 2 branches covered.">                &amp;&amp; !Board.IsSquareAttacked(startSquare, Board.opponentColor)</span>
+<span class="fc bfc" id="L238" title="All 2 branches covered.">                &amp;&amp; !Board.IsSquareAttacked(startSquare + 1, Board.opponentColor)</span>
+<span class="fc bfc" id="L239" title="All 2 branches covered.">                &amp;&amp; !Board.IsSquareAttacked(startSquare + 2, Board.opponentColor))</span>
+<span class="fc" id="L240">            moves.add(new Move(startSquare, startSquare + 2));</span>
 
-<span class="fc bfc" id="L234" title="All 4 branches covered.">        if (Piece.IsColour(Board.GetSquare()[startSquare], Piece.WHITE)</span>
+<span class="pc bpc" id="L242" title="1 of 6 branches missed.">        if (Piece.IsColour(Board.GetSquare()[startSquare], Piece.WHITE)</span>
                 &amp;&amp; Board.wQueensideCastle
-<span class="fc bfc" id="L236" title="All 2 branches covered.">                &amp;&amp; Board.GetSquare()[startSquare - 1] == Piece.NONE</span>
-<span class="fc bfc" id="L237" title="All 2 branches covered.">                &amp;&amp; Board.GetSquare()[startSquare - 2] == Piece.NONE</span>
-<span class="pc bpc" id="L238" title="1 of 2 branches missed.">                &amp;&amp; Board.GetSquare()[startSquare - 3] == Piece.NONE</span>
-<span class="nc bnc" id="L239" title="All 2 branches missed.">                &amp;&amp; Piece.PieceChecker(Board.GetSquare()[startSquare - 4], Piece.ROOK, Piece.WHITE)</span>
-<span class="nc bnc" id="L240" title="All 2 branches missed.">                &amp;&amp; !Board.IsSquareAttacked(startSquare - 1, Board.opponentColor)</span>
-<span class="nc bnc" id="L241" title="All 2 branches missed.">                &amp;&amp; !Board.IsSquareAttacked(startSquare - 2, Board.opponentColor))</span>
-<span class="nc" id="L242">            moves.add(new Move(startSquare, startSquare - 2));</span>
+                &amp;&amp; startSquare == 4
+<span class="fc bfc" id="L245" title="All 2 branches covered.">                &amp;&amp; Board.GetSquare()[startSquare - 1] == Piece.NONE</span>
+<span class="fc bfc" id="L246" title="All 2 branches covered.">                &amp;&amp; Board.GetSquare()[startSquare - 2] == Piece.NONE</span>
+<span class="fc bfc" id="L247" title="All 2 branches covered.">                &amp;&amp; Board.GetSquare()[startSquare - 3] == Piece.NONE</span>
+<span class="pc bpc" id="L248" title="1 of 2 branches missed.">                &amp;&amp; Piece.PieceChecker(Board.GetSquare()[startSquare - 4], Piece.ROOK, Piece.WHITE)</span>
+<span class="pc bpc" id="L249" title="1 of 2 branches missed.">                &amp;&amp; !Board.IsSquareAttacked(startSquare, Board.opponentColor)</span>
+<span class="fc bfc" id="L250" title="All 2 branches covered.">                &amp;&amp; !Board.IsSquareAttacked(startSquare - 1, Board.opponentColor)</span>
+<span class="fc bfc" id="L251" title="All 2 branches covered.">                &amp;&amp; !Board.IsSquareAttacked(startSquare - 2, Board.opponentColor))</span>
+<span class="fc" id="L252">            moves.add(new Move(startSquare, startSquare - 2));</span>
 
-<span class="fc bfc" id="L244" title="All 4 branches covered.">        if (Piece.IsColour(Board.GetSquare()[startSquare], Piece.BLACK)</span>
+<span class="fc bfc" id="L254" title="All 6 branches covered.">        if (Piece.IsColour(Board.GetSquare()[startSquare], Piece.BLACK)</span>
                 &amp;&amp; Board.bQueensideCastle
-<span class="fc bfc" id="L246" title="All 2 branches covered.">                &amp;&amp; !Board.IsSquareAttacked(startSquare - 1, Board.opponentColor)</span>
-<span class="fc bfc" id="L247" title="All 2 branches covered.">                &amp;&amp; !Board.IsSquareAttacked(startSquare - 2, Board.opponentColor)</span>
-<span class="fc bfc" id="L248" title="All 2 branches covered.">                &amp;&amp; Board.GetSquare()[startSquare - 1] == Piece.NONE</span>
-<span class="pc bpc" id="L249" title="1 of 2 branches missed.">                &amp;&amp; Board.GetSquare()[startSquare - 2] == Piece.NONE</span>
-<span class="nc bnc" id="L250" title="All 2 branches missed.">                &amp;&amp; Board.GetSquare()[startSquare - 3] == Piece.NONE</span>
-<span class="nc bnc" id="L251" title="All 2 branches missed.">                &amp;&amp; Piece.PieceChecker(Board.GetSquare()[startSquare - 4], Piece.ROOK, Piece.BLACK))</span>
-<span class="nc" id="L252">            moves.add(new Move(startSquare, startSquare - 2));</span>
-<span class="fc" id="L253">    }</span>
+                &amp;&amp; startSquare == 60
+<span class="fc bfc" id="L257" title="All 2 branches covered.">                &amp;&amp; !Board.IsSquareAttacked(startSquare, Board.opponentColor)</span>
+<span class="fc bfc" id="L258" title="All 2 branches covered.">                &amp;&amp; !Board.IsSquareAttacked(startSquare - 1, Board.opponentColor)</span>
+<span class="fc bfc" id="L259" title="All 2 branches covered.">                &amp;&amp; !Board.IsSquareAttacked(startSquare - 2, Board.opponentColor)</span>
+<span class="fc bfc" id="L260" title="All 2 branches covered.">                &amp;&amp; Board.GetSquare()[startSquare - 1] == Piece.NONE</span>
+<span class="fc bfc" id="L261" title="All 2 branches covered.">                &amp;&amp; Board.GetSquare()[startSquare - 2] == Piece.NONE</span>
+<span class="fc bfc" id="L262" title="All 2 branches covered.">                &amp;&amp; Board.GetSquare()[startSquare - 3] == Piece.NONE</span>
+<span class="pc bpc" id="L263" title="1 of 2 branches missed.">                &amp;&amp; Piece.PieceChecker(Board.GetSquare()[startSquare - 4], Piece.ROOK, Piece.BLACK))</span>
+<span class="fc" id="L264">            moves.add(new Move(startSquare, startSquare - 2));</span>
+<span class="fc" id="L265">    }</span>
 
     public static void GeneratePawnCaptures (int startSquare, int target) {
-<span class="pc bpc" id="L256" title="1 of 8 branches missed.">        if (target + 1 &lt; 64 &amp;&amp; (target - 7) % 8 != 0 &amp;&amp; Board.GetSquare()[target + 1] != Piece.NONE &amp;&amp; Piece.IsColour(Board.GetSquare()[target + 1], Board.opponentColor))</span>
+<span class="pc bpc" id="L268" title="1 of 8 branches missed.">        if (target + 1 &lt; 64 &amp;&amp; (target - 7) % 8 != 0 &amp;&amp; Board.GetSquare()[target + 1] != Piece.NONE &amp;&amp; Piece.IsColour(Board.GetSquare()[target + 1], Board.opponentColor))</span>
         {
-<span class="pc bpc" id="L258" title="1 of 2 branches missed.">            if (target + 1 &gt;= 56) GeneratePromotionMoves(startSquare, target + 1, Piece.WHITE);</span>
-<span class="pc bpc" id="L259" title="1 of 2 branches missed.">            else if (target - 1 &lt;= 7) GeneratePromotionMoves(startSquare, target + 1, Piece.BLACK);</span>
-<span class="fc" id="L260">            else moves.add(new Move(startSquare, target + 1));</span>
+<span class="pc bpc" id="L270" title="1 of 2 branches missed.">            if (target + 1 &gt;= 56) GeneratePromotionMoves(startSquare, target + 1, Piece.WHITE);</span>
+<span class="fc bfc" id="L271" title="All 2 branches covered.">            else if (target - 1 &lt;= 7) GeneratePromotionMoves(startSquare, target + 1, Piece.BLACK);</span>
+<span class="fc" id="L272">            else moves.add(new Move(startSquare, target + 1));</span>
         }
-<span class="pc bpc" id="L262" title="1 of 8 branches missed.">        if (target - 1 &gt;= 0 &amp;&amp; target % 8 != 0 &amp;&amp; Board.GetSquare()[target - 1] != Piece.NONE &amp;&amp; Piece.IsColour(Board.GetSquare()[target - 1], Board.opponentColor))</span>
+<span class="pc bpc" id="L274" title="1 of 8 branches missed.">        if (target - 1 &gt;= 0 &amp;&amp; target % 8 != 0 &amp;&amp; Board.GetSquare()[target - 1] != Piece.NONE &amp;&amp; Piece.IsColour(Board.GetSquare()[target - 1], Board.opponentColor))</span>
         {
-<span class="fc bfc" id="L264" title="All 2 branches covered.">            if (target + 1 &gt;= 56) GeneratePromotionMoves(startSquare, target - 1, Piece.WHITE);</span>
-<span class="pc bpc" id="L265" title="1 of 2 branches missed.">            else if (target - 1 &lt;= 7) GeneratePromotionMoves(startSquare, target - 1, Piece.BLACK);</span>
-<span class="fc" id="L266">            else moves.add(new Move(startSquare, target - 1));</span>
+<span class="pc bpc" id="L276" title="1 of 2 branches missed.">            if (target + 1 &gt;= 56) GeneratePromotionMoves(startSquare, target - 1, Piece.WHITE);</span>
+<span class="fc bfc" id="L277" title="All 2 branches covered.">            else if (target - 1 &lt;= 7) GeneratePromotionMoves(startSquare, target - 1, Piece.BLACK);</span>
+<span class="fc" id="L278">            else moves.add(new Move(startSquare, target - 1));</span>
         }
 
-<span class="pc bpc" id="L269" title="1 of 6 branches missed.">        if (target + 1 &lt; 64 &amp;&amp; (target - 7) % 8 != 0  &amp;&amp; Board.enPassantSquare[startSquare + 1]) moves.add(new Move(startSquare, target + 1));</span>
-<span class="pc bpc" id="L270" title="1 of 6 branches missed.">        if (target - 1 &gt;= 0 &amp;&amp; target % 8 != 0  &amp;&amp; Board.enPassantSquare[startSquare - 1]) moves.add(new Move(startSquare, target - 1));</span>
-<span class="fc" id="L271">    }</span>
+<span class="pc bpc" id="L281" title="1 of 6 branches missed.">        if (target + 1 &lt; 64 &amp;&amp; (target - 7) % 8 != 0  &amp;&amp; Board.enPassantSquare[startSquare + 1]) moves.add(new Move(startSquare, target + 1));</span>
+<span class="pc bpc" id="L282" title="1 of 6 branches missed.">        if (target - 1 &gt;= 0 &amp;&amp; target % 8 != 0  &amp;&amp; Board.enPassantSquare[startSquare - 1]) moves.add(new Move(startSquare, target - 1));</span>
+<span class="fc" id="L283">    }</span>
 
     public static void GeneratePromotionMoves(int startSquare, int target, int color){
-<span class="fc" id="L274">        moves.add(new Move(startSquare, target, Piece.ROOK | color));</span>
-<span class="fc" id="L275">        moves.add(new Move(startSquare, target, Piece.KNIGHT | color));</span>
-<span class="fc" id="L276">        moves.add(new Move(startSquare, target, Piece.BISHOP | color));</span>
-<span class="fc" id="L277">        moves.add(new Move(startSquare, target, Piece.QUEEN | color));</span>
-<span class="fc" id="L278">    }</span>
+<span class="fc" id="L286">        moves.add(new Move(startSquare, target, Piece.ROOK | color));</span>
+<span class="fc" id="L287">        moves.add(new Move(startSquare, target, Piece.KNIGHT | color));</span>
+<span class="fc" id="L288">        moves.add(new Move(startSquare, target, Piece.BISHOP | color));</span>
+<span class="fc" id="L289">        moves.add(new Move(startSquare, target, Piece.QUEEN | color));</span>
+<span class="fc" id="L290">    }</span>
 
     public static int MoveGenerationTest(int depth, float delay) {
-<span class="fc bfc" id="L281" title="All 2 branches covered.">        if (depth == 0) return 1;</span>
+<span class="fc bfc" id="L293" title="All 2 branches covered.">        if (depth == 0) return 1;</span>
 
-<span class="fc" id="L283">        boolean first = false;</span>
+<span class="fc" id="L295">        boolean first = false;</span>
 
-<span class="fc" id="L285">        List&lt;Move&gt; moves = MoveGenerator.GenerateLegalMoves();</span>
-<span class="fc" id="L286">        int numPositions = 0;</span>
+<span class="fc" id="L297">        List&lt;Move&gt; moves = MoveGenerator.GenerateLegalMoves();</span>
 
-<span class="fc bfc" id="L288" title="All 2 branches covered.">        for (Move move : moves){</span>
-<span class="fc bfc" id="L289" title="All 2 branches covered.">            if (!firstIteration) {</span>
-<span class="fc" id="L290">                firstIteration = true;</span>
-<span class="fc" id="L291">                first = true;</span>
+<span class="fc" id="L299">        Set&lt;Move&gt; set = new HashSet&lt;&gt;(moves);</span>
+<span class="fc" id="L300">        moves.clear();</span>
+<span class="fc" id="L301">        moves.addAll(set);</span>
+
+<span class="fc" id="L303">        int numPositions = 0;</span>
+
+<span class="fc bfc" id="L305" title="All 2 branches covered.">        for (Move move : moves){</span>
+<span class="fc bfc" id="L306" title="All 2 branches covered.">            if (!firstIteration) {</span>
+<span class="fc" id="L307">                firstIteration = true;</span>
+<span class="fc" id="L308">                first = true;</span>
             }
 
-<span class="fc" id="L294">            Board.MakeMove(move);</span>
+<span class="fc" id="L311">            Board.MakeMove(move);</span>
 
-<span class="pc bpc" id="L296" title="1 of 2 branches missed.">            if (delay != 0){</span>
+<span class="fc bfc" id="L313" title="All 2 branches covered.">            if (delay != 0){</span>
                 try {
-<span class="nc" id="L298">                    Thread.sleep((long) (delay * 1000));</span>
-<span class="nc" id="L299">                } catch (InterruptedException e) {</span>
-<span class="nc" id="L300">                    LOGGER.log(Level.WARNING, &quot;Interrupted!&quot;, e);</span>
-<span class="nc" id="L301">                    Thread.currentThread().interrupt();</span>
-<span class="nc" id="L302">                }</span>
+<span class="fc" id="L315">                    Thread.sleep((long) (delay * 1000));</span>
+<span class="nc" id="L316">                } catch (InterruptedException e) {</span>
+<span class="nc" id="L317">                    LOGGER.log(Level.WARNING, &quot;Interrupted!&quot;, e);</span>
+<span class="nc" id="L318">                    Thread.currentThread().interrupt();</span>
+<span class="fc" id="L319">                }</span>
             }
 
-<span class="fc" id="L305">            numPositions += MoveGenerationTest(depth - 1, delay);</span>
-<span class="fc" id="L306">            Board.UnmakeMove();</span>
+<span class="fc" id="L322">            numPositions += MoveGenerationTest(depth - 1, delay);</span>
+<span class="fc" id="L323">            Board.UnmakeMove();</span>
 
-<span class="fc bfc" id="L308" title="All 2 branches covered.">            if (first){</span>
-<span class="fc" id="L309">                int nodes = (numPositions - totalNodes);</span>
-<span class="fc" id="L310">                totalNodes += nodes;</span>
-<span class="fc" id="L311">                divide.append(Piece.PosFromIndex(move.startSquare))</span>
-<span class="fc" id="L312">                        .append(&quot; to &quot;)</span>
-<span class="fc" id="L313">                        .append(Piece.PosFromIndex(move.targetSquare))</span>
-<span class="fc" id="L314">                        .append(&quot;: &quot;)</span>
-<span class="fc" id="L315">                        .append(nodes)</span>
-<span class="fc" id="L316">                        .append(&quot;\n&quot;);</span>
-<span class="fc" id="L317">                firstIteration = false;</span>
-<span class="fc" id="L318">                first = false;</span>
+<span class="fc bfc" id="L325" title="All 2 branches covered.">            if (first){</span>
+<span class="fc" id="L326">                int nodes = (numPositions - totalNodes);</span>
+<span class="fc" id="L327">                totalNodes += nodes;</span>
+<span class="fc" id="L328">                divide.append(Piece.PosFromIndex(move.startSquare))</span>
+<span class="fc" id="L329">                        .append(Piece.PosFromIndex(move.targetSquare))</span>
+<span class="fc" id="L330">                        .append(&quot;: &quot;)</span>
+<span class="fc" id="L331">                        .append(nodes)</span>
+<span class="fc" id="L332">                        .append(&quot;\n&quot;);</span>
+<span class="fc" id="L333">                firstIteration = false;</span>
+<span class="fc" id="L334">                first = false;</span>
             }
-<span class="fc" id="L320">        }</span>
+<span class="fc" id="L336">        }</span>
 
-<span class="fc" id="L322">        return numPositions;</span>
+<span class="fc" id="L338">        return numPositions;</span>
     }
 
+    //ignore
     public static void Reset(){
-<span class="nc" id="L326">        divide.delete(0, divide.length() - 1);</span>
-<span class="nc" id="L327">        totalNodes = 0;</span>
-<span class="nc" id="L328">    }</span>
+<span class="nc" id="L343">        divide.delete(0, divide.length() - 1);</span>
+<span class="nc" id="L344">        totalNodes = 0;</span>
+<span class="nc" id="L345">    }</span>
+    //endignore
 
     public static List&lt;Move&gt; GetMoves(){
-<span class="fc" id="L331">        return moves;</span>
+<span class="fc" id="L349">        return moves;</span>
     }
 
     public static void ClearMoves(){
-<span class="fc" id="L335">        moves = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L336">    }</span>
+<span class="fc" id="L353">        moves = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L354">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

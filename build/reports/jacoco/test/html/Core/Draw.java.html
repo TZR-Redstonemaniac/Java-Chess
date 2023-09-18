@@ -1,122 +1,126 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Draw.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Chess</a> &gt; <a href="index.source.html" class="el_package">Core</a> &gt; <span class="el_source">Draw.java</span></div><h1>Draw.java</h1><pre class="source lang-java linenums">package Core;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Draw.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java-Chess</a> &gt; <a href="index.source.html" class="el_package">Core</a> &gt; <span class="el_source">Draw.java</span></div><h1>Draw.java</h1><pre class="source lang-java linenums">package Core;
 
 import Classes.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-<span class="nc" id="L11">public class Draw extends JPanel {</span>
+<span class="nc" id="L12">public class Draw extends JPanel {</span>
 
-<span class="nc" id="L13">    private final Logger logger = Logger.getLogger(Draw.class.getName()); //NOSONAR</span>
+<span class="nc" id="L14">    private final Logger logger = Logger.getLogger(Draw.class.getName()); //NOSONAR</span>
 
     @Override
     public void paint(Graphics graphics) {
-<span class="nc" id="L17">        super.paint(graphics);</span>
+<span class="nc" id="L18">        super.paint(graphics);</span>
 
-<span class="nc" id="L19">        Graphics2D g2d = (Graphics2D) graphics;</span>
+<span class="nc" id="L20">        Graphics2D g2d = (Graphics2D) graphics;</span>
 
         //Board
-<span class="nc bnc" id="L22" title="All 2 branches missed.">        for (Map&lt;String, Object&gt; map : Board.GetSquares()){</span>
-<span class="nc" id="L23">            int x = 0;</span>
-<span class="nc" id="L24">            int y = 0;</span>
-<span class="nc" id="L25">            int w = 0;</span>
-<span class="nc" id="L26">            int h = 0;</span>
-<span class="nc" id="L27">            int r = 0;</span>
-<span class="nc" id="L28">            int g = 0;</span>
-<span class="nc" id="L29">            int b = 0;</span>
+<span class="nc bnc" id="L23" title="All 2 branches missed.">        for (Map&lt;String, Object&gt; map : Board.GetSquares()){</span>
+<span class="nc" id="L24">            int x = 0;</span>
+<span class="nc" id="L25">            int y = 0;</span>
+<span class="nc" id="L26">            int w = 0;</span>
+<span class="nc" id="L27">            int h = 0;</span>
+<span class="nc" id="L28">            int r = 0;</span>
+<span class="nc" id="L29">            int g = 0;</span>
+<span class="nc" id="L30">            int b = 0;</span>
 
-<span class="nc bnc" id="L31" title="All 2 branches missed.">            for (Map.Entry&lt;String, Object&gt; set : map.entrySet()){</span>
-<span class="nc bnc" id="L32" title="All 8 branches missed.">                switch (set.getKey()) {</span>
-<span class="nc" id="L33">                    case &quot;x&quot; -&gt; x = (int) set.getValue();</span>
-<span class="nc" id="L34">                    case &quot;y&quot; -&gt; y = (int) set.getValue();</span>
-<span class="nc" id="L35">                    case &quot;w&quot; -&gt; w = (int) set.getValue();</span>
-<span class="nc" id="L36">                    case &quot;h&quot; -&gt; h = (int) set.getValue();</span>
-<span class="nc" id="L37">                    case &quot;r&quot; -&gt; r = (int) set.getValue();</span>
-<span class="nc" id="L38">                    case &quot;g&quot; -&gt; g = (int) set.getValue();</span>
-<span class="nc" id="L39">                    case &quot;b&quot; -&gt; b = (int) set.getValue();</span>
-<span class="nc" id="L40">                    default -&gt; logger.log(Level.WARNING,&quot;Unknown Key: {0}&quot;, set.getKey());</span>
+<span class="nc bnc" id="L32" title="All 2 branches missed.">            for (Map.Entry&lt;String, Object&gt; set : map.entrySet()){</span>
+<span class="nc bnc" id="L33" title="All 8 branches missed.">                switch (set.getKey()) {</span>
+<span class="nc" id="L34">                    case &quot;x&quot; -&gt; x = (int) set.getValue();</span>
+<span class="nc" id="L35">                    case &quot;y&quot; -&gt; y = (int) set.getValue();</span>
+<span class="nc" id="L36">                    case &quot;w&quot; -&gt; w = (int) set.getValue();</span>
+<span class="nc" id="L37">                    case &quot;h&quot; -&gt; h = (int) set.getValue();</span>
+<span class="nc" id="L38">                    case &quot;r&quot; -&gt; r = (int) set.getValue();</span>
+<span class="nc" id="L39">                    case &quot;g&quot; -&gt; g = (int) set.getValue();</span>
+<span class="nc" id="L40">                    case &quot;b&quot; -&gt; b = (int) set.getValue();</span>
+                    default -&gt; {
+<span class="nc bnc" id="L42" title="All 6 branches missed.">                        if (!Objects.equals(set.getKey(), &quot;mr&quot;) &amp;&amp; !Objects.equals(set.getKey(), &quot;mg&quot;) &amp;&amp; !Objects.equals(set.getKey(), &quot;mb&quot;))</span>
+<span class="nc" id="L43">                            logger.log(Level.WARNING,&quot;Unknown Key: {0}&quot;, set.getKey());</span>
+                    }
                 }
-<span class="nc" id="L42">            }</span>
+<span class="nc" id="L46">            }</span>
 
-<span class="nc" id="L44">            Color color = new Color(r, g, b);</span>
+<span class="nc" id="L48">            Color color = new Color(r, g, b);</span>
 
-<span class="nc" id="L46">            g2d.setColor(color);</span>
-<span class="nc" id="L47">            g2d.fillRect(x, y, w, h);</span>
+<span class="nc" id="L50">            g2d.setColor(color);</span>
+<span class="nc" id="L51">            g2d.fillRect(x, y, w, h);</span>
         }
 
         //Attacked Squares
-<span class="nc bnc" id="L51" title="All 2 branches missed.">        for (int index : GUI.GetAttackedSquares()){</span>
-<span class="nc" id="L52">            int x = (int) Board.GetSquares()[index].get(&quot;x&quot;);</span>
-<span class="nc" id="L53">            int y = (int) Board.GetSquares()[index].get(&quot;y&quot;);</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">        for (int index : GUI.GetAttackedSquares()){</span>
+<span class="nc" id="L56">            int x = (int) Board.GetSquares()[index].get(&quot;x&quot;);</span>
+<span class="nc" id="L57">            int y = (int) Board.GetSquares()[index].get(&quot;y&quot;);</span>
 
-<span class="nc" id="L55">            g2d.setColor(new Color(100, 100, 100));</span>
-<span class="nc" id="L56">            g2d.fillRect(x, y, 100, 100);</span>
-<span class="nc" id="L57">        }</span>
+<span class="nc" id="L59">            g2d.setColor(new Color(100, 100, 100));</span>
+<span class="nc" id="L60">            g2d.fillRect(x, y, 100, 100);</span>
+<span class="nc" id="L61">        }</span>
 
         //Valid moves
-<span class="nc bnc" id="L60" title="All 4 branches missed.">        if (Game.GetMoves() != null) for (Move move : Game.GetMoves()){</span>
-<span class="nc" id="L61">            int x = (int) Board.GetSquares()[move.targetSquare].get(&quot;x&quot;);</span>
-<span class="nc" id="L62">            int y = (int) Board.GetSquares()[move.targetSquare].get(&quot;y&quot;);</span>
+<span class="nc bnc" id="L64" title="All 4 branches missed.">        if (Game.GetMoves() != null) for (Move move : Game.GetMoves()){</span>
+<span class="nc" id="L65">            int x = (int) Board.GetSquares()[move.targetSquare].get(&quot;x&quot;);</span>
+<span class="nc" id="L66">            int y = (int) Board.GetSquares()[move.targetSquare].get(&quot;y&quot;);</span>
 
-<span class="nc" id="L64">            int r = (int) Board.GetSquares()[move.targetSquare].get(&quot;mr&quot;);</span>
-<span class="nc" id="L65">            int g = (int) Board.GetSquares()[move.targetSquare].get(&quot;mg&quot;);</span>
-<span class="nc" id="L66">            int b = (int) Board.GetSquares()[move.targetSquare].get(&quot;mb&quot;);</span>
+<span class="nc" id="L68">            int r = (int) Board.GetSquares()[move.targetSquare].get(&quot;mr&quot;);</span>
+<span class="nc" id="L69">            int g = (int) Board.GetSquares()[move.targetSquare].get(&quot;mg&quot;);</span>
+<span class="nc" id="L70">            int b = (int) Board.GetSquares()[move.targetSquare].get(&quot;mb&quot;);</span>
 
-<span class="nc" id="L68">            g2d.setColor(new Color(r, g, b));</span>
-<span class="nc" id="L69">            g2d.fillRect(x, y, 100, 100);</span>
-<span class="nc" id="L70">        }</span>
+<span class="nc" id="L72">            g2d.setColor(new Color(r, g, b));</span>
+<span class="nc" id="L73">            g2d.fillRect(x, y, 100, 100);</span>
+<span class="nc" id="L74">        }</span>
 
         //Pieces
-<span class="nc" id="L73">        int grabbedX = 0;</span>
-<span class="nc" id="L74">        int grabbedY = 0;</span>
-<span class="nc" id="L75">        int grabbedIndex = -1;</span>
+<span class="nc" id="L77">        int grabbedX = 0;</span>
+<span class="nc" id="L78">        int grabbedY = 0;</span>
+<span class="nc" id="L79">        int grabbedIndex = -1;</span>
 
-<span class="nc bnc" id="L77" title="All 2 branches missed.">        for (int index = 0; index &lt; 64; index++){</span>
-<span class="nc" id="L78">            int x = 0;</span>
-<span class="nc" id="L79">            int y = 0;</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        for (int index = 0; index &lt; 64; index++){</span>
+<span class="nc" id="L82">            int x = 0;</span>
+<span class="nc" id="L83">            int y = 0;</span>
 
-<span class="nc bnc" id="L81" title="All 4 branches missed.">            if (Mouse.GetGrabbed() &amp;&amp; index == Game.GetStartIndex()) {</span>
-<span class="nc" id="L82">                grabbedX = MouseInfo.getPointerInfo().getLocation().x - Game.ui.getLocationOnScreen().x - 50;</span>
-<span class="nc" id="L83">                grabbedY = MouseInfo.getPointerInfo().getLocation().y - Game.ui.getLocationOnScreen().y - 82;</span>
+<span class="nc bnc" id="L85" title="All 4 branches missed.">            if (Mouse.GetGrabbed() &amp;&amp; index == Game.GetStartIndex()) {</span>
+<span class="nc" id="L86">                grabbedX = MouseInfo.getPointerInfo().getLocation().x - Game.ui.getLocationOnScreen().x - 50;</span>
+<span class="nc" id="L87">                grabbedY = MouseInfo.getPointerInfo().getLocation().y - Game.ui.getLocationOnScreen().y - 82;</span>
 
-<span class="nc" id="L85">                grabbedIndex = index;</span>
+<span class="nc" id="L89">                grabbedIndex = index;</span>
             } else {
-<span class="nc" id="L87">                x = (int) Board.GetSquares()[index].get(&quot;x&quot;);</span>
-<span class="nc" id="L88">                y = (int) Board.GetSquares()[index].get(&quot;y&quot;);</span>
+<span class="nc" id="L91">                x = (int) Board.GetSquares()[index].get(&quot;x&quot;);</span>
+<span class="nc" id="L92">                y = (int) Board.GetSquares()[index].get(&quot;y&quot;);</span>
             }
 
-<span class="nc bnc" id="L91" title="All 2 branches missed.">            if (index != grabbedIndex) DrawPiece(g2d, index, x, y);</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">            if (index != grabbedIndex) DrawPiece(g2d, index, x, y);</span>
         }
 
-<span class="nc bnc" id="L94" title="All 2 branches missed.">        if (grabbedIndex &gt;= 0) DrawPiece(g2d, grabbedIndex, grabbedX, grabbedY);</span>
-<span class="nc" id="L95">    }</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">        if (grabbedIndex &gt;= 0) DrawPiece(g2d, grabbedIndex, grabbedX, grabbedY);</span>
+<span class="nc" id="L99">    }</span>
 
     private void DrawPiece (Graphics2D g2d, int index, int x, int y) {
-<span class="nc bnc" id="L98" title="All 2 branches missed.">        if (Piece.IsColour(Board.GetSquare()[index], Piece.WHITE)) {</span>
-<span class="nc bnc" id="L99" title="All 7 branches missed.">            switch (Piece.PieceType(Board.GetSquare()[index])) {</span>
-<span class="nc" id="L100">                case Piece.PAWN -&gt; g2d.drawImage(Texture.WHITE_PAWN, x, y, 100, 100, null);</span>
-<span class="nc" id="L101">                case Piece.KNIGHT -&gt; g2d.drawImage(Texture.WHITE_KNIGHT, x, y, 100, 100, null);</span>
-<span class="nc" id="L102">                case Piece.BISHOP -&gt; g2d.drawImage(Texture.WHITE_BISHOP, x, y, 100, 100, null);</span>
-<span class="nc" id="L103">                case Piece.ROOK -&gt; g2d.drawImage(Texture.WHITE_ROOK, x, y, 100, 100, null);</span>
-<span class="nc" id="L104">                case Piece.KING -&gt; g2d.drawImage(Texture.WHITE_KING, x, y, 100, 100, null);</span>
-<span class="nc" id="L105">                case Piece.QUEEN -&gt; g2d.drawImage(Texture.WHITE_QUEEN, x, y, 100, 100, null);</span>
-<span class="nc" id="L106">                default -&gt; logger.log(Level.INFO, &quot;No Piece Here&quot;);</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">        if (Piece.IsColour(Board.GetSquare()[index], Piece.WHITE)) {</span>
+<span class="nc bnc" id="L103" title="All 7 branches missed.">            switch (Piece.PieceType(Board.GetSquare()[index])) {</span>
+<span class="nc" id="L104">                case Piece.PAWN -&gt; g2d.drawImage(Texture.WHITE_PAWN, x, y, 100, 100, null);</span>
+<span class="nc" id="L105">                case Piece.KNIGHT -&gt; g2d.drawImage(Texture.WHITE_KNIGHT, x, y, 100, 100, null);</span>
+<span class="nc" id="L106">                case Piece.BISHOP -&gt; g2d.drawImage(Texture.WHITE_BISHOP, x, y, 100, 100, null);</span>
+<span class="nc" id="L107">                case Piece.ROOK -&gt; g2d.drawImage(Texture.WHITE_ROOK, x, y, 100, 100, null);</span>
+<span class="nc" id="L108">                case Piece.KING -&gt; g2d.drawImage(Texture.WHITE_KING, x, y, 100, 100, null);</span>
+<span class="nc" id="L109">                case Piece.QUEEN -&gt; g2d.drawImage(Texture.WHITE_QUEEN, x, y, 100, 100, null);</span>
+<span class="nc" id="L110">                default -&gt; logger.log(Level.INFO, &quot;No Piece Here&quot;);</span>
             }
         } else {
-<span class="nc bnc" id="L109" title="All 7 branches missed.">            switch (Piece.PieceType(Board.GetSquare()[index])) {</span>
-<span class="nc" id="L110">                case Piece.PAWN -&gt; g2d.drawImage(Texture.BLACK_PAWN, x, y, 100, 100, null);</span>
-<span class="nc" id="L111">                case Piece.KNIGHT -&gt; g2d.drawImage(Texture.BLACK_KNIGHT, x, y, 100, 100, null);</span>
-<span class="nc" id="L112">                case Piece.BISHOP -&gt; g2d.drawImage(Texture.BLACK_BISHOP, x, y, 100, 100, null);</span>
-<span class="nc" id="L113">                case Piece.ROOK -&gt; g2d.drawImage(Texture.BLACK_ROOK, x, y, 100, 100, null);</span>
-<span class="nc" id="L114">                case Piece.KING -&gt; g2d.drawImage(Texture.BLACK_KING, x, y, 100, 100, null);</span>
-<span class="nc" id="L115">                case Piece.QUEEN -&gt; g2d.drawImage(Texture.BLACK_QUEEN, x, y, 100, 100, null);</span>
-<span class="nc" id="L116">                default -&gt; logger.log(Level.INFO, &quot;No Piece Here&quot;);</span>
+<span class="nc bnc" id="L113" title="All 7 branches missed.">            switch (Piece.PieceType(Board.GetSquare()[index])) {</span>
+<span class="nc" id="L114">                case Piece.PAWN -&gt; g2d.drawImage(Texture.BLACK_PAWN, x, y, 100, 100, null);</span>
+<span class="nc" id="L115">                case Piece.KNIGHT -&gt; g2d.drawImage(Texture.BLACK_KNIGHT, x, y, 100, 100, null);</span>
+<span class="nc" id="L116">                case Piece.BISHOP -&gt; g2d.drawImage(Texture.BLACK_BISHOP, x, y, 100, 100, null);</span>
+<span class="nc" id="L117">                case Piece.ROOK -&gt; g2d.drawImage(Texture.BLACK_ROOK, x, y, 100, 100, null);</span>
+<span class="nc" id="L118">                case Piece.KING -&gt; g2d.drawImage(Texture.BLACK_KING, x, y, 100, 100, null);</span>
+<span class="nc" id="L119">                case Piece.QUEEN -&gt; g2d.drawImage(Texture.BLACK_QUEEN, x, y, 100, 100, null);</span>
+<span class="nc" id="L120">                default -&gt; logger.log(Level.INFO, &quot;No Piece Here&quot;);</span>
             }
         }
-<span class="nc" id="L119">    }</span>
+<span class="nc" id="L123">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>
