@@ -2,16 +2,17 @@ version: 2.1
 
 jobs:
   build:
+    working_directory: ~/project
     docker:
       - image: cimg/openjdk:20.0.1
-    parallelism: 4
+    parallelism: 10
     steps:
       - checkout
       - run:
           name: Analyze on SonarCloud
           command: gradle build sonar
       - store_test_results:
-          path: ~/build/reports/jacoco
+          path: $CIRCLE_WORKING_DIRECTORY/build/reports/jacoco
 
 workflows:
   main:
