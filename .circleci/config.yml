@@ -10,6 +10,8 @@ jobs:
       - run:
           name: Analyze on SonarCloud
           command: gradle build sonarqube
+      - store_test_results:
+          path: test-results
 
 workflows:
   main:
