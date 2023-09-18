@@ -9,11 +9,9 @@ jobs:
       - checkout
       - run:
           name: Analyze on SonarCloud
-          command: |
-            ls
-            gradle build sonar
+          command: gradle build sonar
       - store_test_results:
-          path: ~/build/reports/jacoco
+          path: build/reports/jacoco
 
 workflows:
   main:
