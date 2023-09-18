@@ -10,6 +10,7 @@ class BoardClassTest {
 
     @Test
     void IsSquareAttackedByPawnTest(){
+        Init();
         PrecomputedMoveData.Init();
 
         Clear();
