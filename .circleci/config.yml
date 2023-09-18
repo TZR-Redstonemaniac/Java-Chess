@@ -11,7 +11,7 @@ jobs:
           name: Analyze on SonarCloud
           command: gradle build sonar
       - store_test_results:
-          path: build/reports/jacoco
+          path: project/build/reports/jacoco
 
 workflows:
   main:
