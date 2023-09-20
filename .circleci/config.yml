@@ -4,12 +4,11 @@ jobs:
   build:
     docker:
       - image: cimg/openjdk:20.0.1
-    parallelism: 5
     steps:
       - checkout
       - run:
           name: Analyze on SonarCloud
-          command: gradle build sonar
+          command: gradle build sonarqube
       - store_test_results:
           path: build/test-results
       - store_artifacts:

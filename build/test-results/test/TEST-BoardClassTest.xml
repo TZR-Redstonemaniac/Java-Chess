@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="BoardClassTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-09-20T10:31:24" hostname="KAD-HP" time="0.371">
+<testsuite name="BoardClassTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2023-09-20T10:35:45" hostname="KAD-HP" time="0.387">
   <properties/>
-  <testcase name="IsSquareAttackedByPawnTest()" classname="BoardClassTest" time="0.371"/>
+  <testcase name="IsSquareAttackedByQueen()" classname="BoardClassTest" time="0.043"/>
+  <testcase name="WhereIsSquareAttackedByPawnTest()" classname="BoardClassTest" time="0.003"/>
+  <testcase name="WhereIsSquareAttackedByQueen()" classname="BoardClassTest" time="0.001"/>
+  <testcase name="WhereIsSquareAttackedByKing()" classname="BoardClassTest" time="0.001"/>
+  <testcase name="WhereIsSquareAttackedByRook()" classname="BoardClassTest" time="0.001"/>
+  <testcase name="IsSquareAttackedByBishop()" classname="BoardClassTest" time="0.001"/>
+  <testcase name="IsSquareAttackedByKnight()" classname="BoardClassTest" time="0.004"/>
+  <testcase name="IsSquareAttackedByKing()" classname="BoardClassTest" time="0.002"/>
+  <testcase name="IsSquareAttackedByRook()" classname="BoardClassTest" time="0.001"/>
+  <testcase name="IsSquareAttackedByPawnTest()" classname="BoardClassTest" time="0.316"/>
+  <testcase name="WhereIsSquareAttackedByBishop()" classname="BoardClassTest" time="0.001"/>
+  <testcase name="WhereIsSquareAttackedByKnight()" classname="BoardClassTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
