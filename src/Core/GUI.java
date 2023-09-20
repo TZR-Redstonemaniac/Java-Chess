@@ -3,6 +3,7 @@ package Core;
 import Classes.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -59,6 +60,12 @@ public class GUI extends JFrame {
     //endregion
 
     private static ArrayList<Integer> attackedSquares = new ArrayList<>();
+
+    static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    static int screenWidth = (int) Math.round(screenSize.getWidth());
+    static int screenHeight = (int) Math.round(screenSize.getHeight());
+
+    static boolean debug = false;
     //endregion
 
     //region Constructors
@@ -67,7 +74,7 @@ public class GUI extends JFrame {
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
-        setSize(1000,1080);
+        setSize(Math.round(screenWidth / 1.7777777777f),screenHeight);
         setPreferredSize(getSize());
         setMinimumSize(getPreferredSize());
 
@@ -85,91 +92,123 @@ public class GUI extends JFrame {
         FenManager.LoadFromFen(FenManager.START_FEN);
         Board.Init();
 
-        depthLabel.setBounds(850, 75, 100, 25);
-        moveTestDepth.setBounds(850, 100, 100, 25);
+        depthLabel.setBounds(GetRelativeWidthPos(GetRelativeWidthPos(850)), GetRelativeHeightPos(75),
+                GetRelativeWidthPos(100), GetRelativeHeightPos(25));
+        moveTestDepth.setBounds(GetRelativeWidthPos(850), GetRelativeHeightPos(100),
+                GetRelativeWidthPos(100), GetRelativeHeightPos(25));
 
-        delayLabel.setBounds(850, 125, 100, 25);
-        moveTestDelay.setBounds(850, 150, 100, 25);
+        delayLabel.setBounds(GetRelativeWidthPos(850), GetRelativeHeightPos(125),
+                GetRelativeWidthPos(100), GetRelativeHeightPos(25));
+        moveTestDelay.setBounds(GetRelativeWidthPos(850), GetRelativeHeightPos(150),
+                GetRelativeWidthPos(100), GetRelativeHeightPos(25));
 
-        moveCount.setBounds(875, 175, 99999, 25);
+        moveCount.setBounds(GetRelativeWidthPos(875), GetRelativeHeightPos(175),
+                99999, GetRelativeHeightPos(25));
 
-        undo.setBounds(850, 300, 100, 25);
+        undo.setBounds(GetRelativeWidthPos(850), GetRelativeHeightPos(300),
+                GetRelativeWidthPos(100), GetRelativeHeightPos(25));
         undo.addActionListener(this::Undo);
 
-        moveTest.setBounds(850, 200, 100, 25);
+        moveTest.setBounds(GetRelativeWidthPos(850), GetRelativeHeightPos(200),
+                GetRelativeWidthPos(100), GetRelativeHeightPos(25));
         moveTest.addActionListener(e -> TestMoves());
 
-        setWhite.setBounds(850, 500, 100, 25);
+        setWhite.setBounds(GetRelativeWidthPos(850), GetRelativeHeightPos(500),
+                GetRelativeWidthPos(100), GetRelativeHeightPos(25));
         setWhite.addActionListener(this::SetWhiteToMove);
 
-        setBlack.setBounds(850, 525, 100, 25);
+        setBlack.setBounds(GetRelativeWidthPos(850), GetRelativeHeightPos(525),
+                GetRelativeWidthPos(100), GetRelativeHeightPos(25));
         setBlack.addActionListener(this::SetBlackToMove);
 
-        showAttackedSquares.setBounds(800, 600, 200, 25);
+        showAttackedSquares.setBounds(GetRelativeWidthPos(800), GetRelativeHeightPos(600),
+                GetRelativeWidthPos(200), GetRelativeHeightPos(25));
         showAttackedSquares.addActionListener(this::ShowAttackedSquares);
 
-        hideAttackedSquares.setBounds(800, 630, 200, 25);
+        hideAttackedSquares.setBounds(GetRelativeWidthPos(800), GetRelativeHeightPos(630),
+                GetRelativeWidthPos(200), GetRelativeHeightPos(25));
         hideAttackedSquares.addActionListener(this::HideAttackedSquares);
 
-        fenString.setBounds(850, 700, 100, 25);
+        fenString.setBounds(GetRelativeWidthPos(850), GetRelativeHeightPos(700),
+                GetRelativeWidthPos(100), GetRelativeHeightPos(25));
 
-        setFen.setBounds(850, 725, 100, 25);
+        setFen.setBounds(GetRelativeWidthPos(850), GetRelativeHeightPos(725),
+                GetRelativeWidthPos(100), GetRelativeHeightPos(25));
         setFen.addActionListener(this::SetFEN);
 
-        printLegalMoves.setBounds(825, 800, 150, 25);
+        printLegalMoves.setBounds(GetRelativeWidthPos(825), GetRelativeHeightPos(800),
+                GetRelativeWidthPos(150), GetRelativeHeightPos(25));
         printLegalMoves.addActionListener(this::PrintLegal);
 
         moveDisplay.setEditable(false);
-        moveScroll.setBounds(25, 850, 500, 200);
+        moveScroll.setBounds(GetRelativeWidthPos(25), GetRelativeHeightPos(850),
+                GetRelativeWidthPos(500), GetRelativeHeightPos(200));
         moveScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
         //region Position Labels
-        N8_POS.setBounds(810, 25, 50, 50);
-        N7_POS.setBounds(810, 125, 50, 50);
-        N6_POS.setBounds(810, 225, 50, 50);
-        N5_POS.setBounds(810, 325, 50, 50);
-        N4_POS.setBounds(810, 425, 50, 50);
-        N3_POS.setBounds(810, 525, 50, 50);
-        N2_POS.setBounds(810, 625, 50, 50);
-        N1_POS.setBounds(810, 725, 50, 50);
+        N8_POS.setBounds(GetRelativeWidthPos(810), 25,
+                GetRelativeWidthPos(50), GetRelativeHeightPos(50));
+        N7_POS.setBounds(GetRelativeWidthPos(810), GetRelativeHeightPos(125),
+                GetRelativeWidthPos(50), GetRelativeHeightPos(50));
+        N6_POS.setBounds(GetRelativeWidthPos(810), GetRelativeHeightPos(225),
+                GetRelativeWidthPos(50), GetRelativeHeightPos(50));
+        N5_POS.setBounds(GetRelativeWidthPos(810), GetRelativeHeightPos(325),
+                GetRelativeWidthPos(50), GetRelativeHeightPos(50));
+        N4_POS.setBounds(GetRelativeWidthPos(810), GetRelativeHeightPos(425),
+                GetRelativeWidthPos(50), GetRelativeHeightPos(50));
+        N3_POS.setBounds(GetRelativeWidthPos(810), GetRelativeHeightPos(525),
+                GetRelativeWidthPos(50), GetRelativeHeightPos(50));
+        N2_POS.setBounds(GetRelativeWidthPos(810), GetRelativeHeightPos(625),
+                GetRelativeWidthPos(50), GetRelativeHeightPos(50));
+        N1_POS.setBounds(GetRelativeWidthPos(810), GetRelativeHeightPos(725),
+                GetRelativeWidthPos(50), GetRelativeHeightPos(50));
 
-        A_POS.setBounds(50, 800, 50, 50);
-        B_POS.setBounds(150, 800, 50, 50);
-        C_POS.setBounds(250, 800, 50, 50);
-        D_POS.setBounds(350, 800, 50, 50);
-        E_POS.setBounds(450, 800, 50, 50);
-        F_POS.setBounds(550, 800, 50, 50);
-        G_POS.setBounds(650, 800, 50, 50);
-        H_POS.setBounds(750, 800, 50, 50);
+        A_POS.setBounds(50, GetRelativeHeightPos(800),
+                GetRelativeWidthPos(50), GetRelativeHeightPos(50));
+        B_POS.setBounds(GetRelativeWidthPos(150), GetRelativeHeightPos(800),
+                GetRelativeWidthPos(50), GetRelativeHeightPos(50));
+        C_POS.setBounds(GetRelativeWidthPos(250), GetRelativeHeightPos(800),
+                GetRelativeWidthPos(50), GetRelativeHeightPos(50));
+        D_POS.setBounds(GetRelativeWidthPos(350), GetRelativeHeightPos(800),
+                GetRelativeWidthPos(50), GetRelativeHeightPos(50));
+        E_POS.setBounds(GetRelativeWidthPos(450), GetRelativeHeightPos(800),
+                GetRelativeWidthPos(50), GetRelativeHeightPos(50));
+        F_POS.setBounds(GetRelativeWidthPos(550), GetRelativeHeightPos(800),
+                GetRelativeWidthPos(50), GetRelativeHeightPos(50));
+        G_POS.setBounds(GetRelativeWidthPos(650), GetRelativeHeightPos(800),
+                GetRelativeWidthPos(50), GetRelativeHeightPos(50));
+        H_POS.setBounds(GetRelativeWidthPos(750), GetRelativeHeightPos(800),
+                GetRelativeWidthPos(50), GetRelativeHeightPos(50));
         //endregion
     }
 
     private void AddComponents (){
-        add(depthLabel);
-        add(moveTestDepth);
+        if (debug) {
+            add(depthLabel);
+            add(moveTestDepth);
 
-        add(delayLabel);
-        add(moveTestDelay);
+            add(delayLabel);
+            add(moveTestDelay);
 
-        add(moveCount);
+            add(moveCount);
 
-        add(undo);
+            add(undo);
 
-        add(moveTest);
+            add(moveTest);
 
-        add(setWhite);
-        add(setBlack);
+            add(setWhite);
+            add(setBlack);
 
-        add(showAttackedSquares);
-        add(hideAttackedSquares);
+            add(showAttackedSquares);
+            add(hideAttackedSquares);
 
-        add(fenString);
-        add(setFen);
+            add(fenString);
+            add(setFen);
 
-        add(printLegalMoves);
+            add(printLegalMoves);
 
-        add(moveScroll);
-
+            add(moveScroll);
+        }
         //region Position Labels
         add(A_POS);
         add(B_POS);
@@ -271,6 +310,26 @@ public class GUI extends JFrame {
 
     public static List<Integer> GetAttackedSquares (){
         return attackedSquares;
+    }
+    //endregion
+
+    //region Convenience
+    private int GetRelativeWidthPos(float pos){
+        return Math.round(screenWidth/(1920/pos));
+    }
+
+    private int GetRelativeHeightPos(float pos){
+        return Math.round(screenHeight/(1080/pos));
+    }
+    //endregion
+
+    //region Getters
+    public static int getScreenHeight () {
+        return screenHeight;
+    }
+
+    public static int getScreenWidth () {
+        return screenWidth;
     }
     //endregion
 

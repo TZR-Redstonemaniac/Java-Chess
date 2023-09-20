@@ -56,8 +56,11 @@ public class Draw extends JPanel {
             int x = (int) Board.GetSquares()[index].get("x");
             int y = (int) Board.GetSquares()[index].get("y");
 
+            int w = (int) Board.GetSquares()[index].get("w");
+            int h = (int) Board.GetSquares()[index].get("h");
+
             g2d.setColor(new Color(100, 100, 100));
-            g2d.fillRect(x, y, 100, 100);
+            g2d.fillRect(x, y, w, h);
         }
 
         //Valid moves
@@ -65,12 +68,15 @@ public class Draw extends JPanel {
             int x = (int) Board.GetSquares()[move.targetSquare].get("x");
             int y = (int) Board.GetSquares()[move.targetSquare].get("y");
 
+            int w = (int) Board.GetSquares()[move.targetSquare].get("w");
+            int h = (int) Board.GetSquares()[move.targetSquare].get("h");
+
             int r = (int) Board.GetSquares()[move.targetSquare].get("mr");
             int g = (int) Board.GetSquares()[move.targetSquare].get("mg");
             int b = (int) Board.GetSquares()[move.targetSquare].get("mb");
 
             g2d.setColor(new Color(r, g, b));
-            g2d.fillRect(x, y, 100, 100);
+            g2d.fillRect(x, y, w, h);
         }
 
         //Pieces
@@ -100,26 +106,46 @@ public class Draw extends JPanel {
 
     private void DrawPiece (Graphics2D g2d, int index, int x, int y) {
         if (Piece.IsColour(Board.GetSquare()[index], Piece.WHITE)) {
-            switch (Piece.PieceType(Board.GetSquare()[index])) {
-                case Piece.PAWN -> g2d.drawImage(Texture.WHITE_PAWN, x, y, 100, 100, null);
-                case Piece.KNIGHT -> g2d.drawImage(Texture.WHITE_KNIGHT, x, y, 100, 100, null);
-                case Piece.BISHOP -> g2d.drawImage(Texture.WHITE_BISHOP, x, y, 100, 100, null);
-                case Piece.ROOK -> g2d.drawImage(Texture.WHITE_ROOK, x, y, 100, 100, null);
-                case Piece.KING -> g2d.drawImage(Texture.WHITE_KING, x, y, 100, 100, null);
-                case Piece.QUEEN -> g2d.drawImage(Texture.WHITE_QUEEN, x, y, 100, 100, null);
-                default -> logger.log(Level.INFO, "No Piece Here");
+            switch (Piece.PieceType(Board.GetSquare()[index])) { //NOSONAR
+                case Piece.PAWN -> g2d.drawImage(Texture.WHITE_PAWN, x, y, GetRelativeWidthPos(100),
+                        GetRelativeHeightPos(100), null);
+                case Piece.KNIGHT -> g2d.drawImage(Texture.WHITE_KNIGHT, x, y, GetRelativeWidthPos(100),
+                        GetRelativeHeightPos(100), null);
+                case Piece.BISHOP -> g2d.drawImage(Texture.WHITE_BISHOP, x, y, GetRelativeWidthPos(100),
+                        GetRelativeHeightPos(100), null);
+                case Piece.ROOK -> g2d.drawImage(Texture.WHITE_ROOK, x, y, GetRelativeWidthPos(100),
+                        GetRelativeHeightPos(100), null);
+                case Piece.KING -> g2d.drawImage(Texture.WHITE_KING, x, y, GetRelativeWidthPos(100),
+                        GetRelativeHeightPos(100), null);
+                case Piece.QUEEN -> g2d.drawImage(Texture.WHITE_QUEEN, x, y, GetRelativeWidthPos(100),
+                        GetRelativeHeightPos(100), null);
             }
         } else {
-            switch (Piece.PieceType(Board.GetSquare()[index])) {
-                case Piece.PAWN -> g2d.drawImage(Texture.BLACK_PAWN, x, y, 100, 100, null);
-                case Piece.KNIGHT -> g2d.drawImage(Texture.BLACK_KNIGHT, x, y, 100, 100, null);
-                case Piece.BISHOP -> g2d.drawImage(Texture.BLACK_BISHOP, x, y, 100, 100, null);
-                case Piece.ROOK -> g2d.drawImage(Texture.BLACK_ROOK, x, y, 100, 100, null);
-                case Piece.KING -> g2d.drawImage(Texture.BLACK_KING, x, y, 100, 100, null);
-                case Piece.QUEEN -> g2d.drawImage(Texture.BLACK_QUEEN, x, y, 100, 100, null);
-                default -> logger.log(Level.INFO, "No Piece Here");
+            switch (Piece.PieceType(Board.GetSquare()[index])) { //NOSONAR
+                case Piece.PAWN -> g2d.drawImage(Texture.BLACK_PAWN, x, y, GetRelativeWidthPos(100),
+                        GetRelativeHeightPos(100), null);
+                case Piece.KNIGHT -> g2d.drawImage(Texture.BLACK_KNIGHT, x, y, GetRelativeWidthPos(100),
+                        GetRelativeHeightPos(100), null);
+                case Piece.BISHOP -> g2d.drawImage(Texture.BLACK_BISHOP, x, y, GetRelativeWidthPos(100),
+                        GetRelativeHeightPos(100), null);
+                case Piece.ROOK -> g2d.drawImage(Texture.BLACK_ROOK, x, y, GetRelativeWidthPos(100),
+                        GetRelativeHeightPos(100), null);
+                case Piece.KING -> g2d.drawImage(Texture.BLACK_KING, x, y, GetRelativeWidthPos(100),
+                        GetRelativeHeightPos(100), null);
+                case Piece.QUEEN -> g2d.drawImage(Texture.BLACK_QUEEN, x, y, GetRelativeWidthPos(100),
+                        GetRelativeHeightPos(100), null);
             }
         }
     }
+
+    //region Convenience
+    private static int GetRelativeWidthPos(float pos){
+        return Math.round(GUI.getScreenWidth()/(1920/pos));
+    }
+
+    private static int GetRelativeHeightPos(float pos){
+        return Math.round(GUI.getScreenHeight()/(1080/pos));
+    }
+    //endregion
 
 }

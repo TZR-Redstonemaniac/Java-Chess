@@ -1,5 +1,7 @@
 package Classes;
 
+import Core.GUI;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +14,45 @@ public class Board {
     //region Constructor
     private Board() {
         throw new IllegalStateException("Utility class");
+    }
+
+    public static void Init(){
+        int index = 0;
+
+        for (int column = 7; column >= 0; column--){
+            for (int row = 0; row < 8; row++){
+                Squares[index] = new HashMap<>();
+
+                boolean isLight = (column + row) % 2 == 0;
+
+                if (isLight) {
+                    Squares[index].put("x", row * GetRelativeWidthPos(100));
+                    Squares[index].put("y", column * GetRelativeHeightPos(100));
+                    Squares[index].put("w", GetRelativeWidthPos(100));
+                    Squares[index].put("h", GetRelativeHeightPos(100));
+                    Squares[index].put("r", 232);
+                    Squares[index].put("g", 209);
+                    Squares[index].put("b", 184);
+                    Squares[index].put("mr", 217);
+                    Squares[index].put("mg", 66);
+                    Squares[index].put("mb", 78);
+                }
+                else {
+                    Squares[index].put("x", row * GetRelativeWidthPos(100));
+                    Squares[index].put("y", column * GetRelativeHeightPos(100));
+                    Squares[index].put("w", GetRelativeWidthPos(100));
+                    Squares[index].put("h", GetRelativeHeightPos(100));
+                    Squares[index].put("r", 121);
+                    Squares[index].put("g", 83);
+                    Squares[index].put("b", 73);
+                    Squares[index].put("mr", 173);
+                    Squares[index].put("mg", 43);
+                    Squares[index].put("mb", 50);
+                }
+
+                index++;
+            }
+        }
     }
     //endregion
     //endignore
@@ -131,47 +172,6 @@ public class Board {
     public static void Clear() {
         for (int i = 0; i < 63; i++) square[i] = 0;
     }
-    //endregion
-
-    //region Constructor
-    public static void Init(){
-        int index = 0;
-
-        for (int column = 7; column >= 0; column--){
-            for (int row = 0; row < 8; row++){
-                Squares[index] = new HashMap<>();
-
-                boolean isLight = (column + row) % 2 == 0;
-
-                if (isLight) {
-                    Squares[index].put("x", row * 100);
-                    Squares[index].put("y", column * 100);
-                    Squares[index].put("w", 100);
-                    Squares[index].put("h", 100);
-                    Squares[index].put("r", 232);
-                    Squares[index].put("g", 209);
-                    Squares[index].put("b", 184);
-                    Squares[index].put("mr", 217);
-                    Squares[index].put("mg", 66);
-                    Squares[index].put("mb", 78);
-                }
-                else {
-                    Squares[index].put("x", row * 100);
-                    Squares[index].put("y", column * 100);
-                    Squares[index].put("w", 100);
-                    Squares[index].put("h", 100);
-                    Squares[index].put("r", 121);
-                    Squares[index].put("g", 83);
-                    Squares[index].put("b", 73);
-                    Squares[index].put("mr", 173);
-                    Squares[index].put("mg", 43);
-                    Squares[index].put("mb", 50);
-                }
-
-                index++;
-            }
-        }
-    }
 
     public static boolean IsSquareAttacked (int startSquare, int attackingColor) {
         if (Board.square[startSquare] != Piece.NONE && Piece.IsColour(Board.square[startSquare], attackingColor)) return false;
@@ -191,8 +191,6 @@ public class Board {
         // If none of the above conditions were met, the square is not attacked
         return false;
     }
-
-
 
     public static String WhatIsSquareAttackedBy (int startSquare, int attackingColor) {
         // Check if the square is attacked by a pawn
@@ -214,8 +212,6 @@ public class Board {
         // If none of the above conditions were met, the square is not attacked
         return "None";
     }
-
-
 
     public static int FromWhereIsTheSquareAttacked (int startSquare, int attackingColor) {
         if (Board.square[startSquare] != Piece.NONE && Piece.IsColour(Board.square[startSquare], attackingColor)) return -1;
@@ -736,5 +732,15 @@ public class Board {
         }
     }
 
+    //endregion
+
+    //region Convenience
+    private static int GetRelativeWidthPos(float pos){
+        return Math.round(GUI.getScreenWidth()/(1920/pos));
+    }
+
+    private static int GetRelativeHeightPos(float pos){
+        return Math.round(GUI.getScreenHeight()/(1080/pos));
+    }
     //endregion
 }

@@ -5,6 +5,8 @@ import Classes.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Game {
 
@@ -16,11 +18,16 @@ public class Game {
     private static int currentIndex;
 
     private static List<Move> moves = new ArrayList<>();
+
+    private static final Logger LOGGER = Logger.getLogger("Game");
+
+    private static boolean checkmated = false;
     //endregion
 
     //region Run Function and Game Loop
     public static void main(String[] args) { //NOSONAR
         PrecomputedMoveData.Init();
+        PgnManager.Init();
 
         //noinspection InfiniteLoopStatement
         while (true) MainGameLoop(); //NOSONAR
@@ -34,6 +41,8 @@ public class Game {
 
         //Set colors
         Board.opponentColor = Board.colorToMove == Piece.WHITE ? Piece.BLACK : Piece.WHITE;
+
+        CheckmateChecker();
 
         ui.repaint();
     }
@@ -50,6 +59,26 @@ public class Game {
 
         //Generate the moves and remove any non-valid moves for the piece
         moves = MoveGenerator.GenerateLegalMoves();
+
+        int whiteKingPos = 0;
+        int blackKingPos = 0;
+
+        for (int i = 0; i < 64; i++){
+            if (Piece.PieceChecker(Board.GetSquare()[i], Piece.KING, Piece.BLACK)) blackKingPos = i;
+            if (Piece.PieceChecker(Board.GetSquare()[i], Piece.KING, Piece.WHITE)) whiteKingPos = i;
+        }
+
+        if (moves.isEmpty()) {
+            if ((Board.colorToMove == Piece.WHITE && !Board.IsSquareAttacked(whiteKingPos, Piece.BLACK)) ||
+                    (Board.colorToMove == Piece.BLACK && !Board.IsSquareAttacked(blackKingPos, Piece.WHITE))){
+                LOGGER.log(Level.INFO, PgnManager.GetPgnString()
+                        .append("1/2-1/2")
+                        .insert(PgnManager.GetPgnString().indexOf("1") - 1, "\n[Result \"1/2-1/2\"]\n")
+                        .toString()); //NOSONAR
+                System.exit(0);
+            }
+        }
+
         moves.removeIf(move -> move.startSquare != startIndex);
     }
 
@@ -127,8 +156,47 @@ public class Game {
             Board.bQueensideCastle = false;
         }
 
+        PgnManager.AddMoveToPgn(move);
+
         //Set moves to null
         moves = null;
+    }
+
+    private static void CheckmateChecker(){
+        int whiteKingPos = 0;
+        int blackKingPos = 0;
+
+        for (int i = 0; i < 64; i++){
+            if (Piece.PieceChecker(Board.GetSquare()[i], Piece.KING, Piece.BLACK)) blackKingPos = i;
+            if (Piece.PieceChecker(Board.GetSquare()[i], Piece.KING, Piece.WHITE)) whiteKingPos = i;
+        }
+
+        if ((Board.IsSquareAttacked(whiteKingPos, Piece.BLACK) || Board.IsSquareAttacked(blackKingPos, Piece.WHITE)) && !checkmated){
+
+            if (Board.colorToMove == Piece.WHITE){
+                List<Move> opponentMoves = MoveGenerator.GenerateLegalMoves();
+                if (!opponentMoves.isEmpty())
+                    return;
+                checkmated = true;
+                LOGGER.log(Level.INFO, "Checkmate, Black wins\n" + PgnManager.GetPgnString()
+                        .append("0-1")
+                        .insert(PgnManager.GetPgnString().indexOf("1") - 1, "\n[Result \"0-1\"]\n")); //NOSONAR
+                System.exit(0);
+            }
+
+            if (Board.colorToMove == Piece.BLACK){
+                List<Move> opponentMoves = MoveGenerator.GenerateLegalMoves();
+                if (!opponentMoves.isEmpty())
+                    return;
+                checkmated = true;
+                LOGGER.log(Level.INFO, "Checkmate, White wins\n" + PgnManager.GetPgnString()
+                        .append("1-0")
+                        .insert(PgnManager.GetPgnString().indexOf("1") - 1, "\n[Result \"1-0\"]\n")); //NOSONAR
+                System.exit(0);
+            }
+        }
+
+
     }
     //endregion
 
@@ -149,27 +217,27 @@ public class Game {
     }
 
     private static int ConvertX(int x){
-        if (x >= 700) return 7;
-        else if (x >= 600) return 6;
-        else if (x >= 500) return 5;
-        else if (x >= 400) return 4;
-        else if (x >= 300) return 3;
-        else if (x >= 200) return 2;
-        else if (x >= 100) return 1;
-        else if (x >= 0) return 0;
+        if (x >= GetRelativeWidthPos(700)) return 7;
+        else if (x >= GetRelativeWidthPos(600)) return 6;
+        else if (x >= GetRelativeWidthPos(500)) return 5;
+        else if (x >= GetRelativeWidthPos(400)) return 4;
+        else if (x >= GetRelativeWidthPos(300)) return 3;
+        else if (x >= GetRelativeWidthPos(200)) return 2;
+        else if (x >= GetRelativeWidthPos(100)) return 1;
+        else if (x >= GetRelativeWidthPos(0)) return 0;
 
         return -1;
     }
 
     private static int ConvertY(int y){
-        if (y >= 700) return 0;
-        else if (y >= 600) return 8;
-        else if (y >= 500) return 16;
-        else if (y >= 400) return 24;
-        else if (y >= 300) return 32;
-        else if (y >= 200) return 40;
-        else if (y >= 100) return 48;
-        else if (y >= 0) return 56;
+        if (y >= GetRelativeHeightPos(700)) return 0;
+        else if (y >= GetRelativeHeightPos(600)) return 8;
+        else if (y >= GetRelativeHeightPos(500)) return 16;
+        else if (y >= GetRelativeHeightPos(400)) return 24;
+        else if (y >= GetRelativeHeightPos(300)) return 32;
+        else if (y >= GetRelativeHeightPos(200)) return 40;
+        else if (y >= GetRelativeHeightPos(100)) return 48;
+        else if (y >= GetRelativeHeightPos(0)) return 56;
 
         return -1;
     }
@@ -215,6 +283,14 @@ public class Game {
                 }
             }
         }
+    }
+
+    private static int GetRelativeWidthPos(float pos){
+        return Math.round(GUI.getScreenWidth()/(1920/pos));
+    }
+
+    private static int GetRelativeHeightPos(float pos){
+        return Math.round(GUI.getScreenHeight()/(1080/pos));
     }
     //endregion
 

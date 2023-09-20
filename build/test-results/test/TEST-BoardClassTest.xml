@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="BoardClassTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2023-09-19T05:42:58" hostname="KAD-HP" time="0.091">
+<testsuite name="BoardClassTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2023-09-20T10:03:50" hostname="KAD-HP" time="0.387">
   <properties/>
-  <testcase name="IsSquareAttackedByQueen()" classname="BoardClassTest" time="0.047"/>
-  <testcase name="WhereIsSquareAttackedByPawnTest()" classname="BoardClassTest" time="0.004"/>
+  <testcase name="IsSquareAttackedByQueen()" classname="BoardClassTest" time="0.045"/>
+  <testcase name="WhereIsSquareAttackedByPawnTest()" classname="BoardClassTest" time="0.003"/>
   <testcase name="WhereIsSquareAttackedByQueen()" classname="BoardClassTest" time="0.002"/>
-  <testcase name="WhereIsSquareAttackedByKing()" classname="BoardClassTest" time="0.002"/>
-  <testcase name="WhereIsSquareAttackedByRook()" classname="BoardClassTest" time="0.002"/>
+  <testcase name="WhereIsSquareAttackedByKing()" classname="BoardClassTest" time="0.001"/>
+  <testcase name="WhereIsSquareAttackedByRook()" classname="BoardClassTest" time="0.001"/>
   <testcase name="IsSquareAttackedByBishop()" classname="BoardClassTest" time="0.001"/>
-  <testcase name="IsSquareAttackedByKnight()" classname="BoardClassTest" time="0.006"/>
+  <testcase name="IsSquareAttackedByKnight()" classname="BoardClassTest" time="0.003"/>
   <testcase name="IsSquareAttackedByKing()" classname="BoardClassTest" time="0.001"/>
   <testcase name="IsSquareAttackedByRook()" classname="BoardClassTest" time="0.001"/>
-  <testcase name="IsSquareAttackedByPawnTest()" classname="BoardClassTest" time="0.002"/>
-  <testcase name="WhereIsSquareAttackedByBishop()" classname="BoardClassTest" time="0.002"/>
+  <testcase name="IsSquareAttackedByPawnTest()" classname="BoardClassTest" time="0.315"/>
+  <testcase name="WhereIsSquareAttackedByBishop()" classname="BoardClassTest" time="0.001"/>
   <testcase name="WhereIsSquareAttackedByKnight()" classname="BoardClassTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>

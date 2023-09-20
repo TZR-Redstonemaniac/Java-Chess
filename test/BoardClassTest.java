@@ -1,3 +1,4 @@
+import Classes.Board;
 import Classes.PrecomputedMoveData;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +11,7 @@ class BoardClassTest {
 
     @Test
     void IsSquareAttackedByPawnTest(){
-        Init();
+        Board.Init();
         PrecomputedMoveData.Init();
 
         Clear();
