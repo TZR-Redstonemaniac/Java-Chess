@@ -2,6 +2,8 @@
 **/build/
 !src/**/build/
 
+QuickRunDatabaseFunction.java
+
 # Ignore Gradle GUI config
 gradle-app.setting
 

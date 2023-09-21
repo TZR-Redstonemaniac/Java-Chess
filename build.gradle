@@ -48,6 +48,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
     testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.8.1'
     implementation 'org.junit.jupiter:junit-jupiter-api:5.5.1'
+    implementation 'org.xerial:sqlite-jdbc:3.30.1'
 }
 
 idea {
@@ -62,7 +63,7 @@ jar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
     manifest {
-        attributes "Main-Class": "com.Core.Game"
+        attributes "Main-Class": "main.java.Core.Game"
     }
 
     from {
@@ -71,5 +72,5 @@ jar {
 }
 
 application {
-    mainClassName = 'com.Core.Game'
+    mainClassName = 'main.java.Core.Game'
 }

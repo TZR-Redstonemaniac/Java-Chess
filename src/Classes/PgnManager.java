@@ -1,7 +1,5 @@
 package Classes;
 
-import java.time.LocalDate;
-
 public class PgnManager {
 
     //region Variables
@@ -16,13 +14,6 @@ public class PgnManager {
     }
 
     public static void Init(){
-        LocalDate date = LocalDate.now();
-        int year = date.getYear();
-        int month = date.getMonthValue();
-        int day = date.getDayOfMonth();
-
-        PgnString.append(String.format("[Date \"%d.%d.%d\"]", year, month, day)).append("\n");
-
         PgnString.append(moveIndex).append(". ");
         moveIndex++;
     }

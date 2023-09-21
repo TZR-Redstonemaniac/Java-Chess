@@ -3,6 +3,10 @@ package Core;
 import Classes.*;
 
 import java.awt.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -46,6 +50,37 @@ public class Game {
 
         ui.repaint();
     }
+
+    private static Connection Connect(){
+        // SQLite's connection string
+        Path currentRelativePath = Paths.get("");
+        String s = currentRelativePath.toAbsolutePath().toString();
+
+        String url = "jdbc:sqlite:" + s + "/GameHistory.db";
+
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(url);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return conn;
+    }
+
+    private static void InsertPgnToDatabase(String date, String result, String moves){
+        String sql = "INSERT INTO ChessGames(date, result, moves) VALUES(?, ?, ?)";
+
+        try{
+            Connection conn = Connect();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, date);
+            pstmt.setString(2, result);
+            pstmt.setString(3, moves);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
     //endregion
 
     //region Methods
@@ -71,10 +106,16 @@ public class Game {
         if (moves.isEmpty()) {
             if ((Board.colorToMove == Piece.WHITE && !Board.IsSquareAttacked(whiteKingPos, Piece.BLACK)) ||
                     (Board.colorToMove == Piece.BLACK && !Board.IsSquareAttacked(blackKingPos, Piece.WHITE))){
-                LOGGER.log(Level.INFO, PgnManager.GetPgnString()
-                        .append("1/2-1/2")
-                        .insert(PgnManager.GetPgnString().indexOf("1") - 1, "\n[Result \"1/2-1/2\"]\n")
-                        .toString()); //NOSONAR
+                LOGGER.log(Level.INFO, PgnManager.GetPgnString().append("1/2-1/2").toString()); //NOSONAR
+
+                LocalDate date = LocalDate.now();
+                int year = date.getYear();
+                int month = date.getMonthValue();
+                int day = date.getDayOfMonth();
+
+                InsertPgnToDatabase(year + "." + month + "." + day, "1/2-1/2",
+                        PgnManager.GetPgnString().toString());
+
                 System.exit(0);
             }
         }
@@ -171,16 +212,23 @@ public class Game {
             if (Piece.PieceChecker(Board.GetSquare()[i], Piece.KING, Piece.WHITE)) whiteKingPos = i;
         }
 
-        if ((Board.IsSquareAttacked(whiteKingPos, Piece.BLACK) || Board.IsSquareAttacked(blackKingPos, Piece.WHITE)) && !checkmated){
+        if ((Board.IsSquareAttacked(whiteKingPos, Piece.BLACK) || Board.IsSquareAttacked(blackKingPos, Piece.WHITE)) &&
+                !checkmated){
 
             if (Board.colorToMove == Piece.WHITE){
                 List<Move> opponentMoves = MoveGenerator.GenerateLegalMoves();
                 if (!opponentMoves.isEmpty())
                     return;
                 checkmated = true;
-                LOGGER.log(Level.INFO, "Checkmate, Black wins\n" + PgnManager.GetPgnString()
-                        .append("0-1")
-                        .insert(PgnManager.GetPgnString().indexOf("1") - 1, "\n[Result \"0-1\"]\n")); //NOSONAR
+                LOGGER.log(Level.INFO, "Checkmate, Black wins\n" + PgnManager.GetPgnString().append("0-1")); //NOSONAR
+
+                LocalDate date = LocalDate.now();
+                int year = date.getYear();
+                int month = date.getMonthValue();
+                int day = date.getDayOfMonth();
+
+                InsertPgnToDatabase(year + "." + month + "." + day, "0-1", PgnManager.GetPgnString().toString());
+
                 System.exit(0);
             }
 
@@ -189,9 +237,15 @@ public class Game {
                 if (!opponentMoves.isEmpty())
                     return;
                 checkmated = true;
-                LOGGER.log(Level.INFO, "Checkmate, White wins\n" + PgnManager.GetPgnString()
-                        .append("1-0")
-                        .insert(PgnManager.GetPgnString().indexOf("1") - 1, "\n[Result \"1-0\"]\n")); //NOSONAR
+                LOGGER.log(Level.INFO, "Checkmate, White wins\n" + PgnManager.GetPgnString().append("1-0")); //NOSONAR
+
+                LocalDate date = LocalDate.now();
+                int year = date.getYear();
+                int month = date.getMonthValue();
+                int day = date.getDayOfMonth();
+
+                InsertPgnToDatabase(year + "." + month + "." + day, "1-0", PgnManager.GetPgnString().toString());
+
                 System.exit(0);
             }
         }
