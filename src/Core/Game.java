@@ -30,34 +30,58 @@ public class Game {
 
     //region Run Function and Game Loop
     public static void main(String[] args) { //NOSONAR
+        //Initialize the piece move data and the PGN manager
         PrecomputedMoveData.Init();
         PgnManager.Init();
 
+        //Run the game loop
         //noinspection InfiniteLoopStatement
         while (true) MainGameLoop(); //NOSONAR
     }
 
     public static void MainGameLoop() {
+        //Get the board index of where the mouse is
         currentIndex = GetIndex();
 
+        //Grab and release the pieces if the mouse is on the board
         if (Mouse.GetPressed() && !Mouse.GetGrabbed() && !(currentIndex < 0 || currentIndex > 63)) Grab();
         else if (!Mouse.GetPressed() && Mouse.GetGrabbed() && !(currentIndex < 0 || currentIndex > 63)) Release();
 
         //Set colors
         Board.opponentColor = Board.colorToMove == Piece.WHITE ? Piece.BLACK : Piece.WHITE;
 
+        //Check if a side is in checkmate
         CheckmateChecker();
 
+        //Redraw the ui
         ui.repaint();
     }
 
-    private static Connection Connect(){
+    private static Connection ConnectGameHistory (){
         // SQLite's connection string
         Path currentRelativePath = Paths.get("");
         String s = currentRelativePath.toAbsolutePath().toString();
 
         String url = "jdbc:sqlite:" + s + "/GameHistory.db";
 
+        //Attempt to make a connection with the database and return it
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(url);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return conn;
+    }
+
+    private static Connection ConnectEcoCodes (){
+        // SQLite's connection string
+        Path currentRelativePath = Paths.get("");
+        String s = currentRelativePath.toAbsolutePath().toString();
+
+        String url = "jdbc:sqlite:" + s + "/ChessEcoCodes.db";
+
+        //Attempt to make a connection with the database and return it
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url);
@@ -68,14 +92,59 @@ public class Game {
     }
 
     private static void InsertPgnToDatabase(String date, String result, String moves){
-        String sql = "INSERT INTO ChessGames(date, result, moves) VALUES(?, ?, ?)";
+        //SQL command
+        String sql = "INSERT INTO ChessGames(date, result, moves, eco, ecoName) VALUES(?, ?, ?, ?, ?)";
+
+        //Initialize variables for finding the matching Chess Encyclopedic Code
+        String longestMatch = "";
+        String longestMatchEco = "";
+        String longestMatchEcoName = "";
+        int longestMatchLength = 0;
+
+        try {
+            Connection conn = ConnectEcoCodes();
+            Statement stmt = conn.createStatement();
+
+            // SQL query to retrieve all values from the specified column
+            String query = "SELECT opening FROM ChessEcoCodes";
+            ResultSet resultSet = stmt.executeQuery(query);
+
+            while (resultSet.next()) {
+                String dbValue = resultSet.getString("opening");
+
+                // Check if the database value is a substring of the opening and longer than the current longest match
+                if (moves.contains(dbValue) && dbValue.length() > longestMatchLength) {
+                    longestMatch = dbValue;
+                    longestMatchLength = dbValue.length();
+                }
+            }
+
+            if (!longestMatch.isEmpty()) {
+                PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM ChessEcoCodes WHERE opening = ?");
+                pstmt.setString(1, longestMatch); // Set the search string as a parameter
+                resultSet = pstmt.executeQuery();
+
+                if (resultSet.next()) {
+                    longestMatchEco = resultSet.getString("code");
+                    longestMatchEcoName = resultSet.getString("name");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
 
         try{
-            Connection conn = Connect();
+            Connection conn = ConnectGameHistory();
             PreparedStatement pstmt = conn.prepareStatement(sql);
+
+            //Add to the database
             pstmt.setString(1, date);
             pstmt.setString(2, result);
             pstmt.setString(3, moves);
+            if (!longestMatch.isEmpty()) {
+                pstmt.setString(4, longestMatchEco);
+                pstmt.setString(5, longestMatchEcoName);
+            }
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -149,6 +218,8 @@ public class Game {
             return;
         }
 
+        boolean capturing = Board.GetSquare()[targetIndex] != Piece.NONE;
+
         //Save the board position before making the move
         Board.prevSquares.add(Board.GetSquare().clone());
         Board.prevEnPassantSquares.add(Board.enPassantSquare.clone());
@@ -197,7 +268,7 @@ public class Game {
             Board.bQueensideCastle = false;
         }
 
-        PgnManager.AddMoveToPgn(move);
+        PgnManager.AddMoveToPgn(move, capturing);
 
         //Set moves to null
         moves = null;
