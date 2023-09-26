@@ -1,5 +1,6 @@
 package Core;
 
+import AI.MainAI;
 import Classes.*;
 
 import java.awt.*;
@@ -26,6 +27,8 @@ public class Game {
     private static final Logger LOGGER = Logger.getLogger("Game");
 
     private static boolean checkmated = false;
+
+    public static boolean searching = false;
     //endregion
 
     //region Run Function and Game Loop
@@ -43,18 +46,24 @@ public class Game {
         //Get the board index of where the mouse is
         currentIndex = GetIndex();
 
-        //Grab and release the pieces if the mouse is on the board
-        if (Mouse.GetPressed() && !Mouse.GetGrabbed() && !(currentIndex < 0 || currentIndex > 63)) Grab();
-        else if (!Mouse.GetPressed() && Mouse.GetGrabbed() && !(currentIndex < 0 || currentIndex > 63)) Release();
+        //Check if it is the players turn
+        if (Board.colorToMove == Piece.WHITE){
+            //Grab and release the pieces if the mouse is on the board
+            if (Mouse.GetPressed() && !Mouse.GetGrabbed() && !(currentIndex < 0 || currentIndex > 63)) Grab();
+            else if (!Mouse.GetPressed() && Mouse.GetGrabbed() && !(currentIndex < 0 || currentIndex > 63)) Release();
+        } else {
+            MainAI.Search(4, 0, 0);
 
-        //Set colors
-        Board.opponentColor = Board.colorToMove == Piece.WHITE ? Piece.BLACK : Piece.WHITE;
+            Board.MakeMove(MainAI.GetBestMove());
+            searching = false;
+        }
 
         //Check if a side is in checkmate
         CheckmateChecker();
 
         //Redraw the ui
-        ui.repaint();
+        GUI.GetEvaluation();
+        if (!searching) ui.repaint();
     }
 
     private static Connection ConnectGameHistory (){
@@ -272,6 +281,7 @@ public class Game {
 
         //Set moves to null
         moves = null;
+
     }
 
     private static void CheckmateChecker(){

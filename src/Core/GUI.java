@@ -1,5 +1,6 @@
 package Core;
 
+import AI.Evaluate;
 import Classes.*;
 
 import javax.swing.*;
@@ -21,6 +22,8 @@ public class GUI extends JFrame {
     private static final JTextField moveTestDelay = new JTextField();
 
     private static final JLabel moveCount = new JLabel("0");
+
+    private static final JLabel evaluation = new JLabel("0");
 
     private static final JButton undo = new JButton("Undo");
 
@@ -92,7 +95,7 @@ public class GUI extends JFrame {
         FenManager.LoadFromFen(FenManager.START_FEN);
         Board.Init();
 
-        depthLabel.setBounds(GetRelativeWidthPos(GetRelativeWidthPos(850)), GetRelativeHeightPos(75),
+        depthLabel.setBounds(GetRelativeWidthPos(850), GetRelativeHeightPos(75),
                 GetRelativeWidthPos(100), GetRelativeHeightPos(25));
         moveTestDepth.setBounds(GetRelativeWidthPos(850), GetRelativeHeightPos(100),
                 GetRelativeWidthPos(100), GetRelativeHeightPos(25));
@@ -180,6 +183,9 @@ public class GUI extends JFrame {
         H_POS.setBounds(GetRelativeWidthPos(750), GetRelativeHeightPos(800),
                 GetRelativeWidthPos(50), GetRelativeHeightPos(50));
         //endregion
+
+        evaluation.setBounds(GetRelativeWidthPos(850), GetRelativeHeightPos(75),
+                GetRelativeWidthPos(100), GetRelativeHeightPos(25));
     }
 
     private void AddComponents (){
@@ -208,6 +214,8 @@ public class GUI extends JFrame {
             add(printLegalMoves);
 
             add(moveScroll);
+        } else {
+            add(evaluation);
         }
         //region Position Labels
         add(A_POS);
@@ -310,6 +318,10 @@ public class GUI extends JFrame {
 
     public static List<Integer> GetAttackedSquares (){
         return attackedSquares;
+    }
+
+    public static void GetEvaluation(){
+        evaluation.setText(String.valueOf(Evaluate.EvaluatePosition()));
     }
     //endregion
 

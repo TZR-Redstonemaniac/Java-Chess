@@ -265,16 +265,18 @@ public class MoveGenerator {
     }
 
     public static void GeneratePawnCaptures (int startSquare, int target) {
-        if (target + 1 < 64 && (target - 7) % 8 != 0 && Board.GetSquare()[target + 1] != Piece.NONE && Piece.IsColour(Board.GetSquare()[target + 1], Board.opponentColor))
+        if (target + 1 < 64 && (target - 7) % 8 != 0 && Board.GetSquare()[target + 1] != Piece.NONE &&
+                Piece.IsColour(Board.GetSquare()[target + 1], Board.opponentColor))
         {
-            if (target + 1 >= 56) GeneratePromotionMoves(startSquare, target + 1, Piece.WHITE);
-            else if (target - 1 <= 7) GeneratePromotionMoves(startSquare, target + 1, Piece.BLACK);
+            if (target + 1 >= 56 && (target - 7) % 8 != 0) GeneratePromotionMoves(startSquare, target + 1, Piece.WHITE);
+            else if (target - 1 <= 7 && target % 8 != 0) GeneratePromotionMoves(startSquare, target - 1, Piece.BLACK);
             else moves.add(new Move(startSquare, target + 1));
         }
-        if (target - 1 >= 0 && target % 8 != 0 && Board.GetSquare()[target - 1] != Piece.NONE && Piece.IsColour(Board.GetSquare()[target - 1], Board.opponentColor))
+        if (target - 1 >= 0 && target % 8 != 0 && Board.GetSquare()[target - 1] != Piece.NONE &&
+                Piece.IsColour(Board.GetSquare()[target - 1], Board.opponentColor))
         {
-            if (target + 1 >= 56) GeneratePromotionMoves(startSquare, target - 1, Piece.WHITE);
-            else if (target - 1 <= 7) GeneratePromotionMoves(startSquare, target - 1, Piece.BLACK);
+            if (target + 1 >= 56 && (target - 7) % 8 != 0) GeneratePromotionMoves(startSquare, target + 1, Piece.WHITE);
+            else if (target - 1 <= 7 && target % 8 != 0) GeneratePromotionMoves(startSquare, target - 1, Piece.BLACK);
             else moves.add(new Move(startSquare, target - 1));
         }
 
