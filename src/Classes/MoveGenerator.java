@@ -52,26 +52,19 @@ public class MoveGenerator {
         ArrayList<Move> pseudoLegalMoves = GenerateMoves();
         ArrayList<Move> legalMoves = new ArrayList<>();
 
-        int kingSquare = 0;
+        int kingPos = 0;
 
         for (Move moveToVerify : pseudoLegalMoves) {
             Board.MakeMove(moveToVerify);
-            ArrayList<Move> opponentResponses = GenerateMoves();
 
-            for (int startSquare = 0; startSquare < 64; startSquare++){
-                int piece = Board.GetSquare()[startSquare];
-                if (Piece.PieceChecker(piece, Piece.KING, Board.opponentColor)) kingSquare = startSquare;
-            }
-
-            boolean anyResponseMatches = false;
-            for (Move response : opponentResponses) {
-                if (response.targetSquare == kingSquare) {
-                    anyResponseMatches = true;
+            for (int i = 0; i < 64; i++){
+                if (Piece.PieceChecker(Board.GetSquare()[i], Piece.KING, Board.opponentColor)) {
+                    kingPos = i;
                     break;
                 }
             }
 
-            if (!anyResponseMatches) legalMoves.add(moveToVerify);
+            if (!Board.IsSquareAttacked(kingPos, Board.colorToMove)) legalMoves.add(moveToVerify);
 
             Board.UnmakeMove();
         }

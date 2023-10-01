@@ -312,6 +312,17 @@ class MoveGeneratorClassTest {
         Assertions.assertEquals(43238, MoveGenerator.MoveGenerationTest(4,0));
         Assertions.assertEquals(674624, MoveGenerator.MoveGenerationTest(5,0));
     }
+
+    /*@Test
+    void Tester(){
+        MoveGenerator.ClearMoves();
+        Board.Clear();
+        PrecomputedMoveData.Init();
+        FenManager.Init();
+
+        FenManager.LoadFromFen("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q2/PPPBBPpP/R4RK1 w kq - 0 2");
+        System.out.println(MoveGenerator.MoveGenerationTest(1,0));
+    }*/
     //endregion
 
     //region Test Functions

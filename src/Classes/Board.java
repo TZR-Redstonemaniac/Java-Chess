@@ -406,17 +406,23 @@ public class Board {
 
     private static boolean AttackedByPawn (int startSquare, int attackingColor) {
         if (attackingColor == Piece.WHITE) {
-            if (startSquare - 9 >= 0 && (startSquare % 8) != 0 && Board.square[startSquare - 9] == (attackingColor | Piece.PAWN)) {
+            if (startSquare - 9 >= 0 && (startSquare % 8) != 0 && Piece.PieceChecker(square[startSquare - 9], Piece.PAWN,
+                    attackingColor)) {
                 return true;
             }
-            if (startSquare - 7 >= 0 && ((startSquare - 7) % 8) != 0 && Board.square[startSquare - 7] == (attackingColor | Piece.PAWN)) {
+            if (startSquare - 7 >= 0 && ((startSquare - 7) % 8) != 0 && Piece.PieceChecker(square[startSquare - 7],
+                    Piece.PAWN,
+                    attackingColor)) {
                 return true;
             }
         } else {
-            if (startSquare + 7 <= 63 && (startSquare % 8) != 0 && Board.square[startSquare + 7] == (attackingColor | Piece.PAWN)) {
+            if (startSquare + 7 <= 63 && (startSquare % 8) != 0 && Piece.PieceChecker(square[startSquare + 7], Piece.PAWN,
+                    attackingColor)) {
                 return true;
             }
-            if (startSquare + 9 <= 63 && ((startSquare - 7) % 8) != 0 && Board.square[startSquare + 9] == (attackingColor | Piece.PAWN)) {
+            if (startSquare + 9 <= 63 && ((startSquare - 7) % 8) != 0 && Piece.PieceChecker(square[startSquare + 9],
+                    Piece.PAWN,
+                    attackingColor)) {
                 return true;
             }
         }

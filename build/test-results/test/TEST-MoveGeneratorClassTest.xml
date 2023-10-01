@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="MoveGeneratorClassTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2023-09-26T07:55:15" hostname="KAD-HP" time="32.413">
+<testsuite name="MoveGeneratorClassTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-10-01T09:01:42" hostname="KAD-HP" time="0.355">
   <properties/>
-  <testcase name="GenerateCastleMovesTest()" classname="MoveGeneratorClassTest" time="0.04"/>
-  <testcase name="GenerateSlidingMovesTest()" classname="MoveGeneratorClassTest" time="0.002"/>
-  <testcase name="GenerateKingMovesTest()" classname="MoveGeneratorClassTest" time="0.001"/>
-  <testcase name="MoveGenerationTest1()" classname="MoveGeneratorClassTest" time="31.063"/>
-  <testcase name="MoveGenerationTest2()" classname="MoveGeneratorClassTest" time="0.301"/>
-  <testcase name="MoveGenerationTest3()" classname="MoveGeneratorClassTest" time="0.995"/>
-  <testcase name="GenerateKnightMovesTest()" classname="MoveGeneratorClassTest" time="0.001"/>
-  <testcase name="GeneratePawnMovesTest()" classname="MoveGeneratorClassTest" time="0.001"/>
+  <testcase name="MoveGenerationTest2()" classname="MoveGeneratorClassTest" time="0.355"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
