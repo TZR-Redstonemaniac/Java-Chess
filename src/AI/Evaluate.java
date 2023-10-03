@@ -3,6 +3,8 @@ package AI;
 import Classes.Board;
 import Classes.Piece;
 
+import static Classes.Piece.*;
+
 public class Evaluate {
 
     private Evaluate() {
@@ -21,6 +23,29 @@ public class Evaluate {
         int blackEval = CountMaterial(Piece.BLACK);
 
         return whiteEval - blackEval;
+    }
+
+    public static int GetPieceValue(int piece){
+        switch (piece){
+            case PAWN -> {
+                return PAWN_VALUE;
+            }
+            case BISHOP -> {
+                return BISHOP_VALUE;
+            }
+            case KNIGHT -> {
+                return KNIGHT_VALUE;
+            }
+            case ROOK -> {
+                return ROOK_VALUE;
+            }
+            case QUEEN -> {
+                return QUEEN_VALUE;
+            }
+            default -> {
+                return 0;
+            }
+        }
     }
 
     private static int CountMaterial(int color){

@@ -10,6 +10,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,6 +30,8 @@ public class Game {
     private static boolean checkmated = false;
 
     public static boolean searching = false;
+
+    private static final boolean whiteAI = false;
     //endregion
 
     //region Run Function and Game Loop
@@ -46,20 +49,49 @@ public class Game {
         //Get the board index of where the mouse is
         currentIndex = GetIndex();
 
-        //Check if it is the players turn
-        if (Board.colorToMove == Piece.WHITE){
-            //Grab and release the pieces if the mouse is on the board
-            if (Mouse.GetPressed() && !Mouse.GetGrabbed() && !(currentIndex < 0 || currentIndex > 63)) Grab();
-            else if (!Mouse.GetPressed() && Mouse.GetGrabbed() && !(currentIndex < 0 || currentIndex > 63)) Release();
-        } else {
-            MainAI.Search(4, 0, 0);
+        Random random = new Random();
 
-            Board.MakeMove(MainAI.GetBestMove());
-            searching = false;
+        if (whiteAI) {
+            try {
+                Thread.sleep(25);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         //Check if a side is in checkmate
         CheckmateChecker();
+
+        //Check if it is the players turn
+        if (Board.colorToMove == Piece.WHITE){
+            if (!whiteAI) {
+                //Grab and release the pieces if the mouse is on the board
+                if (Mouse.GetPressed() && !Mouse.GetGrabbed() && !(currentIndex < 0 || currentIndex > 63)) Grab();
+                else if (!Mouse.GetPressed() && Mouse.GetGrabbed() && !(currentIndex < 0 || currentIndex > 63)) Release();
+            } else {
+                List<Move> movesList = MoveGenerator.GenerateLegalMoves();
+                int bound = movesList.size() - 1;
+                Move move;
+
+                if (bound < 1) move = movesList.get(0);
+                else move = movesList.get(random.nextInt(bound));
+                boolean capturing = Board.GetSquare()[move.targetSquare] != Piece.NONE;
+
+                Board.MakeMove(move);
+
+                PgnManager.AddMoveToPgn(move, capturing);
+            }
+        } else {
+            MainAI.Search(5, 0, 0);
+
+            Move move = MainAI.GetBestMove();
+            boolean capturing = Board.GetSquare()[move.targetSquare] != Piece.NONE;
+
+            Board.MakeMove(move);
+
+            PgnManager.AddMoveToPgn(move, capturing);
+            searching = false;
+        }
 
         //Redraw the ui
         GUI.GetEvaluation();
@@ -153,6 +185,9 @@ public class Game {
             if (!longestMatch.isEmpty()) {
                 pstmt.setString(4, longestMatchEco);
                 pstmt.setString(5, longestMatchEcoName);
+            } else {
+                pstmt.setString(4, "N/A");
+                pstmt.setString(5, "N/A");
             }
             pstmt.executeUpdate();
         } catch (SQLException e) {

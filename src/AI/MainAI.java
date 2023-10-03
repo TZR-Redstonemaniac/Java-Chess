@@ -23,7 +23,7 @@ public class MainAI {
 
         if (depth == 0) return Evaluate.EvaluatePosition();
 
-        List<Move> moves = MoveGenerator.GenerateLegalMoves();
+        List<Move> moves = MoveOrdering.OrderMoves(MoveGenerator.GenerateLegalMoves());
 
         for (Move move : moves){
             Board.MakeMove(move);
@@ -50,6 +50,9 @@ public class MainAI {
             highestEval = Math.max(highestEval, moveEval);
         }
 
-        return movesEvals.get(highestEval);
+        Move bestMove = movesEvals.get(highestEval);
+        movesEvals.clear();
+
+        return bestMove;
     }
 }
