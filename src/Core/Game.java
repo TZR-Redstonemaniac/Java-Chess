@@ -402,6 +402,7 @@ public class Game {
         return mouseX + mouseY;
     }
 
+    //ignore
     private static int ConvertX(int x){
         if (x >= GetRelativeWidthPos(700)) return 7;
         else if (x >= GetRelativeWidthPos(600)) return 6;
@@ -427,6 +428,7 @@ public class Game {
 
         return -1;
     }
+    //endignore
 
     private static void EnPassant(int pieceToMove){
         //En-passant managing

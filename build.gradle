@@ -41,6 +41,8 @@ sonar {
         property "sonar.projectKey", "TZR-Redstonemaniac_Java-Chess"
         property "sonar.organization", "tzr-redstonemaniac"
         property "sonar.host.url", "https://sonarcloud.io/"
+        property "sonar.projectName", "Java-Chess"
+        property "sonar.projectVersion", "0.5"
     }
 }
 
@@ -48,6 +50,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
     testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.8.1'
     implementation 'org.junit.jupiter:junit-jupiter-api:5.5.1'
+    //noinspection VulnerableLibrariesLocal
     implementation 'org.xerial:sqlite-jdbc:3.30.1'
 }
 
