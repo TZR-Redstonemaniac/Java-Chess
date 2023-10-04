@@ -32,6 +32,21 @@ public class MoveOrdering {
                 score += Evaluate.GetPieceValue(move.promoPiece);
             }
 
+            int whiteKingPos = 0;
+            int blackKingPos = 0;
+
+            for (int i = 0; i < 64; i++){
+                if (Piece.PieceChecker(Board.GetSquare()[i], Piece.KING, Piece.BLACK)) blackKingPos = i;
+                if (Piece.PieceChecker(Board.GetSquare()[i], Piece.KING, Piece.WHITE)) whiteKingPos = i;
+            }
+
+            Board.MakeMove(move);
+
+            if (Board.colorToMove == Piece.WHITE && Board.IsSquareAttacked(blackKingPos, Piece.WHITE)) score += 500;
+            if (Board.colorToMove == Piece.BLACK && Board.IsSquareAttacked(whiteKingPos, Piece.BLACK)) score += 500;
+
+            Board.UnmakeMove();
+
             if (Board.IsSquareAttacked(move.targetSquare, Board.opponentColor))
                 score -= Evaluate.GetPieceValue(movePieceType);
 

@@ -29,33 +29,41 @@ public class Game {
 
     private static boolean checkmated = false;
 
-    public static boolean searching = false;
+    private static final boolean WHITE_AI = true;
 
-    private static final boolean whiteAI = false;
+    private static final Random random = new Random();
     //endregion
 
     //region Run Function and Game Loop
-    public static void main(String[] args) { //NOSONAR
+    public static void main(String[] args) throws SQLException { //NOSONAR
         //Initialize the piece move data and the PGN manager
         PrecomputedMoveData.Init();
         PgnManager.Init();
+
+        if (WHITE_AI) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                LOGGER.log(Level.WARNING, "Interrupted", e);
+                Thread.currentThread().interrupt();
+            }
+        }
 
         //Run the game loop
         //noinspection InfiniteLoopStatement
         while (true) MainGameLoop(); //NOSONAR
     }
 
-    public static void MainGameLoop() {
+    public static void MainGameLoop() throws SQLException {
         //Get the board index of where the mouse is
         currentIndex = GetIndex();
 
-        Random random = new Random();
-
-        if (whiteAI) {
+        if (WHITE_AI) {
             try {
-                Thread.sleep(25);
+                Thread.sleep(250);
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                LOGGER.log(Level.WARNING, "Interrupted", e);
+                Thread.currentThread().interrupt();
             }
         }
 
@@ -64,7 +72,7 @@ public class Game {
 
         //Check if it is the players turn
         if (Board.colorToMove == Piece.WHITE){
-            if (!whiteAI) {
+            if (!WHITE_AI) {
                 //Grab and release the pieces if the mouse is on the board
                 if (Mouse.GetPressed() && !Mouse.GetGrabbed() && !(currentIndex < 0 || currentIndex > 63)) Grab();
                 else if (!Mouse.GetPressed() && Mouse.GetGrabbed() && !(currentIndex < 0 || currentIndex > 63)) Release();
@@ -80,6 +88,8 @@ public class Game {
                 Board.MakeMove(move);
 
                 PgnManager.AddMoveToPgn(move, capturing);
+
+                MainAI.Search(5, 0, 0);
             }
         } else {
             MainAI.Search(5, 0, 0);
@@ -90,12 +100,11 @@ public class Game {
             Board.MakeMove(move);
 
             PgnManager.AddMoveToPgn(move, capturing);
-            searching = false;
         }
 
         //Redraw the ui
         GUI.GetEvaluation();
-        if (!searching) ui.repaint();
+        ui.repaint();
     }
 
     private static Connection ConnectGameHistory (){
@@ -110,7 +119,7 @@ public class Game {
         try {
             conn = DriverManager.getConnection(url);
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            LOGGER.log(Level.WARNING, "Could not connect to database", e);
         }
         return conn;
     }
@@ -127,12 +136,12 @@ public class Game {
         try {
             conn = DriverManager.getConnection(url);
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            LOGGER.log(Level.WARNING, "Unable to connect", e);
         }
         return conn;
     }
 
-    private static void InsertPgnToDatabase(String date, String result, String moves){
+    private static void InsertPgnToDatabase(String date, String result, String moves) throws SQLException {
         //SQL command
         String sql = "INSERT INTO ChessGames(date, result, moves, eco, ecoName) VALUES(?, ?, ?, ?, ?)";
 
@@ -142,9 +151,20 @@ public class Game {
         String longestMatchEcoName = "";
         int longestMatchLength = 0;
 
+        Connection conn;
+        Statement stmt = null;
+        PreparedStatement pstmt = null;
+
         try {
-            Connection conn = ConnectEcoCodes();
-            Statement stmt = conn.createStatement();
+            conn = ConnectEcoCodes();
+
+            if (conn == null) {
+                LOGGER.log(Level.WARNING, "Unable to connect to database");
+                return;
+            }
+
+            stmt = conn.createStatement(); //NOSONAR
+            pstmt = conn.prepareStatement("SELECT * FROM ChessEcoCodes WHERE opening = ?");
 
             // SQL query to retrieve all values from the specified column
             String query = "SELECT opening FROM ChessEcoCodes";
@@ -161,7 +181,6 @@ public class Game {
             }
 
             if (!longestMatch.isEmpty()) {
-                PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM ChessEcoCodes WHERE opening = ?");
                 pstmt.setString(1, longestMatch); // Set the search string as a parameter
                 resultSet = pstmt.executeQuery();
 
@@ -171,12 +190,22 @@ public class Game {
                 }
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            LOGGER.log(Level.WARNING, "Error", e);
+        } finally {
+            assert pstmt != null;
+            pstmt.close();
+            stmt.close();
         }
 
-        try{
-            Connection conn = ConnectGameHistory();
-            PreparedStatement pstmt = conn.prepareStatement(sql);
+        try {
+            conn = ConnectGameHistory();
+
+            if (conn == null) {
+                LOGGER.log(Level.WARNING, "Unable to connect to database");
+                return;
+            }
+
+            pstmt = conn.prepareStatement(sql);
 
             //Add to the database
             pstmt.setString(1, date);
@@ -191,13 +220,15 @@ public class Game {
             }
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            LOGGER.log(Level.WARNING, "Error", e);
+        } finally {
+            pstmt.close();
         }
     }
     //endregion
 
     //region Methods
-    private static void Grab(){
+    private static void Grab() throws SQLException {
         //Return if grabbing no piece
         if (Board.GetSquare()[currentIndex] == Piece.NONE) return;
 
@@ -216,9 +247,9 @@ public class Game {
             if (Piece.PieceChecker(Board.GetSquare()[i], Piece.KING, Piece.WHITE)) whiteKingPos = i;
         }
 
-        if (moves.isEmpty()) {
-            if ((Board.colorToMove == Piece.WHITE && !Board.IsSquareAttacked(whiteKingPos, Piece.BLACK)) ||
-                    (Board.colorToMove == Piece.BLACK && !Board.IsSquareAttacked(blackKingPos, Piece.WHITE))){
+        if (moves.isEmpty() &&
+                ((Board.colorToMove == Piece.WHITE && !Board.IsSquareAttacked(whiteKingPos, Piece.BLACK)) ||
+                    (Board.colorToMove == Piece.BLACK && !Board.IsSquareAttacked(blackKingPos, Piece.WHITE)))){
                 LOGGER.log(Level.INFO, PgnManager.GetPgnString().append("1/2-1/2").toString()); //NOSONAR
 
                 LocalDate date = LocalDate.now();
@@ -230,7 +261,7 @@ public class Game {
                         PgnManager.GetPgnString().toString());
 
                 System.exit(0);
-            }
+
         }
 
         moves.removeIf(move -> move.startSquare != startIndex);
@@ -319,7 +350,7 @@ public class Game {
 
     }
 
-    private static void CheckmateChecker(){
+    private static void CheckmateChecker() throws SQLException {
         int whiteKingPos = 0;
         int blackKingPos = 0;
 
@@ -331,39 +362,24 @@ public class Game {
         if ((Board.IsSquareAttacked(whiteKingPos, Piece.BLACK) || Board.IsSquareAttacked(blackKingPos, Piece.WHITE)) &&
                 !checkmated){
 
-            if (Board.colorToMove == Piece.WHITE){
-                List<Move> opponentMoves = MoveGenerator.GenerateLegalMoves();
-                if (!opponentMoves.isEmpty())
-                    return;
-                checkmated = true;
-                LOGGER.log(Level.INFO, "Checkmate, Black wins\n" + PgnManager.GetPgnString().append("0-1")); //NOSONAR
+            List<Move> opponentMoves = MoveGenerator.GenerateLegalMoves();
+            if (!opponentMoves.isEmpty())
+                return;
+            checkmated = true;
 
-                LocalDate date = LocalDate.now();
-                int year = date.getYear();
-                int month = date.getMonthValue();
-                int day = date.getDayOfMonth();
+            String winner = Board.opponentColor == Piece.WHITE ? "White" : "Black";
+            String result = Board.opponentColor == Piece.WHITE ? "1-0" : "0-1";
 
-                InsertPgnToDatabase(year + "." + month + "." + day, "0-1", PgnManager.GetPgnString().toString());
+            LOGGER.log(Level.INFO, "Checkmate, " + winner + " wins\n" + PgnManager.GetPgnString().append(result)); //NOSONAR
 
-                System.exit(0);
-            }
+            LocalDate date = LocalDate.now();
+            int year = date.getYear();
+            int month = date.getMonthValue();
+            int day = date.getDayOfMonth();
 
-            if (Board.colorToMove == Piece.BLACK){
-                List<Move> opponentMoves = MoveGenerator.GenerateLegalMoves();
-                if (!opponentMoves.isEmpty())
-                    return;
-                checkmated = true;
-                LOGGER.log(Level.INFO, "Checkmate, White wins\n" + PgnManager.GetPgnString().append("1-0")); //NOSONAR
+            InsertPgnToDatabase(year + "." + month + "." + day, "0-1", PgnManager.GetPgnString().toString());
 
-                LocalDate date = LocalDate.now();
-                int year = date.getYear();
-                int month = date.getMonthValue();
-                int day = date.getDayOfMonth();
-
-                InsertPgnToDatabase(year + "." + month + "." + day, "1-0", PgnManager.GetPgnString().toString());
-
-                System.exit(0);
-            }
+            System.exit(0);
         }
 
 
@@ -456,11 +472,11 @@ public class Game {
     }
 
     private static int GetRelativeWidthPos(float pos){
-        return Math.round(GUI.getScreenWidth()/(1920/pos));
+        return Math.round(GUI.GetScreenWidth()/(1920/pos));
     }
 
     private static int GetRelativeHeightPos(float pos){
-        return Math.round(GUI.getScreenHeight()/(1080/pos));
+        return Math.round(GUI.GetScreenHeight()/(1080/pos));
     }
     //endregion
 

@@ -3,7 +3,6 @@ package AI;
 import Classes.Board;
 import Classes.Move;
 import Classes.MoveGenerator;
-import Core.Game;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,8 +17,6 @@ public class MainAI {
     private static final Map<Integer, Move> movesEvals = new HashMap<>();
 
     public static int Search(int depth, int alpha, int beta){
-
-        Game.searching = true;
 
         if (depth == 0) return Evaluate.EvaluatePosition();
 

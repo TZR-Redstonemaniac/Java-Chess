@@ -321,7 +321,7 @@ public class GUI extends JFrame {
     }
 
     public static void GetEvaluation(){
-        evaluation.setText(String.valueOf(Evaluate.EvaluatePosition()));
+        evaluation.setText(String.valueOf(Evaluate.EvaluatePosition() / 100));
     }
     //endregion
 
@@ -336,11 +336,11 @@ public class GUI extends JFrame {
     //endregion
 
     //region Getters
-    public static int getScreenHeight () {
+    public static int GetScreenHeight () {
         return screenHeight;
     }
 
-    public static int getScreenWidth () {
+    public static int GetScreenWidth () {
         return screenWidth;
     }
     //endregion

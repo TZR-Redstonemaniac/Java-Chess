@@ -11,12 +11,12 @@ public class Evaluate {
         throw new IllegalStateException("Utility class");
     }
 
-    private static final int PAWN_VALUE = 1;
-    private static final int BISHOP_VALUE = 3;
-    private static final int KNIGHT_VALUE = 3;
-    private static final int ROOK_VALUE = 5;
-    private static final int QUEEN_VALUE = 9;
-
+    private static final int PAWN_VALUE = 100;
+    private static final int KNIGHT_VALUE = 300;
+    private static final int BISHOP_VALUE = 325;
+    private static final int ROOK_VALUE = 500;
+    private static final int QUEEN_VALUE = 900;
+    private static final int KING_VALUE = 999;
 
     public static int EvaluatePosition(){
         int whiteEval = CountMaterial(Piece.WHITE);
@@ -42,6 +42,9 @@ public class Evaluate {
             case QUEEN -> {
                 return QUEEN_VALUE;
             }
+            case KING -> {
+                return KING_VALUE;
+            }
             default -> {
                 return 0;
             }
@@ -54,11 +57,12 @@ public class Evaluate {
         for (int i = 0; i < 64; i++){
             if (Piece.IsColour(Board.GetSquare()[i], color)){
                 switch (Piece.PieceType(Board.GetSquare()[i])){ //NOSONAR
-                    case Piece.PAWN -> material += PAWN_VALUE;
-                    case Piece.BISHOP -> material += BISHOP_VALUE;
-                    case Piece.KNIGHT -> material += KNIGHT_VALUE;
-                    case Piece.ROOK -> material += ROOK_VALUE;
-                    case Piece.QUEEN -> material += QUEEN_VALUE;
+                    case PAWN -> material += PAWN_VALUE;
+                    case BISHOP -> material += BISHOP_VALUE;
+                    case KNIGHT -> material += KNIGHT_VALUE;
+                    case ROOK -> material += ROOK_VALUE;
+                    case QUEEN -> material += QUEEN_VALUE;
+                    case KING -> material += KING_VALUE;
                 }
             }
         }

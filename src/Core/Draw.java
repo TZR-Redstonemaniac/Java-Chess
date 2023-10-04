@@ -140,11 +140,11 @@ public class Draw extends JPanel {
 
     //region Convenience
     private static int GetRelativeWidthPos(float pos){
-        return Math.round(GUI.getScreenWidth()/(1920/pos));
+        return Math.round(GUI.GetScreenWidth()/(1920/pos));
     }
 
     private static int GetRelativeHeightPos(float pos){
-        return Math.round(GUI.getScreenHeight()/(1080/pos));
+        return Math.round(GUI.GetScreenHeight()/(1080/pos));
     }
     //endregion
 
