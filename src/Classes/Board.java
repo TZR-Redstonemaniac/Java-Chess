@@ -1,11 +1,13 @@
 package Classes;
 
-import Core.GUI;
+import GUI.GUI;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static GUI.GUI.screenSize;
 
 @SuppressWarnings("RedundantIfStatement")
 public class Board {
@@ -26,8 +28,8 @@ public class Board {
                 boolean isLight = (column + row) % 2 == 0;
 
                 if (isLight) {
-                    Squares[index].put("x", row * GetRelativeWidthPos(100));
-                    Squares[index].put("y", column * GetRelativeHeightPos(100));
+                    Squares[index].put("x", row * GetRelativeWidthPos(100) + GetRelativeWidthPos(560));
+                    Squares[index].put("y", column * GetRelativeHeightPos(100) + GetRelativeHeightPos(115));
                     Squares[index].put("w", GetRelativeWidthPos(100));
                     Squares[index].put("h", GetRelativeHeightPos(100));
                     Squares[index].put("r", 232);
@@ -38,8 +40,8 @@ public class Board {
                     Squares[index].put("mb", 78);
                 }
                 else {
-                    Squares[index].put("x", row * GetRelativeWidthPos(100));
-                    Squares[index].put("y", column * GetRelativeHeightPos(100));
+                    Squares[index].put("x", row * GetRelativeWidthPos(100) + GetRelativeWidthPos(560));
+                    Squares[index].put("y", column * GetRelativeHeightPos(100) + GetRelativeHeightPos(115));
                     Squares[index].put("w", GetRelativeWidthPos(100));
                     Squares[index].put("h", GetRelativeHeightPos(100));
                     Squares[index].put("r", 121);
@@ -747,6 +749,33 @@ public class Board {
 
     private static int GetRelativeHeightPos(float pos){
         return Math.round(GUI.GetScreenHeight()/(1080/pos));
+    }
+
+    public static int Rank(int position) {
+        if (position <= 7){
+            return 0;
+        } else if (position <= 15) {
+            return 1;
+        } else if (position <= 23) {
+            return 2;
+        } else if (position <= 31) {
+            return 3;
+        } else if (position <= 39) {
+            return 4;
+        } else if (position <= 47) {
+            return 5;
+        } else if (position <= 55) {
+            return 6;
+        } else if (position <= 63) {
+            return 7;
+        }
+
+        return -1;
+    }
+
+    public static int File(int position) {
+        // Assuming position is in the range 0-63
+        return (position % 8); // Modulus 8 to get the file (column)
     }
     //endregion
 }

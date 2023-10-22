@@ -1,9 +1,9 @@
 package Classes;
 
+import AI.Opponent.MoveOrdering;
+
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -40,6 +40,7 @@ public class MoveGenerator {
                     case Piece.KNIGHT -> GenerateKnightMoves(startSquare);
                     case Piece.PAWN -> GeneratePawnMoves(startSquare);
                     case Piece.KING -> GenerateKingMoves(startSquare);
+                    case Piece.KNOOK -> GenerateKnookMoves(startSquare);
                     default -> throw new IllegalStateException("Unexpected value: " + Piece.PieceType(piece));
                 }
             }
@@ -171,7 +172,7 @@ public class MoveGenerator {
                 if (startSquare >= 8 && startSquare <= 15 && Board.GetSquare()[target + 8] == Piece.NONE) moves.add(new Move(startSquare, target + 8));
             }
 
-            GeneratePawnCaptures(startSquare, target);
+            GeneratePawnCaptures(startSquare, target, Piece.BLACK);
         }
 
         if (Board.colorToMove == Piece.BLACK){
@@ -184,7 +185,7 @@ public class MoveGenerator {
                 if (startSquare >= 48 && startSquare <= 55 && Board.GetSquare()[target - 8] == Piece.NONE) moves.add(new Move(startSquare, target - 8));
             }
 
-            GeneratePawnCaptures(startSquare, target);
+            GeneratePawnCaptures(startSquare, target, Piece.WHITE);
         }
     }
 
@@ -257,16 +258,21 @@ public class MoveGenerator {
             moves.add(new Move(startSquare, startSquare - 2));
     }
 
-    public static void GeneratePawnCaptures (int startSquare, int target) {
+    public static void GenerateKnookMoves (int startSquare){
+        GenerateKnightMoves(startSquare);
+        GenerateSlidingMoves(startSquare, Piece.ROOK | Piece.WHITE);
+    }
+
+    public static void GeneratePawnCaptures (int startSquare, int target, int opponentColor) {
         if (target + 1 < 64 && (target - 7) % 8 != 0 && Board.GetSquare()[target + 1] != Piece.NONE &&
-                Piece.IsColour(Board.GetSquare()[target + 1], Board.opponentColor))
+                Piece.IsColour(Board.GetSquare()[target + 1], opponentColor))
         {
             if (target + 1 >= 56 && (target - 7) % 8 != 0) GeneratePromotionMoves(startSquare, target + 1, Piece.WHITE);
             else if (target - 1 <= 7 && target % 8 != 0) GeneratePromotionMoves(startSquare, target - 1, Piece.BLACK);
             else moves.add(new Move(startSquare, target + 1));
         }
         if (target - 1 >= 0 && target % 8 != 0 && Board.GetSquare()[target - 1] != Piece.NONE &&
-                Piece.IsColour(Board.GetSquare()[target - 1], Board.opponentColor))
+                Piece.IsColour(Board.GetSquare()[target - 1], opponentColor))
         {
             if (target + 1 >= 56 && (target - 7) % 8 != 0) GeneratePromotionMoves(startSquare, target + 1, Piece.WHITE);
             else if (target - 1 <= 7 && target % 8 != 0) GeneratePromotionMoves(startSquare, target - 1, Piece.BLACK);
@@ -289,11 +295,7 @@ public class MoveGenerator {
 
         boolean first = false;
 
-        List<Move> moves = MoveGenerator.GenerateLegalMoves();
-
-        Set<Move> set = new HashSet<>(moves);
-        moves.clear();
-        moves.addAll(set);
+        List<Move> moves = MoveOrdering.OrderMoves(MoveGenerator.GenerateLegalMoves());
 
         int numPositions = 0;
 

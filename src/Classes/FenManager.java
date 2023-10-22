@@ -13,6 +13,7 @@ public class FenManager {
     //endignore
 
     public static final String START_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+    //public static final String START_FEN = "3r4/3r4/3k4/8/8/3K4/8/8 w";
 
     static Map<Character, Integer> pieceTypeFromSymbol = new HashMap<>();
 

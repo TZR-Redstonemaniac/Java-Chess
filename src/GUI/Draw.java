@@ -1,6 +1,7 @@
-package Core;
+package GUI;
 
 import Classes.*;
+import Core.Game;
 
 import javax.swing.*;
 import java.awt.*;
@@ -52,7 +53,7 @@ public class Draw extends JPanel {
         }
 
         //Attacked Squares
-        for (int index : GUI.GetAttackedSquares()){
+        /*for (int index : GUI.GetAttackedSquares()){
             int x = (int) Board.GetSquares()[index].get("x");
             int y = (int) Board.GetSquares()[index].get("y");
 
@@ -61,7 +62,7 @@ public class Draw extends JPanel {
 
             g2d.setColor(new Color(100, 100, 100));
             g2d.fillRect(x, y, w, h);
-        }
+        }*/
 
         //Valid moves
         if (Game.GetMoves() != null) for (Move move : Game.GetMoves()){
@@ -119,6 +120,8 @@ public class Draw extends JPanel {
                         GetRelativeHeightPos(100), null);
                 case Piece.QUEEN -> g2d.drawImage(Texture.WHITE_QUEEN, x, y, GetRelativeWidthPos(100),
                         GetRelativeHeightPos(100), null);
+                case Piece.KNOOK -> g2d.drawImage(Texture.WHITE_KNOOK, x, y, GetRelativeWidthPos(100),
+                        GetRelativeHeightPos(100), null);
             }
         } else {
             switch (Piece.PieceType(Board.GetSquare()[index])) { //NOSONAR
@@ -133,6 +136,8 @@ public class Draw extends JPanel {
                 case Piece.KING -> g2d.drawImage(Texture.BLACK_KING, x, y, GetRelativeWidthPos(100),
                         GetRelativeHeightPos(100), null);
                 case Piece.QUEEN -> g2d.drawImage(Texture.BLACK_QUEEN, x, y, GetRelativeWidthPos(100),
+                        GetRelativeHeightPos(100), null);
+                case Piece.KNOOK -> g2d.drawImage(Texture.BLACK_KNOOK, x, y, GetRelativeWidthPos(100),
                         GetRelativeHeightPos(100), null);
             }
         }

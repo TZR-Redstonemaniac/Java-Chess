@@ -15,16 +15,17 @@ public class Piece {
     public static final int ROOK = 4;
     public static final int KING = 5;
     public static final int QUEEN = 6;
+    public static final int KNOOK = 7;
 
-    public static final int WHITE = 8;
-    public static final int BLACK = 16;
+    public static final int WHITE = 32;
+    public static final int BLACK = 64;
 
     public static boolean IsColour (int piece, int colour) {
         return (piece & colour) != 0;
     }
 
     public static int PieceType (int piece) {
-        return piece > 16 ? piece - 16 : piece - 8;
+        return piece > 64 ? piece - 64 : piece - 32;
     }
 
     public static boolean PieceChecker(int pieceToCheck, int referencePiece){
@@ -36,8 +37,8 @@ public class Piece {
     }
 
     public static String PieceName(int piece){
-        if (piece > 16) piece -= 16;
-        else piece -= 8;
+        if (piece > 64) piece -= 64;
+        else piece -= 32;
 
         switch (piece){
             case 1 -> {

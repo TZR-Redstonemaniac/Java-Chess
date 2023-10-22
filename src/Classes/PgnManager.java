@@ -20,6 +20,7 @@ public class PgnManager {
     //endregion
 
     //region Methods
+    @SuppressWarnings("unused")
     public static void AddMoveToPgn(Move move, boolean captured){
         if (move.targetSquare == move.startSquare + 2 && Piece.PieceChecker(Board.GetSquare()[move.targetSquare],
                 Piece.KING)) PgnString.append("O-O").append(" ");
@@ -41,7 +42,8 @@ public class PgnManager {
                         .append(Piece.PosFromIndex(move.targetSquare)).append(" ");
                 default ->
                         throw new IllegalStateException("Unexpected value: " +
-                                Piece.PieceType(Board.GetSquare()[move.targetSquare]));
+                                Piece.PieceType(Board.GetSquare()[move.targetSquare]) + " when the turn is for " +
+                                Board.colorToMove + "\n The move is " + move.startSquare + " to " + move.targetSquare);
             }
         }
         else {
@@ -60,7 +62,7 @@ public class PgnManager {
                         .append(Piece.PosFromIndex(move.targetSquare)).append(" ");
                 default ->
                         throw new IllegalStateException("Unexpected value: " +
-                                Piece.PieceType(Board.GetSquare()[move.targetSquare]));
+                                Piece.PieceType(Board.GetSquare()[move.targetSquare]) + " at " + move.targetSquare);
             }
         }
 

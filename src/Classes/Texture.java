@@ -19,6 +19,7 @@ public class Texture {
     public static Image WHITE_ROOK = null; //NOSONAR
     public static Image WHITE_KING = null; //NOSONAR
     public static Image WHITE_QUEEN = null; //NOSONAR
+    public static Image WHITE_KNOOK = null; //NOSONAR
 
     public static Image BLACK_PAWN = null; //NOSONAR
     public static Image BLACK_KNIGHT = null; //NOSONAR
@@ -26,9 +27,10 @@ public class Texture {
     public static Image BLACK_ROOK = null; //NOSONAR
     public static Image BLACK_KING = null; //NOSONAR
     public static Image BLACK_QUEEN = null; //NOSONAR
+    public static Image BLACK_KNOOK = null; //NOSONAR
 
-    private static final String WHITE_FOLDER = "C:\\Users\\kdeen\\OneDrive\\Documentos\\Coding Projects\\Intellij\\Java-Chess\\src\\Textures\\White_Pieces";
-    private static final String BLACK_FOLDER = "C:\\Users\\kdeen\\OneDrive\\Documentos\\Coding Projects\\Intellij\\Java-Chess\\src\\Textures\\Black_Pieces/";
+    private static final String WHITE_FOLDER = "C:\\Users\\kdeen\\OneDrive\\Documents\\Coding Projects\\Intellij\\Java-Chess\\src\\Textures\\White_Pieces";
+    private static final String BLACK_FOLDER = "C:\\Users\\kdeen\\OneDrive\\Documents\\Coding Projects\\Intellij\\Java-Chess\\src\\Textures\\Black_Pieces/";
     private static final Logger LOGGER = Logger.getLogger(Texture.class.getName());
 
     public static void Init(){
@@ -39,6 +41,7 @@ public class Texture {
             WHITE_ROOK = ImageIO.read(new File(WHITE_FOLDER, "White_Rook.png"));
             WHITE_KING = ImageIO.read(new File(WHITE_FOLDER, "White_King.png"));
             WHITE_QUEEN = ImageIO.read(new File(WHITE_FOLDER, "White_Queen.png"));
+            WHITE_KNOOK = ImageIO.read(new File(WHITE_FOLDER, "White_Knook.png"));
 
             BLACK_PAWN = ImageIO.read(new File(BLACK_FOLDER, "Black_Pawn.png"));
             BLACK_KNIGHT = ImageIO.read(new File(BLACK_FOLDER, "Black_Knight.png"));
@@ -46,6 +49,7 @@ public class Texture {
             BLACK_ROOK = ImageIO.read(new File(BLACK_FOLDER, "Black_Rook.png"));
             BLACK_KING = ImageIO.read(new File(BLACK_FOLDER, "Black_King.png"));
             BLACK_QUEEN = ImageIO.read(new File(BLACK_FOLDER, "Black_Queen.png"));
+            BLACK_KNOOK = ImageIO.read(new File(BLACK_FOLDER, "Black_Knook.png"));
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
         }

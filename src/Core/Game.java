@@ -1,7 +1,8 @@
 package Core;
 
-import AI.MainAI;
+import AI.Opponent.MainAI;
 import Classes.*;
+import GUI.*;
 
 import java.awt.*;
 import java.nio.file.Path;
@@ -13,6 +14,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static AI.Opponent.Evaluate.CountMaterialWithoutKing;
 
 public class Game {
 
@@ -29,9 +32,19 @@ public class Game {
 
     private static boolean checkmated = false;
 
-    private static final boolean WHITE_AI = true;
+    private static final boolean BLACK_AI = false;
+    private static final boolean WHITE_AI = false;
+    private static final boolean WHITE_RANDOM = true;
 
     private static final Random random = new Random();
+
+    public enum GamePhase {
+        OPENING,
+        MIDGAME,
+        ENDGAME
+    }
+
+    public static GamePhase gamePhase;
     //endregion
 
     //region Run Function and Game Loop
@@ -39,6 +52,7 @@ public class Game {
         //Initialize the piece move data and the PGN manager
         PrecomputedMoveData.Init();
         PgnManager.Init();
+        GUI_Manager.Init();
 
         if (WHITE_AI) {
             try {
@@ -55,12 +69,18 @@ public class Game {
     }
 
     public static void MainGameLoop() throws SQLException {
+        int whiteEval = CountMaterialWithoutKing(Piece.WHITE) / 100;
+        int blackEval = CountMaterialWithoutKing(Piece.BLACK) / 100;
+
+        if (whiteEval > 30 || blackEval > 30) gamePhase = GamePhase.MIDGAME;
+        else gamePhase = GamePhase.ENDGAME;
+
         //Get the board index of where the mouse is
         currentIndex = GetIndex();
 
         if (WHITE_AI) {
             try {
-                Thread.sleep(250);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 LOGGER.log(Level.WARNING, "Interrupted", e);
                 Thread.currentThread().interrupt();
@@ -71,39 +91,54 @@ public class Game {
         CheckmateChecker();
 
         //Check if it is the players turn
-        if (Board.colorToMove == Piece.WHITE){
-            if (!WHITE_AI) {
-                //Grab and release the pieces if the mouse is on the board
-                if (Mouse.GetPressed() && !Mouse.GetGrabbed() && !(currentIndex < 0 || currentIndex > 63)) Grab();
-                else if (!Mouse.GetPressed() && Mouse.GetGrabbed() && !(currentIndex < 0 || currentIndex > 63)) Release();
+        if (GUI_Manager.guiMenu == GUI_Manager.GUI_State.GAME) {
+            if (Board.colorToMove == Piece.WHITE) {
+                if (!WHITE_AI) {
+                    //Grab and release the pieces if the mouse is on the board
+                    if (Mouse.GetPressed() && !Mouse.GetGrabbed() && !(currentIndex < 0 || currentIndex > 63)) Grab();
+                    else if (!Mouse.GetPressed() && Mouse.GetGrabbed() && !(currentIndex < 0 || currentIndex > 63))
+                        Release();
+                } else {
+                    if (WHITE_RANDOM) {
+                        List<Move> movesList = MoveGenerator.GenerateLegalMoves();
+                        int bound = movesList.size() - 1;
+                        Move move;
+
+                        if (bound < 1) move = movesList.get(0);
+                        else move = movesList.get(random.nextInt(bound));
+                        boolean capturing = Board.GetSquare()[move.targetSquare] != Piece.NONE;
+
+                        Board.MakeMove(move);
+
+                        //PgnManager.AddMoveToPgn(move, capturing);
+                    } else {
+                        Move move = MainAI.GetBestMove(Piece.WHITE);
+                        boolean capturing = Board.GetSquare()[move.targetSquare] != Piece.NONE &&
+                                Piece.IsColour(Board.GetSquare()[move.targetSquare], Piece.BLACK);
+
+                        Board.MakeMove(move);
+
+                        //PgnManager.AddMoveToPgn(move, capturing);
+                    }
+                }
             } else {
-                List<Move> movesList = MoveGenerator.GenerateLegalMoves();
-                int bound = movesList.size() - 1;
-                Move move;
+                if (BLACK_AI) {
+                    Move move = MainAI.GetBestMove(Piece.BLACK);
+                    boolean capturing = Board.GetSquare()[move.targetSquare] != Piece.NONE &&
+                            Piece.IsColour(Board.GetSquare()[move.targetSquare], Piece.WHITE);
 
-                if (bound < 1) move = movesList.get(0);
-                else move = movesList.get(random.nextInt(bound));
-                boolean capturing = Board.GetSquare()[move.targetSquare] != Piece.NONE;
+                    Board.MakeMove(move);
 
-                Board.MakeMove(move);
-
-                PgnManager.AddMoveToPgn(move, capturing);
-
-                MainAI.Search(5, 0, 0);
+                    //PgnManager.AddMoveToPgn(move, capturing);
+                } else {
+                    //Grab and release the pieces if the mouse is on the board
+                    if (Mouse.GetPressed() && !Mouse.GetGrabbed() && !(currentIndex < 0 || currentIndex > 63)) Grab();
+                    else if (!Mouse.GetPressed() && Mouse.GetGrabbed() && !(currentIndex < 0 || currentIndex > 63))
+                        Release();
+                }
             }
-        } else {
-            MainAI.Search(5, 0, 0);
-
-            Move move = MainAI.GetBestMove();
-            boolean capturing = Board.GetSquare()[move.targetSquare] != Piece.NONE;
-
-            Board.MakeMove(move);
-
-            PgnManager.AddMoveToPgn(move, capturing);
         }
-
         //Redraw the ui
-        GUI.GetEvaluation();
         ui.repaint();
     }
 
@@ -343,7 +378,7 @@ public class Game {
             Board.bQueensideCastle = false;
         }
 
-        PgnManager.AddMoveToPgn(move, capturing);
+        //PgnManager.AddMoveToPgn(move, capturing);
 
         //Set moves to null
         moves = null;
@@ -367,8 +402,8 @@ public class Game {
                 return;
             checkmated = true;
 
-            String winner = Board.opponentColor == Piece.WHITE ? "White" : "Black";
-            String result = Board.opponentColor == Piece.WHITE ? "1-0" : "0-1";
+            String winner = Board.colorToMove == Piece.WHITE ? "White" : "Black";
+            String result = Board.colorToMove == Piece.WHITE ? "1-0" : "0-1";
 
             LOGGER.log(Level.INFO, "Checkmate, " + winner + " wins\n" + PgnManager.GetPgnString().append(result)); //NOSONAR
 
@@ -382,7 +417,18 @@ public class Game {
             System.exit(0);
         }
 
+        if (MoveGenerator.GenerateLegalMoves().isEmpty()){
+            LOGGER.log(Level.INFO, "Stalemate\n" + PgnManager.GetPgnString().append("1/2-1/2")); //NOSONAR
 
+            LocalDate date = LocalDate.now();
+            int year = date.getYear();
+            int month = date.getMonthValue();
+            int day = date.getDayOfMonth();
+
+            InsertPgnToDatabase(year + "." + month + "." + day, "1/2-1/2", PgnManager.GetPgnString().toString());
+
+            System.exit(0);
+        }
     }
     //endregion
 
@@ -396,6 +442,9 @@ public class Game {
             mouseY = -1;
         }
 
+        if (mouseX < GetRelativeWidthPos(560) || mouseX > GetRelativeWidthPos(800) + GetRelativeWidthPos(560)) return -1;
+        if (mouseY < GetRelativeHeightPos(115) || mouseY > GetRelativeHeightPos(800) + GetRelativeHeightPos(115)) return -1;
+
         mouseX = ConvertX(mouseX);
         mouseY = ConvertY(mouseY);
 
@@ -404,27 +453,27 @@ public class Game {
 
     //ignore
     private static int ConvertX(int x){
-        if (x >= GetRelativeWidthPos(700)) return 7;
-        else if (x >= GetRelativeWidthPos(600)) return 6;
-        else if (x >= GetRelativeWidthPos(500)) return 5;
-        else if (x >= GetRelativeWidthPos(400)) return 4;
-        else if (x >= GetRelativeWidthPos(300)) return 3;
-        else if (x >= GetRelativeWidthPos(200)) return 2;
-        else if (x >= GetRelativeWidthPos(100)) return 1;
-        else if (x >= GetRelativeWidthPos(0)) return 0;
+        if (x >= GetRelativeWidthPos(700) + GetRelativeWidthPos(560)) return 7;
+        else if (x >= GetRelativeWidthPos(600) + GetRelativeWidthPos(560)) return 6;
+        else if (x >= GetRelativeWidthPos(500) + GetRelativeWidthPos(560)) return 5;
+        else if (x >= GetRelativeWidthPos(400) + GetRelativeWidthPos(560)) return 4;
+        else if (x >= GetRelativeWidthPos(300) + GetRelativeWidthPos(560)) return 3;
+        else if (x >= GetRelativeWidthPos(200) + GetRelativeWidthPos(560)) return 2;
+        else if (x >= GetRelativeWidthPos(100) + GetRelativeWidthPos(560)) return 1;
+        else if (x >= GetRelativeWidthPos(560)) return 0;
 
         return -1;
     }
 
     private static int ConvertY(int y){
-        if (y >= GetRelativeHeightPos(700)) return 0;
-        else if (y >= GetRelativeHeightPos(600)) return 8;
-        else if (y >= GetRelativeHeightPos(500)) return 16;
-        else if (y >= GetRelativeHeightPos(400)) return 24;
-        else if (y >= GetRelativeHeightPos(300)) return 32;
-        else if (y >= GetRelativeHeightPos(200)) return 40;
-        else if (y >= GetRelativeHeightPos(100)) return 48;
-        else if (y >= GetRelativeHeightPos(0)) return 56;
+        if (y >= GetRelativeHeightPos(700) + GetRelativeHeightPos(115)) return 0;
+        else if (y >= GetRelativeHeightPos(600) + GetRelativeHeightPos(115)) return 8;
+        else if (y >= GetRelativeHeightPos(500) + GetRelativeHeightPos(115)) return 16;
+        else if (y >= GetRelativeHeightPos(400) + GetRelativeHeightPos(115)) return 24;
+        else if (y >= GetRelativeHeightPos(300) + GetRelativeHeightPos(115)) return 32;
+        else if (y >= GetRelativeHeightPos(200) + GetRelativeHeightPos(115)) return 40;
+        else if (y >= GetRelativeHeightPos(100) + GetRelativeHeightPos(115)) return 48;
+        else if (y >= GetRelativeHeightPos(115)) return 56;
 
         return -1;
     }
