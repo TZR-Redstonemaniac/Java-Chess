@@ -52,12 +52,12 @@ public class Evaluate {
             eval += ForceKingIntoCornerEval(blackKingPos);
             eval += ReduceKingDistanceEval(whiteKingPos, blackKingPos);
 
-            if (Game.gamePhase == Game.GamePhase.ENDGAME) eval += IncentiviseAttackingKing(blackKingPos, WHITE);
+            if (Game.GetGamePhase() == Game.GamePhase.ENDGAME) eval += IncentiviseAttackingKing(blackKingPos, WHITE);
         } else {
             eval += ForceKingIntoCornerEval(whiteKingPos);
             eval += ReduceKingDistanceEval(blackKingPos, whiteKingPos);
 
-            if (Game.gamePhase == Game.GamePhase.ENDGAME) eval += IncentiviseAttackingKing(whiteKingPos, BLACK);
+            if (Game.GetGamePhase() == Game.GamePhase.ENDGAME) eval += IncentiviseAttackingKing(whiteKingPos, BLACK);
         }
 
         return ogColor == WHITE ? Math.abs(eval) : -Math.abs(eval);

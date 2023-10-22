@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static GUI.GUI.screenSize;
-
 @SuppressWarnings("RedundantIfStatement")
 public class Board {
 

@@ -84,7 +84,7 @@ public class MainAI {
         firstIteration = false;
 
         int depth;
-        if (Game.gamePhase == Game.GamePhase.ENDGAME) depth = 10;
+        if (Game.GetGamePhase() == Game.GamePhase.ENDGAME) depth = 10;
         else depth = 5;
 
         Search(depth, 0, 0, colorToMove);

@@ -44,7 +44,7 @@ public class Game {
         ENDGAME
     }
 
-    public static GamePhase gamePhase;
+    private static GamePhase gamePhase;
     //endregion
 
     //region Run Function and Game Loop
@@ -91,53 +91,8 @@ public class Game {
         CheckmateChecker();
 
         //Check if it is the players turn
-        if (GUI_Manager.guiMenu == GUI_Manager.GUI_State.GAME) {
-            if (Board.colorToMove == Piece.WHITE) {
-                if (!WHITE_AI) {
-                    //Grab and release the pieces if the mouse is on the board
-                    if (Mouse.GetPressed() && !Mouse.GetGrabbed() && !(currentIndex < 0 || currentIndex > 63)) Grab();
-                    else if (!Mouse.GetPressed() && Mouse.GetGrabbed() && !(currentIndex < 0 || currentIndex > 63))
-                        Release();
-                } else {
-                    if (WHITE_RANDOM) {
-                        List<Move> movesList = MoveGenerator.GenerateLegalMoves();
-                        int bound = movesList.size() - 1;
-                        Move move;
+        PlayerTurnManager();
 
-                        if (bound < 1) move = movesList.get(0);
-                        else move = movesList.get(random.nextInt(bound));
-                        boolean capturing = Board.GetSquare()[move.targetSquare] != Piece.NONE;
-
-                        Board.MakeMove(move);
-
-                        //PgnManager.AddMoveToPgn(move, capturing);
-                    } else {
-                        Move move = MainAI.GetBestMove(Piece.WHITE);
-                        boolean capturing = Board.GetSquare()[move.targetSquare] != Piece.NONE &&
-                                Piece.IsColour(Board.GetSquare()[move.targetSquare], Piece.BLACK);
-
-                        Board.MakeMove(move);
-
-                        //PgnManager.AddMoveToPgn(move, capturing);
-                    }
-                }
-            } else {
-                if (BLACK_AI) {
-                    Move move = MainAI.GetBestMove(Piece.BLACK);
-                    boolean capturing = Board.GetSquare()[move.targetSquare] != Piece.NONE &&
-                            Piece.IsColour(Board.GetSquare()[move.targetSquare], Piece.WHITE);
-
-                    Board.MakeMove(move);
-
-                    //PgnManager.AddMoveToPgn(move, capturing);
-                } else {
-                    //Grab and release the pieces if the mouse is on the board
-                    if (Mouse.GetPressed() && !Mouse.GetGrabbed() && !(currentIndex < 0 || currentIndex > 63)) Grab();
-                    else if (!Mouse.GetPressed() && Mouse.GetGrabbed() && !(currentIndex < 0 || currentIndex > 63))
-                        Release();
-                }
-            }
-        }
         //Redraw the ui
         ui.repaint();
     }
@@ -430,6 +385,56 @@ public class Game {
             System.exit(0);
         }
     }
+
+    private static void PlayerTurnManager() throws SQLException {
+        if (GUI_Manager.guiMenu == GUI_Manager.GUI_State.GAME) {
+            if (Board.colorToMove == Piece.WHITE) {
+                if (!WHITE_AI) {
+                    //Grab and release the pieces if the mouse is on the board
+                    if (Mouse.GetPressed() && !Mouse.GetGrabbed() && !(currentIndex < 0 || currentIndex > 63)) Grab();
+                    else if (!Mouse.GetPressed() && Mouse.GetGrabbed() && !(currentIndex < 0 || currentIndex > 63))
+                        Release();
+                } else {
+                    if (WHITE_RANDOM) {
+                        List<Move> movesList = MoveGenerator.GenerateLegalMoves();
+                        int bound = movesList.size() - 1;
+                        Move move;
+
+                        if (bound < 1) move = movesList.get(0);
+                        else move = movesList.get(random.nextInt(bound));
+                        boolean capturing = Board.GetSquare()[move.targetSquare] != Piece.NONE;
+
+                        Board.MakeMove(move);
+
+                        //PgnManager.AddMoveToPgn(move, capturing);
+                    } else {
+                        Move move = MainAI.GetBestMove(Piece.WHITE);
+                        boolean capturing = Board.GetSquare()[move.targetSquare] != Piece.NONE &&
+                                Piece.IsColour(Board.GetSquare()[move.targetSquare], Piece.BLACK);
+
+                        Board.MakeMove(move);
+
+                        //PgnManager.AddMoveToPgn(move, capturing);
+                    }
+                }
+            } else {
+                if (BLACK_AI) {
+                    Move move = MainAI.GetBestMove(Piece.BLACK);
+                    boolean capturing = Board.GetSquare()[move.targetSquare] != Piece.NONE &&
+                            Piece.IsColour(Board.GetSquare()[move.targetSquare], Piece.WHITE);
+
+                    Board.MakeMove(move);
+
+                    //PgnManager.AddMoveToPgn(move, capturing);
+                } else {
+                    //Grab and release the pieces if the mouse is on the board
+                    if (Mouse.GetPressed() && !Mouse.GetGrabbed() && !(currentIndex < 0 || currentIndex > 63)) Grab();
+                    else if (!Mouse.GetPressed() && Mouse.GetGrabbed() && !(currentIndex < 0 || currentIndex > 63))
+                        Release();
+                }
+            }
+        }
+    }
     //endregion
 
     //region Convenience
@@ -538,6 +543,10 @@ public class Game {
 
     public static int GetStartIndex() {
         return startIndex;
+    }
+
+    public static GamePhase GetGamePhase () {
+        return gamePhase;
     }
     //endregion
 }
