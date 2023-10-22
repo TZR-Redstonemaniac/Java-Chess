@@ -52,18 +52,6 @@ public class Draw extends JPanel {
             g2d.fillRect(x, y, w, h);
         }
 
-        //Attacked Squares
-        /*for (int index : GUI.GetAttackedSquares()){
-            int x = (int) Board.GetSquares()[index].get("x");
-            int y = (int) Board.GetSquares()[index].get("y");
-
-            int w = (int) Board.GetSquares()[index].get("w");
-            int h = (int) Board.GetSquares()[index].get("h");
-
-            g2d.setColor(new Color(100, 100, 100));
-            g2d.fillRect(x, y, w, h);
-        }*/
-
         //Valid moves
         if (Game.GetMoves() != null) for (Move move : Game.GetMoves()){
             int x = (int) Board.GetSquares()[move.targetSquare].get("x");

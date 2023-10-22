@@ -10,7 +10,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import static GUI.GUI_Manager.GUI_State.*;
+import static GUI.GuiManager.GUI_State.*;
 
 public class GUI extends JFrame {
 
@@ -54,20 +54,18 @@ public class GUI extends JFrame {
     private static final JLabel N8_POS = new JLabel("8");
     //endregion
 
-    public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    private static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
 
-    static final int screenWidth = (int) Math.round(screenSize.getWidth());
-    static final int screenHeight = (int) Math.round(screenSize.getHeight());
+    private static final int SCREEN_WIDTH = (int) Math.round(SCREEN_SIZE.getWidth());
+    private static final int SCREEN_HEIGHT = (int) Math.round(SCREEN_SIZE.getHeight());
 
-    private static final CC TOP_LEFT = new CC().alignX("left").alignY("top");
-    private static final CC TOP_CENTER = new CC().alignX("center").alignY("top");
-    private static final CC TOP_RIGHT = new CC().alignX("right").alignY("top");
-    private static final CC LEFT = new CC().alignX("left").alignY("center");
-    private static final CC CENTER = new CC().alignX("center").alignY("center");
-    private static final CC RIGHT = new CC().alignX("right").alignY("center");
-    private static final CC BOTTOM_LEFT = new CC().alignX("left").alignY("bottom");
-    private static final CC BOTTOM_CENTER = new CC().alignX("center").alignY("bottom");
-    private static final CC BOTTOM_RIGHT = new CC().alignX("right").alignY("bottom");
+    private static final String CENTER = "center";
+    private static final String TOP = "top";
+
+    private static final CC ALIGN_TOP_CENTER = new CC().alignX(CENTER).alignY(TOP);
+    private static final CC ALIGN_CENTER = new CC().alignX(CENTER).alignY(CENTER);
+
+    private static final String ARIAL = "Arial";
     //endregion
 
     //region Constructors
@@ -76,7 +74,7 @@ public class GUI extends JFrame {
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
-        setSize(screenWidth, screenHeight);
+        setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
         setPreferredSize(getSize());
         setMinimumSize(getPreferredSize());
         setContentPane(CARD_PANEL);
@@ -103,24 +101,27 @@ public class GUI extends JFrame {
         SETTINGS_PANEL.setBackground(Color.DARK_GRAY);
 
         //region Main Menu
-        MAIN_TITLE.setFont(new Font("Arial", Font.BOLD, 50));
+        MAIN_TITLE.setFont(new Font(ARIAL, Font.BOLD, 50));
         MAIN_TITLE.setHorizontalAlignment(SwingConstants.CENTER);
         MAIN_TITLE.setForeground(Color.WHITE);
 
-        PLAY.setFont(new Font("Arial", Font.PLAIN, 25));
+        PLAY.setFont(new Font(ARIAL, Font.PLAIN, 25));
         PLAY.setForeground(Color.BLACK);
         PLAY.setBackground(Color.GRAY);
         PLAY.setBorder(null);
         PLAY.setFocusPainted(false);
         PLAY.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 PLAY.setBackground(Color.LIGHT_GRAY);
             }
 
+            @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 PLAY.setBackground(Color.GRAY);
             }
 
+            @Override
             public void mouseClicked (MouseEvent e) {
                 SetMenu(GAME);
             }
@@ -163,14 +164,14 @@ public class GUI extends JFrame {
         N2_POS.setForeground(Color.WHITE);
         N1_POS.setForeground(Color.WHITE);
 
-        N8_POS.setFont(new Font("Arial", Font.BOLD, 20));
-        N7_POS.setFont(new Font("Arial", Font.BOLD, 20));
-        N6_POS.setFont(new Font("Arial", Font.BOLD, 20));
-        N5_POS.setFont(new Font("Arial", Font.BOLD, 20));
-        N4_POS.setFont(new Font("Arial", Font.BOLD, 20));
-        N3_POS.setFont(new Font("Arial", Font.BOLD, 20));
-        N2_POS.setFont(new Font("Arial", Font.BOLD, 20));
-        N1_POS.setFont(new Font("Arial", Font.BOLD, 20));
+        N8_POS.setFont(new Font(ARIAL, Font.BOLD, 20));
+        N7_POS.setFont(new Font(ARIAL, Font.BOLD, 20));
+        N6_POS.setFont(new Font(ARIAL, Font.BOLD, 20));
+        N5_POS.setFont(new Font(ARIAL, Font.BOLD, 20));
+        N4_POS.setFont(new Font(ARIAL, Font.BOLD, 20));
+        N3_POS.setFont(new Font(ARIAL, Font.BOLD, 20));
+        N2_POS.setFont(new Font(ARIAL, Font.BOLD, 20));
+        N1_POS.setFont(new Font(ARIAL, Font.BOLD, 20));
 
         A_POS.setBounds(GetRelativeWidthPos(560) + GetRelativeWidthPos(50), GetRelativeHeightPos(925),
                 GetRelativeWidthPos(50), GetRelativeHeightPos(50));
@@ -198,36 +199,39 @@ public class GUI extends JFrame {
         G_POS.setForeground(Color.WHITE);
         H_POS.setForeground(Color.WHITE);
 
-        A_POS.setFont(new Font("Arial", Font.BOLD, 20));
-        B_POS.setFont(new Font("Arial", Font.BOLD, 20));
-        C_POS.setFont(new Font("Arial", Font.BOLD, 20));
-        D_POS.setFont(new Font("Arial", Font.BOLD, 20));
-        E_POS.setFont(new Font("Arial", Font.BOLD, 20));
-        F_POS.setFont(new Font("Arial", Font.BOLD, 20));
-        G_POS.setFont(new Font("Arial", Font.BOLD, 20));
-        H_POS.setFont(new Font("Arial", Font.BOLD, 20));
+        A_POS.setFont(new Font(ARIAL, Font.BOLD, 20));
+        B_POS.setFont(new Font(ARIAL, Font.BOLD, 20));
+        C_POS.setFont(new Font(ARIAL, Font.BOLD, 20));
+        D_POS.setFont(new Font(ARIAL, Font.BOLD, 20));
+        E_POS.setFont(new Font(ARIAL, Font.BOLD, 20));
+        F_POS.setFont(new Font(ARIAL, Font.BOLD, 20));
+        G_POS.setFont(new Font(ARIAL, Font.BOLD, 20));
+        H_POS.setFont(new Font(ARIAL, Font.BOLD, 20));
         //endregion
         //endregion
 
         //region Settings Menu
-        SETTINGS_TITLE.setFont(new Font("Arial", Font.BOLD, 50));
+        SETTINGS_TITLE.setFont(new Font(ARIAL, Font.BOLD, 50));
         SETTINGS_TITLE.setHorizontalAlignment(SwingConstants.CENTER);
         SETTINGS_TITLE.setForeground(Color.WHITE);
 
-        SETTINGS_BUTTON.setFont(new Font("Arial", Font.PLAIN, 25));
+        SETTINGS_BUTTON.setFont(new Font(ARIAL, Font.PLAIN, 25));
         SETTINGS_BUTTON.setForeground(Color.BLACK);
         SETTINGS_BUTTON.setBackground(Color.GRAY);
         SETTINGS_BUTTON.setBorder(null);
         SETTINGS_BUTTON.setFocusPainted(false);
         SETTINGS_BUTTON.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 SETTINGS_BUTTON.setBackground(Color.LIGHT_GRAY);
             }
 
+            @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 SETTINGS_BUTTON.setBackground(Color.GRAY);
             }
 
+            @Override
             public void mouseClicked (MouseEvent e) {
                 SetMenu(SETTINGS);
             }
@@ -241,14 +245,14 @@ public class GUI extends JFrame {
         CARD_PANEL.add(SETTINGS_PANEL, "SETTINGS");
 
         //region Main Menu
-        MAIN_PANEL.add(MAIN_TITLE, TOP_CENTER.gapY("75", "0").wrap());
+        MAIN_PANEL.add(MAIN_TITLE, ALIGN_TOP_CENTER.gapY("75", "0").wrap());
 
-        MAIN_PANEL.add(PLAY, CENTER.gapY("0", "400")
+        MAIN_PANEL.add(PLAY, ALIGN_CENTER.gapY("0", "400")
                 .minWidth(String.valueOf(GetRelativeWidthPos(500)))
                 .minHeight(String.valueOf(GetRelativeHeightPos(100)))
                 .wrap());
 
-        MAIN_PANEL.add(SETTINGS_BUTTON, CENTER.gapY("0", "0")
+        MAIN_PANEL.add(SETTINGS_BUTTON, ALIGN_CENTER.gapY("0", "0")
                 .minWidth(String.valueOf(GetRelativeWidthPos(500)))
                 .minHeight(String.valueOf(GetRelativeHeightPos(100))));
         //endregion
@@ -276,7 +280,7 @@ public class GUI extends JFrame {
         //endregion
 
         //region Settings Menu
-        SETTINGS_PANEL.add(SETTINGS_TITLE, TOP_CENTER.gapY("75", "0").wrap());
+        SETTINGS_PANEL.add(SETTINGS_TITLE, ALIGN_TOP_CENTER.gapY("75", "0").wrap());
         //endregion
 
         MouseListener mouse = new Mouse();
@@ -285,19 +289,19 @@ public class GUI extends JFrame {
     //endregion
 
     //region Change Menu Functions
-    public static void SetMenu (GUI_Manager.GUI_State state) {
+    public static void SetMenu (GuiManager.GUI_State state) {
         switch (state) {
             case MAIN_MENU -> {
                 cardLayout.show(CARD_PANEL, "MAIN");
-                GUI_Manager.guiMenu = MAIN_MENU;
+                GuiManager.SetGuiMenu(MAIN_MENU);
             }
             case GAME -> {
                 cardLayout.show(CARD_PANEL, "PLAY");
-                GUI_Manager.guiMenu = GAME;
+                GuiManager.SetGuiMenu(GAME);
             }
             case SETTINGS -> {
                 cardLayout.show(CARD_PANEL, "SETTINGS");
-                GUI_Manager.guiMenu = GUI_Manager.GUI_State.SETTINGS;
+                GuiManager.SetGuiMenu(SETTINGS);
             }
         }
     }
@@ -305,21 +309,21 @@ public class GUI extends JFrame {
 
     //region Convenience
     private static int GetRelativeWidthPos (float pos){
-        return Math.round(screenWidth/(1920/pos));
+        return Math.round(SCREEN_WIDTH/(1920/pos));
     }
 
     private static int GetRelativeHeightPos (float pos){
-        return Math.round(screenHeight/(1080/pos));
+        return Math.round(SCREEN_HEIGHT /(1080/pos));
     }
     //endregion
 
     //region Getters
     public static int GetScreenHeight () {
-        return screenHeight;
+        return SCREEN_HEIGHT;
     }
 
     public static int GetScreenWidth () {
-        return screenWidth;
+        return SCREEN_WIDTH;
     }
     //endregion
 
