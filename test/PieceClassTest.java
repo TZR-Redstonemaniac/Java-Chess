@@ -66,7 +66,7 @@ class PieceClassTest {
         Assertions.assertEquals("Knight", Piece.PieceName(piece4));
         Assertions.assertEquals("King", Piece.PieceName(piece5));
         Assertions.assertEquals("Queen", Piece.PieceName(piece6));
-        Assertions.assertEquals("None", Piece.PieceName(65));
+        Assertions.assertEquals("None", Piece.PieceName(6584));
     }
 
     @Test
