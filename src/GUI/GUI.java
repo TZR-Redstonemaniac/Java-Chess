@@ -30,7 +30,7 @@ public class GUI extends JFrame {
     private static final JButton SETTINGS_BUTTON = new JButton("Settings");
     //endregion
 
-    //region Main Menu
+    //region Settings
     public static final JLabel SETTINGS_TITLE = new JLabel("Settings");
     //endregion
 

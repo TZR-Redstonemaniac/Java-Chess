@@ -19,7 +19,7 @@ import static AI.Opponent.Evaluate.CountMaterialWithoutKing;
 
 public class Game {
 
-    //region Variables
+
     public static final GUI ui = new GUI();
 
     private static int startIndex = -1;
@@ -45,10 +45,9 @@ public class Game {
     }
 
     private static GamePhase gamePhase;
-    //endregion
 
-    //region Run Function and Game Loop
-    public static void main(String[] args) throws SQLException { //NOSONAR
+
+    public static void main(String[] args) throws SQLException {
         //Initialize the piece move data and the PGN manager
         PrecomputedMoveData.Init();
         PgnManager.Init();
@@ -56,7 +55,7 @@ public class Game {
 
         if (WHITE_AI) {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
                 LOGGER.log(Level.WARNING, "Interrupted", e);
                 Thread.currentThread().interrupt();
@@ -64,15 +63,15 @@ public class Game {
         }
 
         //Run the game loop
-        //noinspection InfiniteLoopStatement
-        while (true) MainGameLoop(); //NOSONAR
+        while (true) MainGameLoop();
     }
 
     public static void MainGameLoop() throws SQLException {
         int whiteEval = CountMaterialWithoutKing(Piece.WHITE) / 100;
         int blackEval = CountMaterialWithoutKing(Piece.BLACK) / 100;
 
-        if (whiteEval > 30 || blackEval > 30) gamePhase = GamePhase.MIDGAME;
+        if (whiteEval > 30 || blackEval > 30) gamePhase = GamePhase.OPENING;
+        else if (whiteEval > 25 || blackEval > 25) gamePhase = GamePhase.MIDGAME;
         else gamePhase = GamePhase.ENDGAME;
 
         //Get the board index of where the mouse is
@@ -80,7 +79,7 @@ public class Game {
 
         if (WHITE_AI) {
             try {
-                Thread.sleep(100);
+                Thread.sleep(250);
             } catch (InterruptedException e) {
                 LOGGER.log(Level.WARNING, "Interrupted", e);
                 Thread.currentThread().interrupt();
@@ -245,9 +244,9 @@ public class Game {
             pstmt.close();
         }
     }
-    //endregion
 
-    //region Methods
+
+
     private static void Grab() throws SQLException {
         //Return if grabbing no piece
         if (Board.GetSquare()[currentIndex] == Piece.NONE) return;
@@ -422,9 +421,9 @@ public class Game {
         else if (!Mouse.GetPressed() && Mouse.GetGrabbed() && !(currentIndex < 0 || currentIndex > 63))
             Release();
     }
-    //endregion
 
-    //region Convenience
+
+
     private static int GetIndex(){
         int mouseX =  MouseInfo.getPointerInfo().getLocation().x - ui.getLocationOnScreen().x;
         int mouseY = MouseInfo.getPointerInfo().getLocation().y - ui.getLocationOnScreen().y - 32;
@@ -443,7 +442,6 @@ public class Game {
         return mouseX + mouseY;
     }
 
-    //ignore
     private static int ConvertX(int x){
         if (x >= GetRelativeWidthPos(700) + GetRelativeWidthPos(560)) return 7;
         else if (x >= GetRelativeWidthPos(600) + GetRelativeWidthPos(560)) return 6;
@@ -469,7 +467,6 @@ public class Game {
 
         return -1;
     }
-    //endignore
 
     private static void EnPassant(int pieceToMove){
         //En-passant managing
@@ -521,9 +518,7 @@ public class Game {
     private static int GetRelativeHeightPos(float pos){
         return Math.round(GUI.GetScreenHeight()/(1080/pos));
     }
-    //endregion
 
-    //region Getters and Setters
     public static List<Move> GetMoves() {
         return moves;
     }
@@ -535,5 +530,4 @@ public class Game {
     public static GamePhase GetGamePhase () {
         return gamePhase;
     }
-    //endregion
 }
